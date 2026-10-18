@@ -8,7 +8,47 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>body { font-family: 'Albert Sans', sans-serif; background-color: #000000; color: #ffffff; }</style>
+    <style>
+        :root {
+            --card-bg: #141414;
+            --border-color: #262626;
+            --text-color: #ffffff;
+            --text-muted: #a3a3a3;
+            --accent-blue: #38bdf8;
+        }
+        body { font-family: 'Albert Sans', sans-serif; background-color: #000000; color: var(--text-color); }
+        .artist-chart-header {
+            display: grid;
+            grid-template-columns: 1fr 60px 60px 50px;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            text-align: center;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .artist-chart-row {
+            background: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            display: grid;
+            grid-template-columns: 1fr 60px 60px 50px;
+            align-items: center;
+            padding: 10px 16px;
+            border: 1px solid var(--border-color);
+            transition: border-color 0.2s;
+        }
+        .artist-chart-row:hover {
+            border-color: var(--accent-blue);
+        }
+        .song-info-col {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding-left: 8px;
+        }
+    </style>
 </head>
 <body class="min-h-full flex flex-col antialiased">
     <header class="bg-black border-b border-neutral-800 sticky top-0 z-50">
@@ -34,6 +74,9 @@
         </div>
     </div>
 
+    <!-- ADMIN EDIT MODAL CONTAINER -->
+    <div id="admin-modal-container"></div>
+
     <script src="script.js"></script>
     <script>
         const db = getDB();
@@ -41,60 +84,181 @@
         const artistName = decodeURIComponent(urlParams.get('name') || '');
         const container = document.getElementById('artist-main');
 
-        const artistSongs = db.songs.filter(s => songHasArtist(s.artist, artistName));
-        const artistSongIds = new Set(artistSongs.map(s => s.id));
+        function renderArtistPageFull() {
+            const artistSongs = db.songs.filter(s => songHasArtist(s.artist, artistName));
+            const artistSongIds = new Set(artistSongs.map(s => s.id));
 
-        let weeksNo1 = 0, weeksTop10 = 0, weeksTop50 = 0, weeksTop75 = 0;
-        const trackPeaks = {};
+            const trackPeaks = {};
+            let weeksNo1 = 0, weeksTop10 = 0, weeksTop50 = 0, weeksTop75 = 0;
 
-        Object.values(db.chartHistory['top-songs'] || {}).forEach(entriesList => {
-            entriesList.forEach(entry => {
-                if (artistSongIds.has(entry.songId)) {
-                    const r = entry.rank;
-                    if (!trackPeaks[entry.songId] || r < trackPeaks[entry.songId]) trackPeaks[entry.songId] = r;
-                    if (r === 1) weeksNo1++;
-                    if (r <= 10) weeksTop10++;
-                    if (r <= 50) weeksTop50++;
-                    if (r <= 75) weeksTop75++;
+            const songsChartHistory = db.chartHistory['top-songs'] || {};
+            Object.values(songsChartHistory).forEach(entriesList => {
+                entriesList.forEach(entry => {
+                    if (artistSongIds.has(entry.songId)) {
+                        const r = entry.rank;
+                        if (!trackPeaks[entry.songId] || r < trackPeaks[entry.songId]) {
+                            trackPeaks[entry.songId] = r;
+                        }
+                        if (r === 1) weeksNo1++;
+                        if (r <= 10) weeksTop10++;
+                        if (r <= 50) weeksTop50++;
+                        if (r <= 75) weeksTop75++;
+                    }
+                });
+            });
+
+            let countNo1s = 0, countTop10s = 0, countTop50s = 0, countTop75s = 0;
+            Object.values(trackPeaks).forEach(peak => {
+                if (peak === 1) countNo1s++;
+                if (peak <= 10) countTop10s++;
+                if (peak <= 50) countTop50s++;
+                if (peak <= 75) countTop75s++;
+            });
+
+            const chartsWithSongs = [];
+            chartCategories.forEach(cat => {
+                const catHistory = db.chartHistory[cat.id] || {};
+                const sortedDates = Object.keys(catHistory).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
+                const songsInThisChart = [];
+
+                artistSongs.forEach(song => {
+                    let peakVal = null;
+                    let weeksCount = 0;
+                    let rankHistory = [];
+
+                    sortedDates.forEach(dateStr => {
+                        const entries = catHistory[dateStr] || [];
+                        const match = entries.find(e => e.songId === song.id);
+                        if (match) {
+                            weeksCount++;
+                            rankHistory.push(match.rank);
+                            if (peakVal === null || match.rank < peakVal) {
+                                peakVal = match.rank;
+                            }
+                        }
+                    });
+
+                    if (weeksCount > 0) {
+                        const bestPeakCount = rankHistory.filter(r => r === peakVal).length;
+                        const peakDisplay = (peakVal === 1 && bestPeakCount > 1) ? `1×${bestPeakCount}` : `${peakVal}`;
+                        songsInThisChart.push({ song, peakDisplay, weeksCount });
+                    }
+                });
+
+                if (songsInThisChart.length > 0) {
+                    chartsWithSongs.push({
+                        chartTitle: cat.title === 'Top Songs' ? 'Top Songs Chart' : `${cat.title} Chart`,
+                        chartId: cat.id,
+                        songs: songsInThisChart
+                    });
                 }
             });
-        });
 
-        let c1 = 0, c10 = 0, c50 = 0, c75 = 0;
-        Object.values(trackPeaks).forEach(p => {
-            if (p === 1) c1++;
-            if (p <= 10) c10++;
-            if (p <= 50) c50++;
-            if (p <= 75) c75++;
-        });
-
-        container.innerHTML = `
-            <div class="space-y-8">
-                <div class="bg-neutral-900 border border-neutral-800 p-8 rounded-3xl">
-                    <span class="text-xs font-black uppercase text-[#addedc]">Artist Profile</span>
-                    <h1 class="text-3xl sm:text-4xl font-black uppercase mt-1">${artistName}</h1>
-                </div>
-                <div class="bg-neutral-900/60 border border-neutral-800 rounded-3xl p-6">
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-                        <div><span class="block text-3xl font-black text-[#addedc]">${c1}</span><span class="text-xs font-bold text-neutral-400 uppercase">No. 1s</span></div>
-                        <div><span class="block text-3xl font-black text-[#addedc]">${c10}</span><span class="text-xs font-bold text-neutral-400 uppercase">Top 10s</span></div>
-                        <div><span class="block text-3xl font-black text-[#addedc]">${c50}</span><span class="text-xs font-bold text-neutral-400 uppercase">Top 50s</span></div>
-                        <div><span class="block text-3xl font-black text-[#addedc]">${c75}</span><span class="text-xs font-bold text-neutral-400 uppercase">Top 75s</span></div>
+            container.innerHTML = `
+                <div class="space-y-8">
+                    <div class="bg-neutral-900 border border-neutral-800 p-8 rounded-3xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <span class="text-xs font-black uppercase text-[#addedc] tracking-wider">Artist Profile</span>
+                            <h1 class="text-3xl sm:text-4xl font-black uppercase text-white mt-1">${artistName}</h1>
+                        </div>
+                        ${isAdminLoggedIn ? `
+                            <button onclick="openEditArtistModal('${artistName.replace(/'/g, "\\'")}')" class="bg-neutral-800 hover:bg-neutral-700 text-white px-4 py-2 rounded-xl text-xs font-bold uppercase flex items-center gap-2 shrink-0">
+                                <i class="fa-solid fa-pen"></i> Edit Artist Name
+                            </button>
+                        ` : ''}
                     </div>
-                </div>
-                <div class="space-y-4">
-                    <h3 class="text-xl font-bold uppercase">Songs (${artistSongs.length})</h3>
-                    <div class="space-y-2">
-                        ${artistSongs.map(song => `
-                            <div class="bg-neutral-900 border border-neutral-800 p-4 rounded-xl flex items-center justify-between">
-                                <div class="flex items-center gap-4"><img src="${song.cover}" class="w-12 h-12 rounded-lg object-cover"><div><h4 class="font-bold">${song.title}</h4><p class="text-xs text-neutral-400">${song.artist}</p></div></div>
-                                <button onclick="openHistoryModal('top-songs', '${song.id}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 text-neutral-400 hover:text-white"><i class="fa-solid fa-info text-xs"></i></button>
+
+                    <div class="bg-neutral-900/60 border border-neutral-800 rounded-3xl p-6">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+                            <div><span class="block text-3xl sm:text-4xl font-black text-[#addedc]">${countNo1s}</span><span class="text-xs font-bold text-neutral-400 uppercase mt-1 block">No. 1s</span></div>
+                            <div><span class="block text-3xl sm:text-4xl font-black text-[#addedc]">${countTop10s}</span><span class="text-xs font-bold text-neutral-400 uppercase mt-1 block">Top 10s</span></div>
+                            <div><span class="block text-3xl sm:text-4xl font-black text-[#addedc]">${countTop50s}</span><span class="text-xs font-bold text-neutral-400 uppercase mt-1 block">Top 50s</span></div>
+                            <div><span class="block text-3xl sm:text-4xl font-black text-[#addedc]">${countTop75s}</span><span class="text-xs font-bold text-neutral-400 uppercase mt-1 block">Top 75s</span></div>
+                        </div>
+                        <hr class="border-neutral-800/80 my-6">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+                            <div><span class="block text-3xl sm:text-4xl font-black text-[#addedc]">${weeksNo1}</span><span class="text-xs font-bold text-neutral-400 uppercase mt-1 block">Weeks at No. 1</span></div>
+                            <div><span class="block text-3xl sm:text-4xl font-black text-[#addedc]">${weeksTop10}</span><span class="text-xs font-bold text-neutral-400 uppercase mt-1 block">Weeks in Top 10</span></div>
+                            <div><span class="block text-3xl sm:text-4xl font-black text-[#addedc]">${weeksTop50}</span><span class="text-xs font-bold text-neutral-400 uppercase mt-1 block">Weeks in Top 50</span></div>
+                            <div><span class="block text-3xl sm:text-4xl font-black text-[#addedc]">${weeksTop75}</span><span class="text-xs font-bold text-neutral-400 uppercase mt-1 block">Weeks in Top 75</span></div>
+                        </div>
+                    </div>
+
+                    ${chartsWithSongs.length === 0 ? `
+                        <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">
+                            No chart entries found for this artist.
+                        </div>
+                    ` : chartsWithSongs.map(chartGroup => `
+                        <div class="space-y-4">
+                            <h3 class="text-xl font-bold uppercase">${chartGroup.chartTitle} (${chartGroup.songs.length})</h3>
+                            <div class="artist-chart-header">
+                                <div class="text-left pl-2">TRACK</div>
+                                <div>PEAK</div>
+                                <div>WEEKS</div>
+                                <div>INFO</div>
                             </div>
-                        `).join('')}
+                            <div class="space-y-2">
+                                ${chartGroup.songs.map(({ song, peakDisplay, weeksCount }) => `
+                                    <div class="artist-chart-row">
+                                        <div class="song-info-col min-w-0">
+                                            <img src="${song.cover}" class="w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0" onerror="this.src='https://placehold.co/100x100/222/fff?text=Song'">
+                                            <div class="min-w-0">
+                                                <h2 class="font-bold text-sm truncate text-white">${song.title}</h2>
+                                                <p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center text-xs font-bold text-white">${peakDisplay}</div>
+                                        <div class="text-center text-xs font-bold text-neutral-300">${weeksCount}</div>
+                                        <div class="text-right flex justify-center">
+                                            <button onclick="openHistoryModal('${chartGroup.chartId}', '${song.id}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
+                                                <i class="fa-solid fa-info text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function openEditArtistModal(oldName) {
+            const modalHTML = `
+                <div id="artist-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-md w-full p-6 space-y-4">
+                        <div class="flex justify-between items-center"><h3 class="text-xl font-bold uppercase">Edit Artist Name</h3><button onclick="closeArtistModal()"><i class="fa-solid fa-xmark text-xl"></i></button></div>
+                        <form onsubmit="handleArtistRename(event, '${oldName.replace(/'/g, "\\'")}')" class="space-y-3">
+                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">New Artist Name</label><input type="text" id="new-artist-name" value="${oldName}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                            <div class="flex justify-end gap-2 pt-3"><button type="button" onclick="closeArtistModal()" class="bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold">Cancel</button><button type="submit" class="bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold">Update Name</button></div>
+                        </form>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
+            document.getElementById('admin-modal-container').innerHTML = modalHTML;
+        }
+
+        function closeArtistModal() { document.getElementById('admin-modal-container').innerHTML = ''; }
+
+        function handleArtistRename(e, oldName) {
+            e.preventDefault();
+            const newName = document.getElementById('new-artist-name').value.trim();
+            if (!newName) return;
+            const currentDb = getDB();
+
+            currentDb.songs.forEach(song => {
+                if (song.artist.toLowerCase().includes(oldName.toLowerCase())) {
+                    song.artist = song.artist.replace(new RegExp(oldName, 'gi'), newName);
+                }
+            });
+
+            saveDB(currentDb);
+            showToast('Artist name updated across songs catalog!');
+            closeArtistModal();
+            window.location.href = `artist.html?name=${encodeURIComponent(newName)}`;
+        }
+
+        renderArtistPageFull();
     </script>
 </body>
 </html>

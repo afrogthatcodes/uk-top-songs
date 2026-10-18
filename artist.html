@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>body { font-family: 'Albert Sans', sans-serif; background-color: #000000; color: #ffffff; }</style>
 </head>
 <body class="min-h-full flex flex-col antialiased">
@@ -23,7 +24,15 @@
         </div>
     </header>
 
-    <main id="artist-main" class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12"></main>
+    <main id="artist-main" class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full"></main>
+
+    <!-- HISTORY MODAL -->
+    <div id="history-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+        <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-2xl w-full p-6 space-y-4">
+            <div class="flex justify-between items-center"><h3 id="history-modal-title" class="text-xl font-bold uppercase">Position History</h3><button onclick="closeHistoryModal()"><i class="fa-solid fa-xmark text-xl text-neutral-400"></i></button></div>
+            <div class="relative w-full h-72"><canvas id="positionHistoryChart"></canvas></div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
     <script>
@@ -33,21 +42,56 @@
         const container = document.getElementById('artist-main');
 
         const artistSongs = db.songs.filter(s => songHasArtist(s.artist, artistName));
+        const artistSongIds = new Set(artistSongs.map(s => s.id));
+
+        let weeksNo1 = 0, weeksTop10 = 0, weeksTop50 = 0, weeksTop75 = 0;
+        const trackPeaks = {};
+
+        Object.values(db.chartHistory['top-songs'] || {}).forEach(entriesList => {
+            entriesList.forEach(entry => {
+                if (artistSongIds.has(entry.songId)) {
+                    const r = entry.rank;
+                    if (!trackPeaks[entry.songId] || r < trackPeaks[entry.songId]) trackPeaks[entry.songId] = r;
+                    if (r === 1) weeksNo1++;
+                    if (r <= 10) weeksTop10++;
+                    if (r <= 50) weeksTop50++;
+                    if (r <= 75) weeksTop75++;
+                }
+            });
+        });
+
+        let c1 = 0, c10 = 0, c50 = 0, c75 = 0;
+        Object.values(trackPeaks).forEach(p => {
+            if (p === 1) c1++;
+            if (p <= 10) c10++;
+            if (p <= 50) c50++;
+            if (p <= 75) c75++;
+        });
 
         container.innerHTML = `
-            <div class="bg-neutral-900 border border-neutral-800 p-8 rounded-3xl mb-8">
-                <span class="text-xs font-black uppercase text-[#addedc]">Artist Profile</span>
-                <h1 class="text-3xl sm:text-4xl font-black uppercase mt-1">${artistName}</h1>
-            </div>
-            <div class="space-y-4">
-                <h3 class="text-xl font-bold uppercase">Songs (${artistSongs.length})</h3>
-                <div class="space-y-2">
-                    ${artistSongs.map(song => `
-                        <div class="bg-neutral-900 border border-neutral-800 p-4 rounded-xl flex items-center gap-4">
-                            <img src="${song.cover}" class="w-12 h-12 rounded-lg object-cover">
-                            <div><h4 class="font-bold">${song.title}</h4><p class="text-xs text-neutral-400">${song.artist}</p></div>
-                        </div>
-                    `).join('')}
+            <div class="space-y-8">
+                <div class="bg-neutral-900 border border-neutral-800 p-8 rounded-3xl">
+                    <span class="text-xs font-black uppercase text-[#addedc]">Artist Profile</span>
+                    <h1 class="text-3xl sm:text-4xl font-black uppercase mt-1">${artistName}</h1>
+                </div>
+                <div class="bg-neutral-900/60 border border-neutral-800 rounded-3xl p-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+                        <div><span class="block text-3xl font-black text-[#addedc]">${c1}</span><span class="text-xs font-bold text-neutral-400 uppercase">No. 1s</span></div>
+                        <div><span class="block text-3xl font-black text-[#addedc]">${c10}</span><span class="text-xs font-bold text-neutral-400 uppercase">Top 10s</span></div>
+                        <div><span class="block text-3xl font-black text-[#addedc]">${c50}</span><span class="text-xs font-bold text-neutral-400 uppercase">Top 50s</span></div>
+                        <div><span class="block text-3xl font-black text-[#addedc]">${c75}</span><span class="text-xs font-bold text-neutral-400 uppercase">Top 75s</span></div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold uppercase">Songs (${artistSongs.length})</h3>
+                    <div class="space-y-2">
+                        ${artistSongs.map(song => `
+                            <div class="bg-neutral-900 border border-neutral-800 p-4 rounded-xl flex items-center justify-between">
+                                <div class="flex items-center gap-4"><img src="${song.cover}" class="w-12 h-12 rounded-lg object-cover"><div><h4 class="font-bold">${song.title}</h4><p class="text-xs text-neutral-400">${song.artist}</p></div></div>
+                                <button onclick="openHistoryModal('top-songs', '${song.id}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 text-neutral-400 hover:text-white"><i class="fa-solid fa-info text-xs"></i></button>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
             </div>
         `;

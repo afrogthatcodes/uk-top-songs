@@ -39,8 +39,13 @@
     <!-- HISTORY MODAL -->
     <div id="history-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
         <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-2xl w-full p-6 space-y-4">
-            <div class="flex justify-between items-center"><h3 id="history-modal-title" class="text-xl font-bold uppercase">Position History</h3><button onclick="closeHistoryModal()"><i class="fa-solid fa-xmark text-xl text-neutral-400"></i></button></div>
-            <div class="relative w-full h-72"><canvas id="positionHistoryChart"></canvas></div>
+            <div class="flex justify-between items-center">
+                <h3 id="history-modal-title" class="text-xl font-bold uppercase">Position History</h3>
+                <button onclick="closeHistoryModal()"><i class="fa-solid fa-xmark text-xl text-neutral-400 hover:text-white"></i></button>
+            </div>
+            <div class="relative w-full h-72">
+                <canvas id="positionHistoryChart"></canvas>
+            </div>
         </div>
     </div>
 

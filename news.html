@@ -23,11 +23,11 @@
         </div>
     </header>
 
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 w-full">
         <div class="text-center max-w-2xl mx-auto">
             <h1 class="text-4xl sm:text-5xl font-black uppercase tracking-tight">Latest News</h1>
         </div>
-        <div id="news-container" class="space-y-4 max-w-3xl mx-auto"></div>
+        <div id="news-container" class="space-y-4"></div>
     </main>
 
     <footer class="bg-black border-t border-neutral-900 pt-16 pb-12 mt-auto">
@@ -38,12 +38,21 @@
     <script>
         const db = getDB();
         const container = document.getElementById('news-container');
-        container.innerHTML = db.news.map(n => `
-            <div class="bg-neutral-900 border border-neutral-800 p-6 rounded-2xl">
-                <h3 class="font-bold text-lg text-white">${n.title}</h3>
-                <p class="text-sm text-neutral-400 mt-2">${n.content}</p>
-            </div>
-        `).join('');
+
+        if (!db.news || db.news.length === 0) {
+            container.innerHTML = `<div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No news articles found.</div>`;
+        } else {
+            container.innerHTML = db.news.map(n => `
+                <div class="bg-neutral-900 border border-neutral-800 p-6 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center text-xs text-neutral-400">
+                        <span class="bg-[#addedc] text-black font-bold px-2.5 py-0.5 rounded-md uppercase text-[10px]">${n.category || 'Latest News'}</span>
+                        <span class="font-mono">${n.date}</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-white">${n.title}</h3>
+                    <p class="text-sm text-neutral-300 leading-relaxed">${n.content}</p>
+                </div>
+            `).join('');
+        }
     </script>
 </body>
 </html>

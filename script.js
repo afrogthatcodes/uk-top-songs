@@ -1,4 +1,4 @@
-const ADMIN_PASSWORD = "admin";
+const ADMIN_PASSWORD = "admin"; // Change this password if needed
 let isAdminLoggedIn = false;
 
 const chartCategories = [
@@ -152,8 +152,31 @@ function openHistoryModal(chartId, songId, songTitle) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            onClick: (evt, activeElements) => {
+                if (activeElements && activeElements.length > 0) {
+                    const index = activeElements[0].index;
+                    const selectedDate = chartLabels[index];
+                    if (selectedDate) {
+                        closeHistoryModal();
+                        window.location.href = `charts.html?chart=${chartId}&date=${encodeURIComponent(selectedDate)}`;
+                    }
+                }
+            },
             scales: {
-                y: { reverse: true, min: 1, max: 75, ticks: { color: '#a3a3a3' }, grid: { color: '#262626' } },
+                y: {
+                    reverse: true,
+                    min: 1,
+                    max: 75,
+                    ticks: {
+                        stepSize: 5,
+                        callback: function(value) {
+                            if (value === 1 || value % 5 === 0) return value;
+                            return '';
+                        },
+                        color: '#a3a3a3'
+                    },
+                    grid: { color: '#262626' }
+                },
                 x: { ticks: { color: '#a3a3a3' }, grid: { display: false } }
             },
             plugins: { legend: { display: false } }
@@ -164,10 +187,6 @@ function openHistoryModal(chartId, songId, songTitle) {
 function closeHistoryModal() { 
     const modal = document.getElementById('history-modal');
     if (modal) modal.classList.add('hidden'); 
-}
-
-function checkAdminAuth() {
-    return isAdminLoggedIn;
 }
 
 function promptAdminLogin() {
@@ -189,12 +208,21 @@ function handleAdminLogin(e) {
     const pass = document.getElementById('admin-pass-input').value;
     if (pass === ADMIN_PASSWORD) {
         isAdminLoggedIn = true;
+        sessionStorage.setItem('ukts_admin_auth', 'true');
         closeAdminLoginModal();
         showToast('Welcome, Admin!');
         if (typeof initAdminPage === 'function') initAdminPage();
     } else {
-        document.getElementById('admin-login-error').classList.remove('hidden');
+        const err = document.getElementById('admin-login-error');
+        if (err) err.classList.remove('hidden');
     }
+}
+
+function adminLogout() {
+    isAdminLoggedIn = false;
+    sessionStorage.removeItem('ukts_admin_auth');
+    showToast('Logged out of Admin');
+    window.location.href = 'index.html';
 }
 
 window.addEventListener('keydown', (e) => {

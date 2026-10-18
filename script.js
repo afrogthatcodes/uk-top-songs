@@ -231,3 +231,81 @@ window.addEventListener('keydown', (e) => {
         window.location.href = 'admin.html';
     }
 });
+
+function renderAdminNewsTab(dbInstance) {
+    return `
+        <div class="space-y-6">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold uppercase">News Articles</h3>
+                <button onclick="openNewsModal()" class="bg-[#addedc] text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase flex items-center gap-2"><i class="fa-solid fa-plus"></i> Add Article</button>
+            </div>
+            <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    <tr class="border-b border-neutral-800 text-neutral-400 text-xs uppercase font-bold bg-neutral-900/50">
+                        <th class="p-4">Date</th>
+                        <th class="p-4">Title & Content</th>
+                        <th class="p-4 text-right">Actions</th>
+                    </tr>
+                    ${dbInstance.news.map(item => `
+                        <tr class="border-b border-neutral-800/50 text-sm">
+                            <td class="p-4 font-mono text-neutral-400 text-xs">${item.date}</td>
+                            <td class="p-4 font-bold">${item.title} <span class="block text-xs font-normal text-neutral-400 truncate max-w-md">${item.content}</span></td>
+                            <td class="p-4 text-right">
+                                <button onclick="deleteNews('${item.id}')" class="bg-red-950 hover:bg-red-900 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+function openNewsModal() {
+    const modalHTML = `
+        <div id="news-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+            <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-lg w-full p-6 space-y-4">
+                <div class="flex justify-between items-center"><h3 class="text-xl font-bold uppercase">Add News Article</h3><button onclick="closeNewsModal()"><i class="fa-solid fa-xmark text-xl"></i></button></div>
+                <form onsubmit="handleNewsSubmit(event)" class="space-y-3">
+                    <div><label class="block text-xs uppercase text-neutral-400 mb-1">Article Title</label><input type="text" id="news-title-input" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                    <div><label class="block text-xs uppercase text-neutral-400 mb-1">Category</label><input type="text" id="news-cat-input" value="Latest News" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                    <div><label class="block text-xs uppercase text-neutral-400 mb-1">Content</label><textarea id="news-content-input" rows="4" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></textarea></div>
+                    <div class="flex justify-end gap-2 pt-3"><button type="button" onclick="closeNewsModal()" class="bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold">Cancel</button><button type="submit" class="bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold">Publish Article</button></div>
+                </form>
+            </div>
+        </div>
+    `;
+    document.getElementById('admin-modal-container').innerHTML = modalHTML;
+}
+
+function closeNewsModal() { document.getElementById('admin-modal-container').innerHTML = ''; }
+
+function handleNewsSubmit(e) {
+    e.preventDefault();
+    const currentDb = getDB();
+    const title = document.getElementById('news-title-input').value.trim();
+    const category = document.getElementById('news-cat-input').value.trim();
+    const content = document.getElementById('news-content-input').value.trim();
+    
+    const options = { month: 'short', day: 'numeric', year: 'numeric' };
+    const date = new Date().toLocaleDateString('en-US', options);
+
+    const newArticle = { id: Date.now().toString(), title, category, date, content };
+    
+    if (!currentDb.news) currentDb.news = [];
+    currentDb.news.unshift(newArticle);
+
+    saveDB(currentDb);
+    showToast('News article published!');
+    closeNewsModal();
+    if (typeof switchAdminTab === 'function') switchAdminTab('news');
+}
+
+function deleteNews(id) {
+    if (!confirm('Are you sure you want to delete this article?')) return;
+    const currentDb = getDB();
+    currentDb.news = currentDb.news.filter(n => n.id !== id);
+    saveDB(currentDb);
+    showToast('Article deleted.');
+    if (typeof switchAdminTab === 'function') switchAdminTab('news');
+}

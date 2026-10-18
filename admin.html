@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK TOP SONGS - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Albert Sans', sans-serif; background-color: #000000; color: #ffffff; }</style>
+</head>
+<body class="min-h-full flex flex-col antialiased">
+    <header class="bg-black border-b border-neutral-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="text-xl sm:text-2xl font-black tracking-widest uppercase hover:text-[#addedc]">UK TOP SONGS</a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wider uppercase">
+                <a href="index.html" class="text-neutral-300 hover:text-white">Home</a>
+                <a href="charts.html" class="text-neutral-300 hover:text-white">Charts</a>
+                <a href="news.html" class="text-neutral-300 hover:text-white">News</a>
+                <a href="about.html" class="text-neutral-300 hover:text-white">About Us</a>
+                <a href="admin.html" class="text-[#addedc]">Admin</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="admin-main" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"></main>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="admin-login-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4">
+        <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-sm w-full p-6 space-y-4 text-center">
+            <div class="w-12 h-12 rounded-full bg-[#addedc]/10 text-[#addedc] mx-auto flex items-center justify-center text-xl"><i class="fa-solid fa-lock"></i></div>
+            <h3 class="text-xl font-bold uppercase text-white">Admin Access</h3>
+            <p class="text-xs text-neutral-400">Enter password to access management tools.</p>
+            <form onsubmit="handleAdminLoginCustom(event)" class="space-y-3">
+                <input type="password" id="admin-pass-input" placeholder="Enter password" autofocus class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white focus:outline-none focus:border-[#addedc]">
+                <p id="admin-login-error" class="text-xs text-red-400 hidden">Incorrect password!</p>
+                <div class="flex gap-2 pt-2">
+                    <a href="index.html" class="w-1/2 bg-neutral-800 text-white py-2.5 rounded-xl text-xs font-bold uppercase flex items-center justify-center">Cancel</a>
+                    <button type="submit" class="w-1/2 bg-[#addedc] text-black py-2.5 rounded-xl text-xs font-bold uppercase">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function initAdminPage() {
+            const db = getDB();
+            const container = document.getElementById('admin-main');
+            container.innerHTML = `
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center pb-6 border-b border-neutral-800">
+                        <h1 class="text-3xl font-black uppercase">Chart & Song Management</h1>
+                    </div>
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden p-6">
+                        <h3 class="text-xl font-bold uppercase mb-4">Master Songs (${db.songs.length})</h3>
+                        <div class="space-y-2">
+                            ${db.songs.map(song => `<div class="p-3 bg-black rounded-xl flex justify-between items-center text-sm"><span>${song.title} —${song.artist}</span><span class="font-mono text-xs text-neutral-400">${song.code}</span></div>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleAdminLoginCustom(e) {
+            e.preventDefault();
+            const pass = document.getElementById('admin-pass-input').value;
+            if (pass === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                document.getElementById('admin-login-modal').classList.add('hidden');
+                showToast('Welcome, Admin!');
+                initAdminPage();
+            } else {
+                document.getElementById('admin-login-error').classList.remove('hidden');
+            }
+        }
+
+        document.getElementById('admin-login-modal').classList.remove('hidden');
+    </script>
+</body>
+</html>

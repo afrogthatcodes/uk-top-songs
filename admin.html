@@ -23,7 +23,7 @@
         </div>
     </header>
 
-    <main id="admin-main" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"></main>
+    <main id="admin-main" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full"></main>
 
     <!-- ADMIN LOGIN MODAL -->
     <div id="admin-login-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4">
@@ -42,24 +42,25 @@
         </div>
     </div>
 
+    <!-- Dynamic Modal Container -->
+    <div id="admin-modal-container"></div>
+
     <script src="script.js"></script>
     <script>
+        const db = getDB();
+
+        function checkAuthAndInit() {
+            if (isAdminLoggedIn || sessionStorage.getItem('ukts_admin_auth') === 'true') {
+                isAdminLoggedIn = true;
+                closeAdminLoginModal();
+                renderAdminPage(document.getElementById('admin-main'), db);
+            } else {
+                promptAdminLogin();
+            }
+        }
+
         function initAdminPage() {
-            const db = getDB();
-            const container = document.getElementById('admin-main');
-            container.innerHTML = `
-                <div class="space-y-6">
-                    <div class="flex justify-between items-center pb-6 border-b border-neutral-800">
-                        <h1 class="text-3xl font-black uppercase">Chart & Song Management</h1>
-                    </div>
-                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden p-6">
-                        <h3 class="text-xl font-bold uppercase mb-4">Master Songs (${db.songs.length})</h3>
-                        <div class="space-y-2">
-                            ${db.songs.map(song => `<div class="p-3 bg-black rounded-xl flex justify-between items-center text-sm"><span>${song.title} —${song.artist}</span><span class="font-mono text-xs text-neutral-400">${song.code}</span></div>`).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
+            renderAdminPage(document.getElementById('admin-main'), db);
         }
 
         function handleAdminLoginCustom(e) {
@@ -67,15 +68,343 @@
             const pass = document.getElementById('admin-pass-input').value;
             if (pass === ADMIN_PASSWORD) {
                 isAdminLoggedIn = true;
-                document.getElementById('admin-login-modal').classList.add('hidden');
+                sessionStorage.setItem('ukts_admin_auth', 'true');
+                closeAdminLoginModal();
                 showToast('Welcome, Admin!');
-                initAdminPage();
+                renderAdminPage(document.getElementById('admin-main'), db);
             } else {
                 document.getElementById('admin-login-error').classList.remove('hidden');
             }
         }
 
-        document.getElementById('admin-login-modal').classList.remove('hidden');
+        function renderAdminPage(container, db) {
+            container.innerHTML = `
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center mb-8 pb-6 border-b border-neutral-800">
+                        <div>
+                            <span class="bg-[#addedc] text-black text-[10px] font-black uppercase px-3 py-1 rounded-lg inline-block mb-2"><i class="fa-solid fa-lock mr-1"></i> Admin Dashboard</span>
+                            <h1 class="text-3xl font-black uppercase tracking-tight">Chart & Song Management</h1>
+                        </div>
+                        <button onclick="adminLogout()" class="bg-neutral-800 hover:bg-neutral-700 text-white px-4 py-2 rounded-xl text-xs font-bold uppercase">Logout</button>
+                    </div>
+
+                    <div class="flex gap-2 mb-8 border-b border-neutral-900 pb-4 flex-wrap">
+                        <button onclick="switchAdminTab('songs')" id="tab-btn-songs" class="admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-[#addedc] text-black">Master Songs (${db.songs.length})</button>
+                        <button onclick="switchAdminTab('charts')" id="tab-btn-charts" class="admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-neutral-900 text-neutral-400 hover:text-white">Manage Chart History</button>
+                        <button onclick="switchAdminTab('upload')" id="tab-btn-upload" class="admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-neutral-900 text-neutral-400 hover:text-white">Upload CSV</button>
+                    </div>
+
+                    <div id="admin-tab-content">${renderAdminSongsTab(db)}</div>
+                </div>
+            `;
+        }
+
+        function switchAdminTab(tab) {
+            const currentDb = getDB();
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                btn.className = 'admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-neutral-900 text-neutral-400 hover:text-white';
+            });
+            document.getElementById(`tab-btn-${tab}`).className = 'admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-[#addedc] text-black';
+
+            const container = document.getElementById('admin-tab-content');
+            if (tab === 'songs') container.innerHTML = renderAdminSongsTab(currentDb);
+            if (tab === 'charts') container.innerHTML = renderAdminChartsTab(currentDb);
+            if (tab === 'upload') container.innerHTML = renderAdminUploadTab();
+        }
+
+        function renderAdminSongsTab(dbInstance) {
+            return `
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-bold uppercase">Master Songs Catalog</h3>
+                        <button onclick="openSongModal()" class="bg-[#addedc] text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase flex items-center gap-2"><i class="fa-solid fa-plus"></i> Add New Song</button>
+                    </div>
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <tr class="border-b border-neutral-800 text-neutral-400 text-xs uppercase font-bold bg-neutral-900/50">
+                                <th class="p-4">Code</th>
+                                <th class="p-4">Title & Artists</th>
+                                <th class="p-4">Genres</th>
+                                <th class="p-4 text-right">Actions</th>
+                            </tr>
+                            ${dbInstance.songs.map(song => `
+                                <tr class="border-b border-neutral-800/50 text-sm">
+                                    <td class="p-4 font-mono text-neutral-400 text-xs">${song.code}</td>
+                                    <td class="p-4 font-bold">${song.title} <span class="block text-xs font-normal text-neutral-400">${song.artist}</span></td>
+                                    <td class="p-4">${renderGenreBadges(song)}</td>
+                                    <td class="p-4 text-right space-x-2">
+                                        <button onclick="openEditSongModal('${song.id}')" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-pen"></i> Edit</button>
+                                        <button onclick="deleteSong('${song.id}')" class="bg-red-950 hover:bg-red-900 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openSongModal(songId = null) {
+            const currentDb = getDB();
+            let song = { id: '', code: '', title: '', artist: '', genres: ['Pop'], cover: '' };
+            let isEdit = false;
+
+            if (songId) {
+                const found = currentDb.songs.find(s => s.id === songId);
+                if (found) { song = found; isEdit = true; }
+            } else {
+                let nextNum = 1;
+                if (currentDb.songs && currentDb.songs.length > 0) {
+                    const tsNumbers = currentDb.songs.map(s => s.code).filter(c => c && c.startsWith('TS-')).map(c => parseInt(c.replace('TS-', ''), 10)).filter(n => !isNaN(n));
+                    nextNum = tsNumbers.length > 0 ? Math.max(...tsNumbers) + 1 : currentDb.songs.length + 1;
+                }
+                song.code = `TS-${nextNum}`;
+            }
+
+            const modalHTML = `
+                <div id="song-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-lg w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+                        <div class="flex justify-between items-center"><h3 class="text-xl font-bold uppercase">${isEdit ? 'Edit Song' : 'Add New Song'}</h3><button onclick="closeSongModal()"><i class="fa-solid fa-xmark text-xl"></i></button></div>
+                        <form onsubmit="handleSongSubmit(event, '${song.id}')" class="space-y-3">
+                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">Song Code</label><input type="text" id="song-code-input" value="${song.code}" readonly class="w-full bg-neutral-950 border border-neutral-800 px-4 py-2.5 rounded-xl text-sm text-neutral-400 cursor-not-allowed"></div>
+                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">Song Title</label><input type="text" id="song-title-input" value="${song.title}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">Artists</label><input type="text" id="song-artist-input" value="${song.artist}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                            <div>
+                                <label class="block text-xs uppercase text-neutral-400 mb-2">Genres</label>
+                                <div id="genresCheckboxContainer" class="grid grid-cols-2 gap-2 bg-black border border-neutral-700 p-3 rounded-xl max-h-40 overflow-y-auto"></div>
+                                <div style="margin-top: 10px; display: flex; gap: 8px;">
+                                    <input type="text" id="newGenreInput" placeholder="Add custom genre..." style="flex: 1; padding: 8px 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 8px; font-size: 12px;">
+                                    <button type="button" onclick="addNewGenre()" style="padding: 6px 12px; background: #333; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold;">Add</button>
+                                </div>
+                            </div>
+                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">Cover Art URL</label><input type="url" id="song-cover-input" value="${song.cover}" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                            <div class="flex justify-end gap-2 pt-3"><button type="button" onclick="closeSongModal()" class="bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold">Cancel</button><button type="submit" class="bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold">Save Song</button></div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            document.getElementById('admin-modal-container').innerHTML = modalHTML;
+            renderGenreCheckboxes(song);
+        }
+
+        function renderGenreCheckboxes(song = null) {
+            const container = document.getElementById('genresCheckboxContainer');
+            if (!container) return;
+            const currentDb = getDB();
+            const currentSongGenres = song ? getSongGenres(song) : [];
+            container.innerHTML = currentDb.genres.map(genre => `
+                <label style="display: flex; align-items: center; gap: 8px; color: #fff; cursor: pointer; font-size: 12px;">
+                    <input type="checkbox" name="songGenres" value="${genre}" ${currentSongGenres.includes(genre) ? 'checked' : ''} style="accent-color: #addedc;"> ${genre}
+                </label>
+            `).join('');
+        }
+
+        function addNewGenre() {
+            const input = document.getElementById('newGenreInput');
+            if (!input) return;
+            const genreName = input.value.trim();
+            if (!genreName) return;
+            const formattedGenre = genreName.charAt(0).toUpperCase() + genreName.slice(1);
+            const currentDb = getDB();
+            if (!currentDb.genres) currentDb.genres = ['Pop'];
+            if (!currentDb.genres.some(g => g.toLowerCase() === formattedGenre.toLowerCase())) {
+                currentDb.genres.push(formattedGenre);
+                currentDb.genres.sort();
+                saveDB(currentDb);
+                renderGenreCheckboxes();
+                showToast(`Genre "${formattedGenre}" added!`);
+            } else {
+                showToast('Genre already exists!');
+            }
+            input.value = '';
+        }
+
+        function openEditSongModal(songId) { openSongModal(songId); }
+        function closeSongModal() { document.getElementById('admin-modal-container').innerHTML = ''; }
+
+        function handleSongSubmit(e, existingId) {
+            e.preventDefault();
+            const currentDb = getDB();
+            const code = document.getElementById('song-code-input').value;
+            const title = document.getElementById('song-title-input').value;
+            const artist = document.getElementById('song-artist-input').value;
+            const selectedGenres = Array.from(document.querySelectorAll('input[name="songGenres"]:checked')).map(cb => cb.value);
+            const genres = selectedGenres.length > 0 ? selectedGenres : ['Pop'];
+            const cover = document.getElementById('song-cover-input').value || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=100&auto=format&fit=crop&q=80';
+
+            if (existingId) {
+                const song = currentDb.songs.find(s => s.id === existingId);
+                if (song) { song.code = code; song.title = title; song.artist = artist; song.genres = genres; delete song.genre; song.cover = cover; }
+                showToast('Song updated!');
+            } else {
+                currentDb.songs.push({ id: Date.now().toString(), code, title, artist, genres, cover });
+                showToast('Song added!');
+            }
+            saveDB(currentDb);
+            closeSongModal();
+            initAdminPage();
+        }
+
+        function deleteSong(songId) {
+            if (!confirm('Delete song?')) return;
+            const currentDb = getDB();
+            currentDb.songs = currentDb.songs.filter(s => s.id !== songId);
+            saveDB(currentDb);
+            showToast('Song deleted.');
+            initAdminPage();
+        }
+
+        function renderAdminChartsTab(currentDb) {
+            let allChartWeeks = [];
+            Object.keys(currentDb.chartHistory).forEach(catId => {
+                Object.keys(currentDb.chartHistory[catId]).forEach(dateStr => {
+                    allChartWeeks.push({ catId, dateStr, count: currentDb.chartHistory[catId][dateStr].length });
+                });
+            });
+
+            return `
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold uppercase">Manage Chart History</h3>
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <tr class="border-b border-neutral-800 text-neutral-400 text-xs uppercase font-bold bg-neutral-900/50">
+                                <th class="p-4">Chart Category</th><th class="p-4">Date</th><th class="p-4">Entries</th><th class="p-4 text-right">Actions</th>
+                            </tr>
+                            ${allChartWeeks.map(item => {
+                                const catObj = chartCategories.find(c => c.id === item.catId) || { title: item.catId };
+                                return `
+                                    <tr class="border-b border-neutral-800/50 text-sm">
+                                        <td class="p-4 font-bold text-white">${catObj.title}</td>
+                                        <td class="p-4 text-neutral-300 font-mono text-xs">${item.dateStr}</td>
+                                        <td class="p-4 text-neutral-400">${item.count} songs</td>
+                                        <td class="p-4 text-right space-x-2">
+                                            <button onclick="openEditChartWeekModal('${item.catId}', '${item.dateStr}')" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-pen"></i> Edit Ranks</button>
+                                            <button onclick="deleteChartWeek('${item.catId}', '${item.dateStr}')" class="bg-red-950 hover:bg-red-900 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openEditChartWeekModal(catId, dateStr) {
+            const currentDb = getDB();
+            const entries = currentDb.chartHistory[catId]?.[dateStr] || [];
+            entries.sort((a,b) => a.rank - b.rank);
+
+            const modalHTML = `
+                <div id="chart-week-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 overflow-y-auto">
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-xl w-full p-6 space-y-4 max-h-[90vh] flex flex-col">
+                        <div class="flex justify-between items-center shrink-0">
+                            <div><h3 class="text-xl font-bold uppercase">Edit Chart Week</h3><p class="text-xs text-neutral-400">${catId} — ${dateStr}</p></div>
+                            <button onclick="closeChartWeekModal()"><i class="fa-solid fa-xmark text-xl"></i></button>
+                        </div>
+                        <div class="space-y-2 overflow-y-auto flex-grow pr-2">
+                            ${entries.map(entry => {
+                                const song = currentDb.songs.find(s => s.id === entry.songId) || { title: 'Unknown', artist: 'Unknown' };
+                                return `
+                                    <div class="bg-black/50 border border-neutral-800 p-3 rounded-xl flex items-center justify-between gap-3">
+                                        <div class="min-w-0 flex-grow"><h4 class="font-bold text-sm truncate text-white">${song.title}</h4><p class="text-xs text-neutral-400 truncate">${song.artist}</p></div>
+                                        <div class="flex items-center gap-2 shrink-0"><label class="text-[10px] uppercase text-neutral-400">Rank:</label><input type="number" id="rank-input-${entry.songId}" value="${entry.rank}" min="1" class="w-16 bg-neutral-900 border border-neutral-700 px-2 py-1 rounded text-center text-sm text-white font-bold"></div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class="flex justify-end gap-2 pt-3 shrink-0 border-t border-neutral-800">
+                            <button type="button" onclick="closeChartWeekModal()" class="bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold">Cancel</button>
+                            <button type="button" onclick="saveChartWeekRanks('${catId}', '${dateStr}')" class="bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('admin-modal-container').innerHTML = modalHTML;
+        }
+
+        function closeChartWeekModal() { document.getElementById('admin-modal-container').innerHTML = ''; }
+
+        function saveChartWeekRanks(catId, dateStr) {
+            const currentDb = getDB();
+            const entries = currentDb.chartHistory[catId]?.[dateStr] || [];
+            entries.forEach(entry => {
+                const inputEl = document.getElementById(`rank-input-${entry.songId}`);
+                if (inputEl) {
+                    const newRank = parseInt(inputEl.value);
+                    if (!isNaN(newRank)) entry.rank = newRank;
+                }
+            });
+            saveDB(currentDb);
+            showToast('Ranks updated!');
+            closeChartWeekModal();
+            initAdminPage();
+        }
+
+        function deleteChartWeek(catId, dateStr) {
+            if (!confirm(`Delete chart for ${dateStr}?`)) return;
+            const currentDb = getDB();
+            if (currentDb.chartHistory[catId]) delete currentDb.chartHistory[catId][dateStr];
+            saveDB(currentDb);
+            showToast('Chart week deleted.');
+            initAdminPage();
+        }
+
+        function renderAdminUploadTab() {
+            return `
+                <div class="space-y-6 max-w-xl">
+                    <h3 class="text-xl font-bold uppercase">Upload Weekly Chart CSV</h3>
+                    <form onsubmit="handleCSVUpload(event)" class="space-y-4 bg-neutral-900 border border-neutral-800 p-6 rounded-2xl">
+                        <div><label class="block text-xs uppercase text-neutral-400 mb-1">Select Chart Category</label><select id="csv-chart-category" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white">${chartCategories.map(c => `<option value="${c.id}">${c.title}</option>`).join('')}</select></div>
+                        <div><label class="block text-xs uppercase text-neutral-400 mb-1">Chart Week Date (DD/MM/YYYY)</label><input type="text" id="csv-chart-date" placeholder="25/09/2026" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                        <div><label class="block text-xs uppercase text-neutral-400 mb-1">CSV File</label><input type="file" id="csv-file-input" accept=".csv" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                        <button type="submit" class="w-full bg-[#addedc] text-black py-3 rounded-xl font-bold text-sm uppercase">Import Chart</button>
+                    </form>
+                </div>
+            `;
+        }
+
+        function handleCSVUpload(e) {
+            e.preventDefault();
+            const file = document.getElementById('csv-file-input').files[0];
+            const categoryId = document.getElementById('csv-chart-category').value;
+            const chartDate = document.getElementById('csv-chart-date').value.trim();
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const lines = evt.target.result.split('\n').map(l => l.trim()).filter(Boolean);
+                const currentDb = getDB();
+                if (!currentDb.chartHistory[categoryId]) currentDb.chartHistory[categoryId] = {};
+                const weekEntries = [];
+
+                lines.forEach((line, i) => {
+                    if (line.toLowerCase().includes('rank') || line.toLowerCase().includes('title')) return;
+                    const cols = line.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
+                    if (cols.length < 2) return;
+                    const rank = parseInt(cols[0]);
+                    if (isNaN(rank)) return;
+                    const title = cols[1];
+                    const artist = cols[2] || 'Unknown Artist';
+                    const salesIncrease = cols[3] ? cols[3].toLowerCase() === 'true' : false;
+
+                    let foundSong = currentDb.songs.find(s => s.title.toLowerCase() === title.toLowerCase());
+                    let songId = foundSong ? foundSong.id : ('song_' + Date.now() + '_' + i);
+                    if (!foundSong) {
+                        currentDb.songs.push({ id: songId, code: 'NEW-' + Math.floor(100 + Math.random() * 900), title, artist, genres: ['Pop'], cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=100&auto=format&fit=crop&q=80' });
+                    }
+                    weekEntries.push({ songId, rank, salesIncrease });
+                });
+
+                currentDb.chartHistory[categoryId][chartDate] = weekEntries;
+                saveDB(currentDb);
+                showToast('CSV Imported Successfully!');
+                window.location.href = `charts.html?chart=${categoryId}&date=${encodeURIComponent(chartDate)}`;
+            };
+            reader.readAsText(file);
+        }
+
+        checkAuthAndInit();
     </script>
 </body>
 </html>

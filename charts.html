@@ -118,7 +118,7 @@
         </div>
     </header>
 
-    <main id="charts-main" class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full"></main>
+    <main id="charts-main" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full"></main>
 
     <!-- HISTORY MODAL -->
     <div id="history-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
@@ -147,19 +147,26 @@
 
         if (!chartId) {
             container.innerHTML = `
-                <div class="max-w-7xl mx-auto space-y-12">
-                    <div class="text-center max-w-2xl mx-auto"><h1 class="text-4xl sm:text-5xl font-black uppercase">Charts</h1></div>
+                <div class="max-w-7xl mx-auto space-y-12 w-full">
+                    <div class="text-center max-w-2xl mx-auto"><h1 class="text-4xl sm:text-5xl font-black uppercase tracking-tight">Charts</h1></div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         ${chartCategories.map(cat => `
-                            <a href="charts.html?chart=${cat.id}" class="bg-neutral-900 border border-neutral-800 p-6 rounded-2xl flex flex-col justify-between hover:border-neutral-600">
-                                <div><span class="text-[10px] font-black uppercase text-[#addedc]">${cat.subtitle}</span><h3 class="text-xl font-black uppercase mt-1">${cat.title}</h3></div>
-                                <div class="flex items-center justify-between mt-6 text-xs font-bold text-neutral-400 uppercase"><span>View Chart</span><i class="fa-solid fa-arrow-right text-[#addedc]"></i></div>
+                            <a href="charts.html?chart=${cat.id}" class="bg-neutral-900 border border-neutral-800 hover:border-neutral-600 p-6 rounded-2xl flex flex-col justify-between transition-all group">
+                                <div>
+                                    <span class="text-[10px] font-black uppercase text-[#addedc] tracking-wider">${cat.subtitle}</span>
+                                    <h3 class="text-xl font-black uppercase text-white mt-1 group-hover:text-[#addedc] transition-colors">${cat.title}</h3>
+                                </div>
+                                <div class="flex items-center justify-between mt-6 text-xs font-bold text-neutral-400 uppercase">
+                                    <span>View Chart</span>
+                                    <i class="fa-solid fa-arrow-right text-neutral-500 group-hover:text-[#addedc] group-hover:translate-x-1 transition-all"></i>
+                                </div>
                             </a>
                         `).join('')}
                     </div>
                 </div>
             `;
         } else {
+            container.className = "flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full";
             const currentChart = chartCategories.find(c => c.id === chartId) || chartCategories[0];
             const historyObj = db.chartHistory[currentChart.id] || {};
             const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));

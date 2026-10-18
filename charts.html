@@ -9,15 +9,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: 'Albert Sans', sans-serif; background-color: #000000; color: #ffffff; }
-        .chart-table-header { display: grid; grid-template-columns: 60px 1fr 50px 50px 60px 50px 50px; font-weight: 700; font-size: 12px; color: #a3a3a3; padding: 8px 16px; text-align: center; border-bottom: 1px solid #262626; position: sticky; top: 80px; background-color: #000; z-index: 40; }
-        .chart-row { background: #141414; border-radius: 10px; margin-bottom: 8px; display: grid; grid-template-columns: 60px 1fr 50px 50px 60px 50px 50px; align-items: center; padding: 10px 16px; border: 1px solid #262626; transition: border-color 0.2s; }
-        .chart-row:hover { border-color: #38bdf8; }
+        :root {
+            --card-bg: #141414;
+            --border-color: #262626;
+            --text-color: #ffffff;
+            --text-muted: #a3a3a3;
+            --accent-gold: #fbbf24;
+            --accent-blue: #38bdf8;
+            --accent-red: #addedc;
+        }
+        body { font-family: 'Albert Sans', sans-serif; background-color: #000000; color: var(--text-color); }
+        .chart-table-header { display: grid; grid-template-columns: 60px 1fr 50px 50px 60px 50px 50px; font-weight: 700; font-size: 12px; color: var(--text-muted); padding: 8px 16px; text-align: center; border-bottom: 1px solid var(--border-color); position: sticky; top: 80px; background-color: #000; z-index: 40; }
+        .chart-row { background: var(--card-bg); border-radius: 10px; margin-bottom: 8px; display: grid; grid-template-columns: 60px 1fr 50px 50px 60px 50px 50px; align-items: center; padding: 10px 16px; border: 1px solid var(--border-color); transition: border-color 0.2s; }
+        .chart-row:hover { border-color: var(--accent-blue); }
         .rank-col { display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; }
         .song-info-col { display: flex; align-items: center; gap: 14px; padding-left: 8px; }
-        .sales-star { font-size: 18px; color: #fbbf24; cursor: pointer; position: relative; text-align: center; }
+        .sales-star { font-size: 18px; color: var(--accent-gold); cursor: pointer; position: relative; text-align: center; }
         .sales-star:hover .tooltip { visibility: visible; opacity: 1; }
-        .tooltip { visibility: hidden; width: 160px; background-color: #141414; color: #fff; text-align: center; border-radius: 6px; padding: 6px 8px; position: absolute; z-index: 10; bottom: 130%; left: 50%; margin-left: -80px; opacity: 0; transition: opacity 0.2s; font-size: 11px; border: 1px solid #262626; }
+        .tooltip { visibility: hidden; width: 160px; background-color: var(--card-bg); color: var(--text-color); text-align: center; border-radius: 6px; padding: 6px 8px; position: absolute; z-index: 10; bottom: 130%; left: 50%; margin-left: -80px; opacity: 0; transition: opacity 0.2s; font-size: 11px; border: 1px solid var(--border-color); }
     </style>
 </head>
 <body class="min-h-full flex flex-col antialiased">
@@ -48,6 +57,10 @@
             </div>
         </div>
     </div>
+
+    <footer class="bg-black border-t border-neutral-900 pt-16 pb-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-xs">Thank you for visiting :)</div>
+    </footer>
 
     <script src="script.js"></script>
     <script>
@@ -85,6 +98,11 @@
             currentEntries.sort((a, b) => a.rank - b.rank);
 
             const [dStr, mStr, yStr] = latestDate.split('/');
+            const startDateObj = new Date(`${yStr}-${mStr}-${dStr}`);
+            const endDateObj = new Date(startDateObj);
+            endDateObj.setDate(startDateObj.getDate() + 6);
+            const monthsNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const dateRangeText = `${startDateObj.getDate()} ${monthsNames[startDateObj.getMonth()]} ${startDateObj.getFullYear()} – ${endDateObj.getDate()} ${monthsNames[endDateObj.getMonth()]} ${endDateObj.getFullYear()}`;
             const isoDateStr = `${yStr}-${mStr}-${dStr}`;
 
             container.innerHTML = `
@@ -98,9 +116,12 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-between items-center bg-neutral-900/60 border border-neutral-800 p-5 rounded-2xl">
-                        <div><h1 class="text-2xl font-extrabold text-white">${currentChart.title}</h1></div>
-                        <div class="flex gap-2">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-neutral-900/60 border border-neutral-800/80 p-5 rounded-2xl backdrop-blur-md">
+                        <div>
+                            <h1 class="text-xl md:text-2xl font-extrabold text-white tracking-tight">${currentChart.title}</h1>
+                            <p class="text-xs text-neutral-400 mt-0.5">${dateRangeText}</p>
+                        </div>
+                        <div class="flex gap-2.5">
                             <select onchange="window.location.href='charts.html?chart='+this.value" class="bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2 rounded-xl cursor-pointer">
                                 <option value="" disabled selected>Select Chart</option>
                                 ${chartCategories.map(c => `<option value="${c.id}">${c.title}</option>`).join('')}
@@ -111,7 +132,7 @@
                     <div class="chart-table-header"><div></div><div></div><div></div><div>LW</div><div>PEAK</div><div>WEEKS</div><div>INFO</div></div>
 
                     <div class="space-y-2">
-                        ${currentEntries.length === 0 ? `<div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No chart entries found for this date.</div>` : currentEntries.map(entry => {
+                        ${currentEntries.length === 0 ? `<div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No chart entries found for this date (${latestDate}).</div>` : currentEntries.map(entry => {
                             const song = db.songs.find(s => s.id === entry.songId) || { title: 'Unknown', artist: 'Unknown', cover: '' };
                             let lwVal = '-';
                             let peakVal = entry.rank;
@@ -130,27 +151,40 @@
                             const peakDisplay = (peakVal === 1 && bestPeakCount > 1) ? `1×${bestPeakCount}` : `${peakVal}`;
 
                             let hasPrevious = rankHistory.length > 1;
-                            let trendHTML = !hasPrevious ? '<span class="text-amber-400 text-[10px] font-black">NEW</span>' : '-';
+                            let trendHTML = !hasPrevious ? '<span class="text-amber-400 text-[10px] font-black uppercase tracking-wider">NEW</span>' : '-';
                             if (prevDate) {
                                 const prevMap = (historyObj[prevDate] || []).reduce((acc, cur) => { acc[cur.songId] = cur.rank; return acc; }, {});
                                 if (prevMap[entry.songId] !== undefined) {
                                     lwVal = prevMap[entry.songId];
                                     const diff = lwVal - entry.rank;
-                                    if (diff > 0) trendHTML = `<span class="text-emerald-500 text-[10px] font-bold"><i class="fa-solid fa-arrow-up"></i> ${diff}</span>`;
-                                    else if (diff < 0) trendHTML = `<span class="text-[#addedc] text-[10px] font-bold"><i class="fa-solid fa-arrow-down"></i> ${Math.abs(diff)}</span>`;
-                                    else trendHTML = '<span class="text-neutral-500">-</span>';
+                                    if (diff > 0) trendHTML = `<span class="text-emerald-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-up text-[9px]"></i> ${diff}</span>`;
+                                    else if (diff < 0) trendHTML = `<span class="text-[#addedc] text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-down text-[9px]"></i> ${Math.abs(diff)}</span>`;
+                                    else trendHTML = '<span class="text-neutral-500 font-bold">-</span>';
                                 }
                             }
 
                             return `
                                 <div class="chart-row">
-                                    <div class="rank-col"><span class="text-xl font-black text-white">${entry.rank}</span><span>${trendHTML}</span></div>
-                                    <div class="song-info-col min-w-0"><img src="${song.cover}" class="w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0"><div class="min-w-0"><h2 class="font-bold text-sm truncate text-white">${song.title}</h2><p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p></div></div>
-                                    <div class="text-center">${entry.salesIncrease ? `<span class="sales-star">★<span class="tooltip">Increased in sales</span></span>` : ''}</div>
+                                    <div class="rank-col">
+                                        <span class="text-xl font-black text-white block">${entry.rank}</span>
+                                        <span>${trendHTML}</span>
+                                    </div>
+                                    <div class="song-info-col min-w-0">
+                                        <img src="${song.cover}" class="w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0" onerror="this.src='https://placehold.co/100x100/222/fff?text=Song'">
+                                        <div class="min-w-0">
+                                            <h2 class="font-bold text-sm truncate text-white">${song.title}</h2>
+                                            <p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">${entry.salesIncrease ? `<span class="sales-star">★<span class="tooltip">Song increased in sales this week</span></span>` : ''}</div>
                                     <div class="text-center text-xs font-bold text-neutral-300">${lwVal}</div>
                                     <div class="text-center text-xs font-bold text-white">${peakDisplay}</div>
                                     <div class="text-center text-xs font-bold text-neutral-300">${weeksCount}</div>
-                                    <div class="text-center"><button onclick="openHistoryModal('${currentChart.id}', '${entry.songId}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 text-neutral-400 hover:text-white"><i class="fa-solid fa-info text-xs"></i></button></div>
+                                    <div class="text-right flex justify-center">
+                                        <button onclick="openHistoryModal('${currentChart.id}', '${entry.songId}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
+                                            <i class="fa-solid fa-info text-xs"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             `;
                         }).join('')}
@@ -184,9 +218,5 @@
             window.location.href = `charts.html?chart=${chartId}&date=${encodeURIComponent(closest)}`;
         }
     </script>
-    <footer class="bg-black border-t border-neutral-900 pt-16 pb-12 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-xs">Thank you for visiting :)</div>
-    </footer>
-    <script src="script.js"></script>
 </body>
 </html>

@@ -145,6 +145,17 @@
         const selectedDateParam = urlParams.get('date');
         const container = document.getElementById('charts-main');
 
+        function handleDropdownChange(type, value) {
+            if (type === 'main') {
+                const genreSelect = document.getElementById('genre-charts-select');
+                if (genreSelect) genreSelect.selectedIndex = 0;
+            } else {
+                const mainSelect = document.getElementById('main-charts-select');
+                if (mainSelect) mainSelect.selectedIndex = 0;
+            }
+            window.location.href = `charts.html?chart=${value}`;
+        }
+
         if (!chartId) {
             container.innerHTML = `
                 <div class="max-w-7xl mx-auto space-y-12 w-full">
@@ -203,11 +214,33 @@
                             <h1 class="text-xl md:text-2xl font-extrabold text-white tracking-tight">${currentChart.title}</h1>
                             <p class="text-xs text-neutral-400 mt-0.5">${dateRangeText}</p>
                         </div>
-                        <div class="flex gap-2.5">
-                            <select onchange="window.location.href='charts.html?chart='+this.value" class="bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2 rounded-xl cursor-pointer">
-                                <option value="" disabled selected>Select Chart</option>
-                                ${chartCategories.map(c => `<option value="${c.id}">${c.title}</option>`).join('')}
-                            </select>
+                        <div class="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto">
+                            <div class="relative w-full sm:w-44">
+                                <select id="main-charts-select" onchange="handleDropdownChange('main', this.value)" class="w-full bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2 rounded-xl focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
+                                    <option value="" disabled selected>Main Charts</option>
+                                    <option value="top-songs">Top Songs</option>
+                                    <option value="top-albums">Top Albums</option>
+                                    <option value="top-artists">Top Artists</option>
+                                    <option value="greatest-hits">Greatest Hits</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400">
+                                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
+                            <div class="relative w-full sm:w-48">
+                                <select id="genre-charts-select" onchange="handleDropdownChange('genre', this.value)" class="w-full bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2 rounded-xl focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
+                                    <option value="" disabled selected>Genre Charts</option>
+                                    <option value="top-afrobeats">Afrobeats Songs</option>
+                                    <option value="top-dance">Dance/Electronic Songs</option>
+                                    <option value="top-folk-country">Folk/Country Songs</option>
+                                    <option value="top-indie-rock">Indie/Rock Songs</option>
+                                    <option value="top-rap">Rap Songs</option>
+                                    <option value="top-rnb">Rnb/Funk Songs</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400">
+                                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

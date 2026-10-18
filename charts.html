@@ -240,7 +240,7 @@
                                     lwVal = prevMap[entry.songId];
                                     const diff = lwVal - entry.rank;
                                     if (diff > 0) trendHTML = `<span class="text-emerald-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-up text-[9px]"></i> ${diff}</span>`;
-                                    else if (diff < 0) trendHTML = `<span class="text-[#addedc] text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-down text-[9px]"></i> ${Math.abs(diff)}</span>`;
+                                    else if (diff < 0) trendHTML = `<span class="text-red-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-down text-[9px]"></i> ${Math.abs(diff)}</span>`;
                                     else trendHTML = '<span class="text-neutral-500 font-bold">-</span>';
                                 }
                             }

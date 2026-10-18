@@ -10,8 +10,14 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { font-family: 'Albert Sans', sans-serif; background-color: #000000; color: #ffffff; }
-        .chart-table-header { display: grid; grid-template-columns: 60px 1fr 50px 50px 60px 50px 50px; font-weight: 700; font-size: 12px; color: #a3a3a3; padding: 8px 16px; text-align: center; border-bottom: 1px solid #262626; }
-        .chart-row { background: #141414; border-radius: 10px; margin-bottom: 8px; display: grid; grid-template-columns: 60px 1fr 50px 50px 60px 50px 50px; align-items: center; padding: 10px 16px; border: 1px solid #262626; }
+        .chart-table-header { display: grid; grid-template-columns: 60px 1fr 50px 50px 60px 50px 50px; font-weight: 700; font-size: 12px; color: #a3a3a3; padding: 8px 16px; text-align: center; border-bottom: 1px solid #262626; position: sticky; top: 80px; background-color: #000; z-index: 40; }
+        .chart-row { background: #141414; border-radius: 10px; margin-bottom: 8px; display: grid; grid-template-columns: 60px 1fr 50px 50px 60px 50px 50px; align-items: center; padding: 10px 16px; border: 1px solid #262626; transition: border-color 0.2s; }
+        .chart-row:hover { border-color: #38bdf8; }
+        .rank-col { display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; }
+        .song-info-col { display: flex; align-items: center; gap: 14px; padding-left: 8px; }
+        .sales-star { font-size: 18px; color: #fbbf24; cursor: pointer; position: relative; text-align: center; }
+        .sales-star:hover .tooltip { visibility: visible; opacity: 1; }
+        .tooltip { visibility: hidden; width: 160px; background-color: #141414; color: #fff; text-align: center; border-radius: 6px; padding: 6px 8px; position: absolute; z-index: 10; bottom: 130%; left: 50%; margin-left: -80px; opacity: 0; transition: opacity 0.2s; font-size: 11px; border: 1px solid #262626; }
     </style>
 </head>
 <body class="min-h-full flex flex-col antialiased">
@@ -28,8 +34,9 @@
         </div>
     </header>
 
-    <main id="charts-main" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"></main>
+    <main id="charts-main" class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full"></main>
 
+    <!-- HISTORY MODAL -->
     <div id="history-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
         <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-2xl w-full p-6 space-y-4">
             <div class="flex justify-between items-center"><h3 id="history-modal-title" class="text-xl font-bold uppercase">Position History</h3><button onclick="closeHistoryModal()"><i class="fa-solid fa-xmark text-xl text-neutral-400"></i></button></div>
@@ -41,12 +48,13 @@
     <script>
         const db = getDB();
         const urlParams = new URLSearchParams(window.location.search);
-        const chartId = urlParams.get('chart') || 'top-songs';
+        const chartId = urlParams.get('chart');
+        const selectedDateParam = urlParams.get('date');
         const container = document.getElementById('charts-main');
 
-        if (!urlParams.get('chart')) {
+        if (!chartId) {
             container.innerHTML = `
-                <div class="space-y-12">
+                <div class="max-w-7xl mx-auto space-y-12">
                     <div class="text-center max-w-2xl mx-auto"><h1 class="text-4xl sm:text-5xl font-black uppercase">Charts</h1></div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         ${chartCategories.map(cat => `
@@ -62,28 +70,113 @@
             const currentChart = chartCategories.find(c => c.id === chartId) || chartCategories[0];
             const historyObj = db.chartHistory[currentChart.id] || {};
             const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
+            
             let latestDate = dates[dates.length - 1] || '18/09/2026';
-            const entries = historyObj[latestDate] || [];
+            if (selectedDateParam && historyObj[selectedDateParam]) latestDate = selectedDateParam;
+
+            const currentDatesIndex = dates.indexOf(latestDate);
+            const prevDate = currentDatesIndex > 0 ? dates[currentDatesIndex - 1] : null;
+            let currentEntries = historyObj[latestDate] || [];
+            currentEntries.sort((a, b) => a.rank - b.rank);
+
+            const [dStr, mStr, yStr] = latestDate.split('/');
+            const isoDateStr = `${yStr}-${mStr}-${dStr}`;
 
             container.innerHTML = `
-                <div class="max-w-4xl mx-auto space-y-6">
-                    <h1 class="text-2xl font-bold">${currentChart.title} (${latestDate})</h1>
+                <div class="space-y-6">
+                    <div class="flex justify-center">
+                        <div onclick="document.getElementById('native-date-picker').showPicker ? document.getElementById('native-date-picker').showPicker() : document.getElementById('native-date-picker').focus()" class="bg-neutral-900 border border-neutral-800 hover:border-neutral-600 cursor-pointer rounded-full px-5 py-2 w-52 justify-between flex items-center shadow-xl relative">
+                            <button type="button" onclick="event.stopPropagation(); navigateChartDate('${currentChart.id}', -1, '${latestDate}')" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                            <div class="flex items-center gap-2 text-sky-400 font-bold text-xs"><span>${latestDate}</span><i class="fa-regular fa-calendar text-xs"></i></div>
+                            <button type="button" onclick="event.stopPropagation(); navigateChartDate('${currentChart.id}', 1, '${latestDate}')" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                            <input type="date" id="native-date-picker" value="${isoDateStr}" onchange="handleDateInputPick('${currentChart.id}', this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-neutral-900/60 border border-neutral-800 p-5 rounded-2xl">
+                        <div><h1 class="text-2xl font-extrabold text-white">${currentChart.title}</h1></div>
+                        <div class="flex gap-2">
+                            <select onchange="window.location.href='charts.html?chart='+this.value" class="bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2 rounded-xl cursor-pointer">
+                                <option value="" disabled selected>Select Chart</option>
+                                ${chartCategories.map(c => `<option value="${c.id}">${c.title}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="chart-table-header"><div></div><div></div><div></div><div>LW</div><div>PEAK</div><div>WEEKS</div><div>INFO</div></div>
+
                     <div class="space-y-2">
-                        ${entries.map(entry => {
-                            const song = db.songs.find(s => s.id === entry.songId) || { title: 'Unknown', artist: 'Unknown' };
+                        ${currentEntries.length === 0 ? `<div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No chart entries found for this date.</div>` : currentEntries.map(entry => {
+                            const song = db.songs.find(s => s.id === entry.songId) || { title: 'Unknown', artist: 'Unknown', cover: '' };
+                            let lwVal = '-';
+                            let peakVal = entry.rank;
+                            let weeksCount = 0;
+                            let rankHistory = [];
+
+                            for (let i = 0; i <= currentDatesIndex && i < dates.length; i++) {
+                                const match = db.chartHistory[currentChart.id][dates[i]].find(e => e.songId === entry.songId);
+                                if (match) {
+                                    weeksCount++;
+                                    rankHistory.push(match.rank);
+                                    if (match.rank < peakVal) peakVal = match.rank;
+                                }
+                            }
+                            const bestPeakCount = rankHistory.filter(r => r === peakVal).length;
+                            const peakDisplay = (peakVal === 1 && bestPeakCount > 1) ? `1×${bestPeakCount}` : `${peakVal}`;
+
+                            let hasPrevious = rankHistory.length > 1;
+                            let trendHTML = !hasPrevious ? '<span class="text-amber-400 text-[10px] font-black">NEW</span>' : '-';
+                            if (prevDate) {
+                                const prevMap = (historyObj[prevDate] || []).reduce((acc, cur) => { acc[cur.songId] = cur.rank; return acc; }, {});
+                                if (prevMap[entry.songId] !== undefined) {
+                                    lwVal = prevMap[entry.songId];
+                                    const diff = lwVal - entry.rank;
+                                    if (diff > 0) trendHTML = `<span class="text-emerald-500 text-[10px] font-bold"><i class="fa-solid fa-arrow-up"></i> ${diff}</span>`;
+                                    else if (diff < 0) trendHTML = `<span class="text-[#addedc] text-[10px] font-bold"><i class="fa-solid fa-arrow-down"></i> ${Math.abs(diff)}</span>`;
+                                    else trendHTML = '<span class="text-neutral-500">-</span>';
+                                }
+                            }
+
                             return `
                                 <div class="chart-row">
-                                    <div class="text-center font-black text-xl">${entry.rank}</div>
-                                    <div class="flex items-center gap-3"><img src="${song.cover}" class="w-10 h-10 rounded-lg object-cover"><div><h2 class="font-bold text-sm">${song.title}</h2><p class="text-xs text-neutral-400">${formatArtists(song.artist)}</p></div></div>
-                                    <div></div><div class="text-center">-</div><div class="text-center">${entry.rank}</div><div class="text-center">1</div>
-                                    <div class="text-center"><button onclick="openHistoryModal('${currentChart.id}', '${entry.songId}', '${song.title}')" class="w-7 h-7 rounded-full bg-neutral-800 text-neutral-400"><i class="fa-solid fa-info text-xs"></i></button></div>
+                                    <div class="rank-col"><span class="text-xl font-black text-white">${entry.rank}</span><span>${trendHTML}</span></div>
+                                    <div class="song-info-col min-w-0"><img src="${song.cover}" class="w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0"><div class="min-w-0"><h2 class="font-bold text-sm truncate text-white">${song.title}</h2><p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p></div></div>
+                                    <div class="text-center">${entry.salesIncrease ? `<span class="sales-star">★<span class="tooltip">Increased in sales</span></span>` : ''}</div>
+                                    <div class="text-center text-xs font-bold text-neutral-300">${lwVal}</div>
+                                    <div class="text-center text-xs font-bold text-white">${peakDisplay}</div>
+                                    <div class="text-center text-xs font-bold text-neutral-300">${weeksCount}</div>
+                                    <div class="text-center"><button onclick="openHistoryModal('${currentChart.id}', '${entry.songId}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 text-neutral-400 hover:text-white"><i class="fa-solid fa-info text-xs"></i></button></div>
                                 </div>
                             `;
                         }).join('')}
                     </div>
                 </div>
             `;
+        }
+
+        function navigateChartDate(chartId, direction, currentDateStr) {
+            const historyObj = db.chartHistory[chartId] || {};
+            const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
+            let idx = dates.indexOf(currentDateStr);
+            if (idx + direction >= 0 && idx + direction < dates.length) {
+                window.location.href = `charts.html?chart=${chartId}&date=${encodeURIComponent(dates[idx + direction])}`;
+            }
+        }
+
+        function handleDateInputPick(chartId, isoDateValue) {
+            if (!isoDateValue) return;
+            const [y, m, d] = isoDateValue.split('-');
+            const clicked = new Date(y, m - 1, d);
+            const historyObj = db.chartHistory[chartId] || {};
+            const dates = Object.keys(historyObj);
+            if (dates.length === 0) return;
+            let closest = dates[0];
+            let minDiff = Math.abs(clicked - new Date(closest.split('/').reverse().join('-')));
+            dates.forEach(dt => {
+                const diff = Math.abs(clicked - new Date(dt.split('/').reverse().join('-')));
+                if (diff < minDiff) { minDiff = diff; closest = dt; }
+            });
+            window.location.href = `charts.html?chart=${chartId}&date=${encodeURIComponent(closest)}`;
         }
     </script>
 </body>

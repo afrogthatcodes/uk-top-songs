@@ -106,13 +106,12 @@
 </head>
 <body class="min-h-full flex flex-col antialiased">
     <header class="bg-black border-b border-neutral-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <a href="index.html" class="text-xl sm:text-2xl font-black tracking-widest uppercase hover:text-[#addedc]">UK TOP SONGS</a>
-            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wider uppercase">
-                <a href="index.html" class="text-neutral-300 hover:text-white">Home</a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <a href="index.html" class="text-xl sm:text-2xl font-black tracking-widest uppercase hover:text-[#addedc]">UK TOP SONGS</a>
+        <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wider uppercase">
                 <a href="charts.html" class="text-white">Charts</a>
-                <a href="news.html" class="text-neutral-300 hover:text-white">News</a>
-                <a href="about.html" class="text-neutral-300 hover:text-white">About Us</a>
+                <a href="news.html" class="text-neutral-300 hover:text-[#addedc]">News</a>
+                <a href="about.html" class="text-neutral-300 hover:text-[#addedc]">About Us</a>
             </nav>
         </div>
     </header>
@@ -198,7 +197,7 @@
             const dateRangeText = `${startDateObj.getDate()} ${monthsNames[startDateObj.getMonth()]} ${startDateObj.getFullYear()} – ${endDateObj.getDate()} ${monthsNames[endDateObj.getMonth()]} ${endDateObj.getFullYear()}`;
             const isoDateStr = `${yStr}-${mStr}-${dStr}`;
 
-            container.innerHTML = `
+            let tableHTML = `
                 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
                     <div class="flex justify-center">
                         <div onclick="document.getElementById('native-date-picker').showPicker ? document.getElementById('native-date-picker').showPicker() : document.getElementById('native-date-picker').focus()" class="bg-neutral-900 border border-neutral-800 hover:border-neutral-600 cursor-pointer rounded-full px-5 py-2 w-52 justify-between flex items-center shadow-xl relative">
@@ -318,8 +317,33 @@
                             `;
                         }).join('')}
                     </div>
-                </div>
             `;
+
+            const dropoutData = getChartDropouts(currentChart.id, latestDate);
+            if (dropoutData.dropouts.length > 0) {
+                tableHTML += `
+                    <div class="mt-8 bg-neutral-900/40 border border-neutral-800 p-6 rounded-2xl space-y-4">
+                        <h3 class="text-sm font-black uppercase text-neutral-400 tracking-wider">Fallen Out of Top ${currentChart.maxRank || 75} (Since ${dropoutData.prevDate})</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            ${dropoutData.dropouts.map(d => {
+                                const song = db.songs.find(s => s.id === d.songId) || { title: 'Unknown', artist: 'Unknown', cover: '' };
+                                return `
+                                    <div class="bg-neutral-900 border border-neutral-800/80 p-3 rounded-xl flex items-center gap-3">
+                                        <img src="${song.cover}" class="w-9 h-9 rounded-lg object-cover bg-neutral-800 shrink-0" onerror="this.src='https://placehold.co/100x100/222/fff?text=Song'">
+                                        <div class="min-w-0">
+                                            <h4 class="font-bold text-xs truncate text-white">${song.title}</h4>
+                                            <p class="truncate text-[11px] text-neutral-400">${formatArtists(song.artist)} <span class="text-neutral-500">(LW: #${d.rank})</span></p>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            tableHTML += `</div>`;
+            container.innerHTML = tableHTML;
         }
 
         function navigateChartDate(chartId, direction, currentDateStr) {

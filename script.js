@@ -1,4 +1,4 @@
-const ADMIN_PASSWORD = "admin"; // Change this password if needed
+const ADMIN_PASSWORD = "Pengi Pootle"; // Change this password if needed
 let isAdminLoggedIn = false;
 
 const chartCategories = [
@@ -231,6 +231,22 @@ window.addEventListener('keydown', (e) => {
         window.location.href = 'admin.html';
     }
 });
+
+function getChartDropouts(chartId, currentDateStr) {
+    const db = getDB();
+    const historyObj = db.chartHistory[chartId] || {};
+    const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
+    
+    const currentIndex = dates.indexOf(currentDateStr);
+    if (currentIndex <= 0) return { prevDate: null, dropouts: [] };
+
+    const prevDate = dates[currentIndex - 1];
+    const prevEntries = historyObj[prevDate] || [];
+    const currentSongIds = new Set((historyObj[currentDateStr] || []).map(e => e.songId));
+
+    const dropouts = prevEntries.filter(entry => !currentSongIds.has(entry.songId));
+    return { prevDate, dropouts };
+}
 
 function renderAdminNewsTab(dbInstance) {
     return `

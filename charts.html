@@ -106,12 +106,13 @@
 </head>
 <body class="min-h-full flex flex-col antialiased">
     <header class="bg-black border-b border-neutral-800 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        <a href="index.html" class="text-xl sm:text-2xl font-black tracking-widest uppercase hover:text-[#addedc]">UK TOP SONGS</a>
-        <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wider uppercase">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="text-xl sm:text-2xl font-black tracking-widest uppercase hover:text-[#addedc]">UK TOP SONGS</a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wider uppercase">
+                <a href="index.html" class="text-neutral-300 hover:text-white">Home</a>
                 <a href="charts.html" class="text-white">Charts</a>
-                <a href="news.html" class="text-neutral-300 hover:text-[#addedc]">News</a>
-                <a href="about.html" class="text-neutral-300 hover:text-[#addedc]">About Us</a>
+                <a href="news.html" class="text-neutral-300 hover:text-white">News</a>
+                <a href="about.html" class="text-neutral-300 hover:text-white">About Us</a>
             </nav>
         </div>
     </header>
@@ -264,9 +265,19 @@
                             const bestPeakCount = rankHistory.filter(r => r === peakVal).length;
                             const peakDisplay = (peakVal === 1 && bestPeakCount > 1) ? `1×${bestPeakCount}` : `${peakVal}`;
 
-                            let hasPrevious = rankHistory.length > 1;
-                            let trendHTML = !hasPrevious ? '<span class="text-amber-400 text-[10px] font-black uppercase tracking-wider">NEW</span>' : '-';
-                            if (prevDate) {
+                            let hasEverChartedBefore = false;
+                            for (let i = 0; i < currentDatesIndex; i++) {
+                                const pastMatch = db.chartHistory[currentChart.id][dates[i]].find(e => e.songId === entry.songId);
+                                if (pastMatch) {
+                                    hasEverChartedBefore = true;
+                                    break;
+                                }
+                            }
+
+                            let trendHTML = '';
+                            if (!hasEverChartedBefore) {
+                                trendHTML = '<span class="text-amber-400 text-[10px] font-black uppercase tracking-wider">NEW</span>';
+                            } else if (prevDate) {
                                 const prevMap = (historyObj[prevDate] || []).reduce((acc, cur) => { acc[cur.songId] = cur.rank; return acc; }, {});
                                 if (prevMap[entry.songId] !== undefined) {
                                     lwVal = prevMap[entry.songId];
@@ -274,7 +285,11 @@
                                     if (diff > 0) trendHTML = `<span class="text-emerald-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-up text-[9px]"></i> ${diff}</span>`;
                                     else if (diff < 0) trendHTML = `<span class="text-red-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-down text-[9px]"></i> ${Math.abs(diff)}</span>`;
                                     else trendHTML = '<span class="text-neutral-500 font-bold">-</span>';
+                                } else {
+                                    trendHTML = '<span class="text-purple-400 text-[10px] font-black uppercase tracking-wider">RE</span>';
                                 }
+                            } else {
+                                trendHTML = '<span class="text-purple-400 text-[10px] font-black uppercase tracking-wider">RE</span>';
                             }
 
                             return `

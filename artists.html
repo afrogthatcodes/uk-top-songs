@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK TOP SONGS - Artists</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Albert Sans', sans-serif; background-color: #000000; color: #ffffff; }</style>
+</head>
+<body class="min-h-full flex flex-col antialiased">
+    <header class="bg-black border-b border-neutral-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="text-xl sm:text-2xl font-black tracking-widest uppercase hover:text-[#addedc]">UK TOP SONGS</a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wider uppercase">
+                <a href="index.html" class="text-neutral-300 hover:text-white">Home</a>
+                <a href="charts.html" class="text-neutral-300 hover:text-white">Charts</a>
+                <a href="news.html" class="text-neutral-300 hover:text-white">News</a>
+                <a href="about.html" class="text-neutral-300 hover:text-white">About Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 w-full">
+        <div class="text-center max-w-2xl mx-auto space-y-4">
+            <h1 class="text-4xl sm:text-5xl font-black uppercase tracking-tight">Artists</h1>
+            <div class="relative">
+                <input type="text" id="artist-search" placeholder="Search artists..." oninput="filterArtists(this.value)" class="w-full bg-neutral-900 border border-neutral-800 focus:border-neutral-600 px-5 py-3 rounded-2xl text-sm text-white focus:outline-none">
+                <i class="fa-solid fa-magnifying-glass absolute right-5 top-1/2 -translate-y-1/2 text-neutral-500 text-sm"></i>
+            </div>
+        </div>
+        <div id="artists-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+    </main>
+
+    <footer class="bg-black border-t border-neutral-900 pt-16 pb-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-xs">Thank you for visiting :)</div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        const db = getDB();
+        
+        // Extract unique artists from song entries
+        function getAllArtists() {
+            const artistSet = new Set();
+            db.songs.forEach(song => {
+                if (!song.artist) return;
+                const cleaned = song.artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',');
+                cleaned.split(/,|\&/).forEach(a => {
+                    const trimmed = a.trim();
+                    if (trimmed) artistSet.add(trimmed);
+                });
+            });
+            return Array.from(artistSet).sort((a, b) => a.localeCompare(b));
+        }
+
+        let artistsList = getAllArtists();
+
+        function renderArtists(list) {
+            const grid = document.getElementById('artists-grid');
+            if (list.length === 0) {
+                grid.innerHTML = `<div class="col-span-full bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No artists found.</div>`;
+                return;
+            }
+            grid.innerHTML = list.map(artist => `
+                <a href="artist.html?name=${encodeURIComponent(artist)}" class="bg-neutral-900 border border-neutral-800 hover:border-neutral-600 p-6 rounded-2xl flex items-center justify-between transition-all group">
+                    <span class="font-bold text-base text-white group-hover:text-[#addedc] transition-colors">${artist}</span>
+                    <i class="fa-solid fa-arrow-right text-neutral-600 group-hover:text-[#addedc] group-hover:translate-x-1 transition-all"></i>
+                </a>
+            `).join('');
+        }
+
+        function filterArtists(query) {
+            const q = query.trim().toLowerCase();
+            const filtered = artistsList.filter(a => a.toLowerCase().includes(q));
+            renderArtists(filtered);
+        }
+
+        renderArtists(artistsList);
+    </script>
+</body>
+</html>

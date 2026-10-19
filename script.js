@@ -17,11 +17,11 @@ const chartCategories = [
 const defaultData = {
     genres: ['Afrobeats', 'Dance/Electronic', 'Folk/Country', 'Indie/Rock', 'Pop', 'Rap', 'Rnb/Funk'],
     songs: [
-        { id: '1', code: 'REIN-01', title: 'Rein Me In', artist: 'Sam Fender & Olivia Dean', genres: ['Indie/Rock'], cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=100&auto=format&fit=crop&q=80' },
-        { id: '2', code: 'MAN-02', title: 'Man I Need', artist: 'Olivia Dean', genres: ['Rnb/Funk'], cover: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100&auto=format&fit=crop&q=80' },
-        { id: '3', code: 'GREAT-03', title: 'Great Expectation', artist: 'SIENNA SPIRO', genres: ['Pop'], cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&auto=format&fit=crop&q=80' },
-        { id: '4', code: 'CHOOS-04', title: "Choosin' Texas", artist: 'Ella Langley', genres: ['Folk/Country'], cover: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=100&auto=format&fit=crop&q=80' },
-        { id: '5', code: 'STUP-05', title: 'stupid song', artist: 'Olivia Rodrigo', genres: ['Pop'], cover: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=100&auto=format&fit=crop&q=80' }
+        { id: '1', code: 'REIN-01', title: 'Rein Me In', artist: 'Sam Fender & Olivia Dean', genres: ['Indie/Rock'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
+        { id: '2', code: 'MAN-02', title: 'Man I Need', artist: 'Olivia Dean', genres: ['Rnb/Funk'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
+        { id: '3', code: 'GREAT-03', title: 'Great Expectation', artist: 'SIENNA SPIRO', genres: ['Pop'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
+        { id: '4', code: 'CHOOS-04', title: "Choosin' Texas", artist: 'Ella Langley', genres: ['Folk/Country'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
+        { id: '5', code: 'STUP-05', title: 'stupid song', artist: 'Olivia Rodrigo', genres: ['Pop'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' }
     ],
     chartHistory: {
         'top-songs': {

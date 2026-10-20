@@ -48,6 +48,7 @@
     <script>
         const fallbackCoverSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23addedc'/></svg>";
         const db = getDB();
+        let currentActiveTab = 'songs';
 
         function checkAuthAndInit() {
             if (isAdminLoggedIn || sessionStorage.getItem('ukts_admin_auth') === 'true') {
@@ -96,32 +97,52 @@
                         <button onclick="switchAdminTab('upload')" id="tab-btn-upload" class="admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-neutral-900 text-neutral-400 hover:text-white">Upload CSV</button>
                     </div>
 
-                    <div id="admin-tab-content">${renderAdminSongsTab(db)}</div>
+                    <div id="admin-tab-content">${renderAdminSongsTab(db, '')}</div>
                 </div>
             `;
         }
 
-        function switchAdminTab(tab) {
+        function switchAdminTab(tab, query = '') {
+            currentActiveTab = tab;
             const currentDb = getDB();
             document.querySelectorAll('.admin-tab-btn').forEach(btn => {
                 btn.className = 'admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-neutral-900 text-neutral-400 hover:text-white';
             });
-            document.getElementById(`tab-btn-${tab}`).className = 'admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-[#addedc] text-black';
+            const activeBtn = document.getElementById(`tab-btn-${tab}`);
+            if (activeBtn) activeBtn.className = 'admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-[#addedc] text-black';
 
             const container = document.getElementById('admin-tab-content');
-            if (tab === 'songs') container.innerHTML = renderAdminSongsTab(currentDb);
-            if (tab === 'artists') container.innerHTML = renderAdminArtistsTab(currentDb);
-            if (tab === 'charts') container.innerHTML = renderAdminChartsTab(currentDb);
-            if (tab === 'news') container.innerHTML = renderAdminNewsTab(currentDb);
+            if (tab === 'songs') container.innerHTML = renderAdminSongsTab(currentDb, query);
+            if (tab === 'artists') container.innerHTML = renderAdminArtistsTab(currentDb, query);
+            if (tab === 'charts') container.innerHTML = renderAdminChartsTab(currentDb, query);
+            if (tab === 'news') container.innerHTML = renderAdminNewsTab(currentDb, query);
             if (tab === 'upload') container.innerHTML = renderAdminUploadTab();
         }
 
-        function renderAdminSongsTab(dbInstance) {
+        function filterCurrentTab(query) {
+            switchAdminTab(currentActiveTab, query);
+        }
+
+        // --- SONGS TAB ---
+        function renderAdminSongsTab(dbInstance, query = '') {
+            const q = query.trim().toLowerCase();
+            const filteredSongs = dbInstance.songs.filter(s => 
+                s.title.toLowerCase().includes(q) || 
+                s.artist.toLowerCase().includes(q) || 
+                s.code.toLowerCase().includes(q)
+            );
+
             return `
                 <div class="space-y-6">
-                    <div class="flex justify-between items-center">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <h3 class="text-xl font-bold uppercase">Master Songs Catalog</h3>
-                        <button onclick="openSongModal()" class="bg-[#addedc] text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase flex items-center gap-2"><i class="fa-solid fa-plus"></i> Add New Song</button>
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="relative flex-grow sm:w-64">
+                                <input type="text" id="admin-search-input" value="${query}" placeholder="Search songs..." oninput="filterCurrentTab(this.value)" class="w-full bg-neutral-900 border border-neutral-800 px-4 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-neutral-600">
+                                <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
+                            </div>
+                            <button onclick="openSongModal()" class="bg-[#addedc] text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase flex items-center gap-2 shrink-0"><i class="fa-solid fa-plus"></i> Add New Song</button>
+                        </div>
                     </div>
                     <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
                         <table class="w-full text-left border-collapse">
@@ -132,7 +153,7 @@
                                 <th class="p-4">Genres</th>
                                 <th class="p-4 text-right">Actions</th>
                             </tr>
-                            ${dbInstance.songs.map(song => {
+                            ${filteredSongs.map(song => {
                                 const coverImg = song.cover || fallbackCoverSVG;
                                 return `
                                     <tr class="border-b border-neutral-800/50 text-sm">
@@ -168,8 +189,6 @@
                     nextNum = tsNumbers.length > 0 ? Math.max(...tsNumbers) + 1 : currentDb.songs.length + 1;
                 }
                 song.code = `TS-${nextNum}`;
-                
-                // Set default cover based on artist image if available
                 if (currentDb.artists && currentDb.artists[song.artist]) {
                     song.cover = currentDb.artists[song.artist];
                 }
@@ -264,7 +283,7 @@
             }
             saveDB(currentDb);
             closeSongModal();
-            initAdminPage();
+            switchAdminTab('songs');
         }
 
         function deleteSong(songId) {
@@ -273,11 +292,11 @@
             currentDb.songs = currentDb.songs.filter(s => s.id !== songId);
             saveDB(currentDb);
             showToast('Song deleted.');
-            initAdminPage();
+            switchAdminTab('songs');
         }
 
         // --- ARTISTS TAB ---
-        function renderAdminArtistsTab(currentDb) {
+        function renderAdminArtistsTab(currentDb, query = '') {
             const artistSet = new Set();
             currentDb.songs.forEach(song => {
                 if (!song.artist) return;
@@ -287,12 +306,19 @@
                     if (trimmed) artistSet.add(trimmed);
                 });
             });
-            const artistsList = Array.from(artistSet).sort((a, b) => a.localeCompare(b));
+            const q = query.trim().toLowerCase();
+            const artistsList = Array.from(artistSet).filter(a => a.toLowerCase().includes(q)).sort((a, b) => a.localeCompare(b));
             if (!currentDb.artists) currentDb.artists = {};
 
             return `
                 <div class="space-y-6">
-                    <h3 class="text-xl font-bold uppercase">Artists Management</h3>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <h3 class="text-xl font-bold uppercase">Artists Management</h3>
+                        <div class="relative w-full sm:w-64">
+                            <input type="text" id="admin-search-input" value="${query}" placeholder="Search artists..." oninput="filterCurrentTab(this.value)" class="w-full bg-neutral-900 border border-neutral-800 px-4 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-neutral-600">
+                            <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
+                        </div>
+                    </div>
                     <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
                         <table class="w-full text-left border-collapse">
                             <tr class="border-b border-neutral-800 text-neutral-400 text-xs uppercase font-bold bg-neutral-900/50">
@@ -354,40 +380,51 @@
             saveDB(currentDb);
             showToast('Artist updated!');
             closeArtistModal();
-            initAdminPage();
+            switchAdminTab('artists');
         }
 
         // --- CHARTS HISTORY TAB ---
-        function renderAdminChartsTab(currentDb) {
+        function renderAdminChartsTab(currentDb, query = '') {
             let allChartWeeks = [];
             Object.keys(currentDb.chartHistory).forEach(catId => {
                 Object.keys(currentDb.chartHistory[catId]).forEach(dateStr => {
-                    allChartWeeks.push({ catId, dateStr, count: currentDb.chartHistory[catId][dateStr].length });
+                    const catObj = chartCategories.find(c => c.id === catId) || { title: catId };
+                    allChartWeeks.push({ catId, title: catObj.title, dateStr, count: currentDb.chartHistory[catId][dateStr].length });
                 });
             });
 
+            const q = query.trim().toLowerCase();
+            const filteredWeeks = allChartWeeks.filter(item => 
+                item.title.toLowerCase().includes(q) || 
+                item.dateStr.toLowerCase().includes(q) ||
+                item.catId.toLowerCase().includes(q)
+            );
+
             return `
                 <div class="space-y-6">
-                    <h3 class="text-xl font-bold uppercase">Manage Chart History</h3>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <h3 class="text-xl font-bold uppercase">Manage Chart History</h3>
+                        <div class="relative w-full sm:w-64">
+                            <input type="text" id="admin-search-input" value="${query}" placeholder="Search chart dates..." oninput="filterCurrentTab(this.value)" class="w-full bg-neutral-900 border border-neutral-800 px-4 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-neutral-600">
+                            <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
+                        </div>
+                    </div>
                     <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
                         <table class="w-full text-left border-collapse">
                             <tr class="border-b border-neutral-800 text-neutral-400 text-xs uppercase font-bold bg-neutral-900/50">
                                 <th class="p-4">Chart Category</th><th class="p-4">Date</th><th class="p-4">Entries</th><th class="p-4 text-right">Actions</th>
                             </tr>
-                            ${allChartWeeks.map(item => {
-                                const catObj = chartCategories.find(c => c.id === item.catId) || { title: item.catId };
-                                return `
-                                    <tr class="border-b border-neutral-800/50 text-sm">
-                                        <td class="p-4 font-bold text-white">${catObj.title}</td>
-                                        <td class="p-4 text-neutral-300 font-mono text-xs">${item.dateStr}</td>
-                                        <td class="p-4 text-neutral-400">${item.count} songs</td>
-                                        <td class="p-4 text-right space-x-2">
-                                            <button onclick="openEditChartWeekModal('${item.catId}', '${item.dateStr}')" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-pen"></i> Edit Entries</button>
-                                            <button onclick="deleteChartWeek('${item.catId}', '${item.dateStr}')" class="bg-red-950 hover:bg-red-900 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                `;
-                            }).join('')}
+                            ${filteredWeeks.map(item => `
+                                <tr class="border-b border-neutral-800/50 text-sm">
+                                    <td class="p-4 font-bold text-white">${item.title}</td>
+                                    <td class="p-4 text-neutral-300 font-mono text-xs">${item.dateStr}</td>
+                                    <td class="p-4 text-neutral-400">${item.count} songs</td>
+                                    <td class="p-4 text-right space-x-2">
+                                        <button onclick="openEditChartWeekModal('${item.catId}', '${item.dateStr}')" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-pen"></i> Edit Entries</button>
+                                        <button onclick="deleteChartWeek('${item.catId}', '${item.dateStr}')" class="bg-red-950 hover:bg-red-900 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            `).join('')}
                         </table>
                     </div>
                 </div>
@@ -465,7 +502,7 @@
             saveDB(currentDb);
             showToast('Chart entries updated!');
             closeChartWeekModal();
-            initAdminPage();
+            switchAdminTab('charts');
         }
 
         function deleteChartWeek(catId, dateStr) {
@@ -474,16 +511,30 @@
             if (currentDb.chartHistory[catId]) delete currentDb.chartHistory[catId][dateStr];
             saveDB(currentDb);
             showToast('Chart week deleted.');
-            initAdminPage();
+            switchAdminTab('charts');
         }
 
         // --- NEWS TAB ---
-        function renderAdminNewsTab(dbInstance) {
+        function renderAdminNewsTab(dbInstance, query = '') {
+            const q = query.trim().toLowerCase();
+            const filteredNews = (dbInstance.news || []).filter(item => 
+                item.title.toLowerCase().includes(q) || 
+                item.content.toLowerCase().includes(q) || 
+                item.category.toLowerCase().includes(q) ||
+                item.date.toLowerCase().includes(q)
+            );
+
             return `
                 <div class="space-y-6">
-                    <div class="flex justify-between items-center">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <h3 class="text-xl font-bold uppercase">News Articles</h3>
-                        <button onclick="openNewsModal()" class="bg-[#addedc] text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase flex items-center gap-2"><i class="fa-solid fa-plus"></i> Add Article</button>
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="relative flex-grow sm:w-64">
+                                <input type="text" id="admin-search-input" value="${query}" placeholder="Search news..." oninput="filterCurrentTab(this.value)" class="w-full bg-neutral-900 border border-neutral-800 px-4 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-neutral-600">
+                                <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
+                            </div>
+                            <button onclick="openNewsModal()" class="bg-[#addedc] text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase flex items-center gap-2 shrink-0"><i class="fa-solid fa-plus"></i> Add Article</button>
+                        </div>
                     </div>
                     <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
                         <table class="w-full text-left border-collapse">
@@ -492,7 +543,7 @@
                                 <th class="p-4">Title & Content</th>
                                 <th class="p-4 text-right">Actions</th>
                             </tr>
-                            ${(dbInstance.news || []).map(item => `
+                            ${filteredNews.map(item => `
                                 <tr class="border-b border-neutral-800/50 text-sm">
                                     <td class="p-4 font-mono text-neutral-400 text-xs">${item.date}</td>
                                     <td class="p-4 font-bold">${item.title} <span class="block text-xs font-normal text-neutral-400 truncate max-w-md">${item.content}</span></td>

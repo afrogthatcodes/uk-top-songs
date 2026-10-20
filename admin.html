@@ -257,4 +257,33 @@
             const currentSongGenres = song ? getSongGenres(song) : [];
             container.innerHTML = currentDb.genres.map(genre => `
                 <label style="display: flex; align-items: center; gap: 8px; color: #fff; cursor: pointer; font-size: 12px;">
-                    <input type="checkbox" name="songGenres" value="${genre}" ${currentSongGenres.includes(genre) ? 'checked' : ''} style="
+                    <input type="checkbox" name="songGenres" value="${genre}" ${currentSongGenres.includes(genre) ? 'checked' : ''}>
+                    ${genre}
+                </label>
+            `).join('');
+        }
+
+        function addNewGenre() {
+            const input = document.getElementById('newGenreInput');
+            if (!input) return;
+            const val = input.value.trim();
+            if (!val) return;
+            const currentDb = getDB();
+            if (!currentDb.genres.includes(val)) {
+                currentDb.genres.push(val);
+                saveDB(currentDb);
+                renderGenreCheckboxes();
+                input.value = '';
+            }
+        }
+
+        function closeSongModal() {
+            document.getElementById('admin-modal-container').innerHTML = '';
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            checkAuthAndInit();
+        });
+    </script>
+</body>
+</html>

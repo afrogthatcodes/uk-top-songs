@@ -120,10 +120,25 @@ function openHistoryModal(chartId, songId, songTitle) {
         new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-'))
     );
     
+    let firstIdx = -1;
+    let lastIdx = -1;
+
+    allDates.forEach((dateStr, idx) => {
+        const entries = historyObj[dateStr] || [];
+        if (entries.some(e => e.songId === songId)) {
+            if (firstIdx === -1) firstIdx = idx;
+            lastIdx = idx;
+        }
+    });
+
+    if (firstIdx === -1) return;
+
+    const relevantDates = allDates.slice(firstIdx, lastIdx + 1);
+    
     const chartLabels = [];
     const chartRanks = [];
 
-    allDates.forEach(dateStr => {
+    relevantDates.forEach(dateStr => {
         const entries = historyObj[dateStr] || [];
         const match = entries.find(e => e.songId === songId);
         

@@ -211,7 +211,7 @@
             const isoDateStr = `${yStr}-${mStr}-${dStr}`;
 
             let tableHTML = `
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
                     <div class="flex justify-center">
                         <div onclick="document.getElementById('native-date-picker').showPicker ? document.getElementById('native-date-picker').showPicker() : document.getElementById('native-date-picker').focus()" class="bg-neutral-900 border border-neutral-800 hover:border-neutral-600 cursor-pointer rounded-full px-5 py-2 w-52 justify-between flex items-center shadow-xl relative">
                             <button type="button" onclick="event.stopPropagation(); navigateChartDate('${currentChart.id}', -1, '${latestDate}')" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-chevron-left text-xs"></i></button>
@@ -256,98 +256,86 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-                        <!-- Main Chart Column -->
-                        <div class="lg:col-span-2 space-y-2">
-                            <div class="chart-table-header"><div></div><div></div><div></div><div>LW</div><div>PEAK</div><div>WEEKS</div><div>INFO</div></div>
-                            ${currentEntries.length === 0 ? `<div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No chart entries found for this date (${latestDate}).</div>` : currentEntries.map(entry => {
-                                const song = db.songs.find(s => s.id === entry.songId) || { title: 'Unknown', artist: 'Unknown', cover: '' };
-                                let lwVal = '-';
-                                let peakVal = entry.rank;
-                                let weeksCount = 0;
-                                let rankHistory = [];
+                    <div class="chart-table-header"><div></div><div></div><div></div><div>LW</div><div>PEAK</div><div>WEEKS</div><div>INFO</div></div>
 
-                                for (let i = 0; i <= currentDatesIndex && i < dates.length; i++) {
-                                    const match = db.chartHistory[currentChart.id][dates[i]].find(e => e.songId === entry.songId);
-                                    if (match) {
-                                        weeksCount++;
-                                        rankHistory.push(match.rank);
-                                        if (match.rank < peakVal) peakVal = match.rank;
-                                    }
+                    <div class="space-y-2">
+                        ${currentEntries.length === 0 ? `<div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No chart entries found for this date (${latestDate}).</div>` : currentEntries.map(entry => {
+                            const song = db.songs.find(s => s.id === entry.songId) || { title: 'Unknown', artist: 'Unknown', cover: '' };
+                            let lwVal = '-';
+                            let peakVal = entry.rank;
+                            let weeksCount = 0;
+                            let rankHistory = [];
+
+                            for (let i = 0; i <= currentDatesIndex && i < dates.length; i++) {
+                                const match = db.chartHistory[currentChart.id][dates[i]].find(e => e.songId === entry.songId);
+                                if (match) {
+                                    weeksCount++;
+                                    rankHistory.push(match.rank);
+                                    if (match.rank < peakVal) peakVal = match.rank;
                                 }
-                                const bestPeakCount = rankHistory.filter(r => r === peakVal).length;
-                                const peakDisplay = (peakVal === 1) ? `1×${bestPeakCount}` : `${peakVal}`;
+                            }
+                            const bestPeakCount = rankHistory.filter(r => r === peakVal).length;
+                            const peakDisplay = (peakVal === 1) ? `1×${bestPeakCount}` : `${peakVal}`;
 
-                                let hasEverChartedBefore = false;
-                                for (let i = 0; i < currentDatesIndex; i++) {
-                                    const pastMatch = db.chartHistory[currentChart.id][dates[i]].find(e => e.songId === entry.songId);
-                                    if (pastMatch) {
-                                        hasEverChartedBefore = true;
-                                        break;
-                                    }
+                            let hasEverChartedBefore = false;
+                            for (let i = 0; i < currentDatesIndex; i++) {
+                                const pastMatch = db.chartHistory[currentChart.id][dates[i]].find(e => e.songId === entry.songId);
+                                if (pastMatch) {
+                                    hasEverChartedBefore = true;
+                                    break;
                                 }
+                            }
 
-                                let trendHTML = '';
-                                if (!hasEverChartedBefore) {
-                                    trendHTML = '<span class="text-amber-400 text-[10px] font-black uppercase tracking-wider">NEW</span>';
-                                } else if (prevDate) {
-                                    const prevMap = (historyObj[prevDate] || []).reduce((acc, cur) => { acc[cur.songId] = cur.rank; return acc; }, {});
-                                    if (prevMap[entry.songId] !== undefined) {
-                                        lwVal = prevMap[entry.songId];
-                                        const diff = lwVal - entry.rank;
-                                        if (diff > 0) trendHTML = `<span class="text-emerald-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-up text-[9px]"></i> ${diff}</span>`;
-                                        else if (diff < 0) trendHTML = `<span class="text-red-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-down text-[9px]"></i> ${Math.abs(diff)}</span>`;
-                                        else trendHTML = '<span class="text-neutral-500 font-bold">-</span>';
-                                    } else {
-                                        trendHTML = '<span class="text-purple-400 text-[10px] font-black uppercase tracking-wider">RE</span>';
-                                    }
+                            let trendHTML = '';
+                            if (!hasEverChartedBefore) {
+                                trendHTML = '<span class="text-amber-400 text-[10px] font-black uppercase tracking-wider">NEW</span>';
+                            } else if (prevDate) {
+                                const prevMap = (historyObj[prevDate] || []).reduce((acc, cur) => { acc[cur.songId] = cur.rank; return acc; }, {});
+                                if (prevMap[entry.songId] !== undefined) {
+                                    lwVal = prevMap[entry.songId];
+                                    const diff = lwVal - entry.rank;
+                                    if (diff > 0) trendHTML = `<span class="text-emerald-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-up text-[9px]"></i> ${diff}</span>`;
+                                    else if (diff < 0) trendHTML = `<span class="text-red-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-down text-[9px]"></i> ${Math.abs(diff)}</span>`;
+                                    else trendHTML = '<span class="text-neutral-500 font-bold">-</span>';
                                 } else {
                                     trendHTML = '<span class="text-purple-400 text-[10px] font-black uppercase tracking-wider">RE</span>';
                                 }
+                            } else {
+                                trendHTML = '<span class="text-purple-400 text-[10px] font-black uppercase tracking-wider">RE</span>';
+                            }
 
-                                return `
-                                    <div class="chart-row">
-                                        <div class="rank-col">
-                                            <span class="text-xl font-black text-white block">${entry.rank}</span>
-                                            <span>${trendHTML}</span>
-                                        </div>
-                                        <div class="song-info-col min-w-0">
-                                            <img src="${song.cover}" class="w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0" onerror="this.src='https://placehold.co/100x100/222/fff?text=Song'">
-                                            <div class="min-w-0">
-                                                <h2 class="font-bold text-sm truncate text-white">${song.title}</h2>
-                                                <p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-center">${entry.salesIncrease ? `<span class="sales-star">★<span class="tooltip">Song increased in sales this week</span></span>` : ''}</div>
-                                        <div class="text-center text-xs font-bold text-neutral-300">${lwVal}</div>
-                                        <div class="text-center text-xs font-bold text-white">${peakDisplay}</div>
-                                        <div class="text-center text-xs font-bold text-neutral-300">${weeksCount}</div>
-                                        <div class="text-right flex justify-center">
-                                            <button onclick="openHistoryModal('${currentChart.id}', '${entry.songId}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
-                                                <i class="fa-solid fa-info text-xs"></i>
-                                            </button>
+                            return `
+                                <div class="chart-row">
+                                    <div class="rank-col">
+                                        <span class="text-xl font-black text-white block">${entry.rank}</span>
+                                        <span>${trendHTML}</span>
+                                    </div>
+                                    <div class="song-info-col min-w-0">
+                                        <img src="${song.cover}" class="w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0" onerror="this.src='https://placehold.co/100x100/222/fff?text=Song'">
+                                        <div class="min-w-0">
+                                            <h2 class="font-bold text-sm truncate text-white">${song.title}</h2>
+                                            <p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p>
                                         </div>
                                     </div>
-                                `;
-                            }).join('')}
-                        </div>
-
-                        <!-- Right Sidebar: Chart Highlights -->
-                        <div class="lg:col-span-1 space-y-6 sticky top-28">
-                            <div class="bg-neutral-900 border border-neutral-800 rounded-3xl p-6 shadow-2xl">
-                                <h3 class="text-lg font-black uppercase tracking-wider text-white mb-6">This Week's Chart Highlights</h3>
-                                <div id="chart-highlights-container" class="space-y-5">
-                                    <!-- Dynamic highlights injected here -->
+                                    <div class="text-center">${entry.salesIncrease ? `<span class="sales-star">★<span class="tooltip">Song increased in sales this week</span></span>` : ''}</div>
+                                    <div class="text-center text-xs font-bold text-neutral-300">${lwVal}</div>
+                                    <div class="text-center text-xs font-bold text-white">${peakDisplay}</div>
+                                    <div class="text-center text-xs font-bold text-neutral-300">${weeksCount}</div>
+                                    <div class="text-right flex justify-center">
+                                        <button onclick="openHistoryModal('${currentChart.id}', '${entry.songId}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
+                                            <i class="fa-solid fa-info text-xs"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            `;
+                        }).join('')}
                     </div>
             `;
 
             const dropoutData = getChartDropouts(currentChart.id, latestDate);
             if (dropoutData.dropouts.length > 0) {
                 tableHTML += `
-                    <div class="mt-12 space-y-4 max-w-4xl mx-auto">
+                    <div class="mt-12 space-y-4">
                         <h2 class="text-2xl font-black uppercase tracking-tight text-white text-center">Dropouts</h2>
                         <div class="space-y-2">
                             ${dropoutData.dropouts.map(d => {
@@ -397,9 +385,6 @@
 
             tableHTML += `</div>`;
             container.innerHTML = tableHTML;
-            if (typeof renderChartHighlightsPanel === 'function') {
-                renderChartHighlightsPanel(currentChart.id, latestDate, db);
-            }
         }
 
         function navigateChartDate(chartId, direction, currentDateStr) {

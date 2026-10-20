@@ -49,6 +49,7 @@
         const fallbackCoverSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23addedc'/></svg>";
         const db = getDB();
         let currentActiveTab = 'songs';
+        let currentSearchQuery = '';
 
         function checkAuthAndInit() {
             if (isAdminLoggedIn || sessionStorage.getItem('ukts_admin_auth') === 'true') {
@@ -97,14 +98,16 @@
                         <button onclick="switchAdminTab('upload')" id="tab-btn-upload" class="admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-neutral-900 text-neutral-400 hover:text-white">Upload CSV</button>
                     </div>
 
-                    <div id="admin-tab-content">${renderAdminSongsTab(db, '')}</div>
+                    <div id="admin-tab-content">${renderAdminSongsTab(db, currentSearchQuery)}</div>
                 </div>
             `;
         }
 
-        function switchAdminTab(tab, query = '') {
+        function switchAdminTab(tab, query = null) {
             currentActiveTab = tab;
+            if (query !== null) currentSearchQuery = query;
             const currentDb = getDB();
+
             document.querySelectorAll('.admin-tab-btn').forEach(btn => {
                 btn.className = 'admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-neutral-900 text-neutral-400 hover:text-white';
             });
@@ -112,15 +115,38 @@
             if (activeBtn) activeBtn.className = 'admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-[#addedc] text-black';
 
             const container = document.getElementById('admin-tab-content');
-            if (tab === 'songs') container.innerHTML = renderAdminSongsTab(currentDb, query);
-            if (tab === 'artists') container.innerHTML = renderAdminArtistsTab(currentDb, query);
-            if (tab === 'charts') container.innerHTML = renderAdminChartsTab(currentDb, query);
-            if (tab === 'news') container.innerHTML = renderAdminNewsTab(currentDb, query);
+            if (tab === 'songs') container.innerHTML = renderAdminSongsTab(currentDb, currentSearchQuery);
+            if (tab === 'artists') container.innerHTML = renderAdminArtistsTab(currentDb, currentSearchQuery);
+            if (tab === 'charts') container.innerHTML = renderAdminChartsTab(currentDb, currentSearchQuery);
+            if (tab === 'news') container.innerHTML = renderAdminNewsTab(currentDb, currentSearchQuery);
             if (tab === 'upload') container.innerHTML = renderAdminUploadTab();
+
+            const searchInput = document.getElementById('admin-search-input');
+            if (searchInput && currentSearchQuery) {
+                searchInput.focus();
+                searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+            }
         }
 
         function filterCurrentTab(query) {
-            switchAdminTab(currentActiveTab, query);
+            currentSearchQuery = query;
+            const currentDb = getDB();
+            
+            if (currentActiveTab === 'songs') {
+                document.getElementById('admin-tab-content').innerHTML = renderAdminSongsTab(currentDb, query);
+            } else if (currentActiveTab === 'artists') {
+                document.getElementById('admin-tab-content').innerHTML = renderAdminArtistsTab(currentDb, query);
+            } else if (currentActiveTab === 'charts') {
+                document.getElementById('admin-tab-content').innerHTML = renderAdminChartsTab(currentDb, query);
+            } else if (currentActiveTab === 'news') {
+                document.getElementById('admin-tab-content').innerHTML = renderAdminNewsTab(currentDb, query);
+            }
+
+            const searchInput = document.getElementById('admin-search-input');
+            if (searchInput) {
+                searchInput.focus();
+                searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+            }
         }
 
         // --- SONGS TAB ---
@@ -185,10 +211,14 @@
             } else {
                 let nextNum = 1;
                 if (currentDb.songs && currentDb.songs.length > 0) {
-                    const tsNumbers = currentDb.songs.map(s => s.code).filter(c => c && c.startsWith('TS-')).map(c => parseInt(c.replace('TS-', ''), 10)).filter(n => !isNaN(n));
-                    nextNum = tsNumbers.length > 0 ? Math.max(...tsNumbers) + 1 : currentDb.songs.length + 1;
+                    const sNumbers = currentDb.songs
+                        .map(s => s.code)
+                        .filter(c => c && c.toUpperCase().startsWith('S'))
+                        .map(c => parseInt(c.replace(/[^0-9]/g, ''), 10))
+                        .filter(n => !isNaN(n));
+                    nextNum = sNumbers.length > 0 ? Math.max(...sNumbers) + 1 : currentDb.songs.length + 1;
                 }
-                song.code = `TS-${nextNum}`;
+                song.code = `S${nextNum}`;
                 if (currentDb.artists && currentDb.artists[song.artist]) {
                     song.cover = currentDb.artists[song.artist];
                 }
@@ -672,7 +702,8 @@
                         if (currentDb.artists && currentDb.artists[artist]) {
                             songCover = currentDb.artists[artist];
                         }
-                        currentDb.songs.push({ id: songId, code: 'NEW-' + Math.floor(100 + Math.random() * 900), title, artist, genres: ['Pop'], cover: songCover });
+                        const nextCodeNum = currentDb.songs.length + 1;
+                        currentDb.songs.push({ id: songId, code: `S${nextCodeNum}`, title, artist, genres: ['Pop'], cover: songCover });
                     }
                     weekEntries.push({ songId, rank, salesIncrease });
                 });

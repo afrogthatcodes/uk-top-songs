@@ -275,7 +275,7 @@
                                 }
                             }
                             const bestPeakCount = rankHistory.filter(r => r === peakVal).length;
-                            const peakDisplay = (peakVal === 1 && bestPeakCount > 1) ? `1×${bestPeakCount}` : `${peakVal}`;
+                            const peakDisplay = (peakVal === 1) ? `1×${bestPeakCount}` : `${peakVal}`;
 
                             let hasEverChartedBefore = false;
                             for (let i = 0; i < currentDatesIndex; i++) {

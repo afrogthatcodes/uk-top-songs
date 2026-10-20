@@ -11,9 +11,9 @@
 </head>
 <body class="min-h-full flex flex-col antialiased">
     <header class="bg-black border-b border-neutral-800 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        <a href="index.html" class="text-xl sm:text-2xl font-black tracking-widest uppercase hover:text-[#addedc]">UK TOP SONGS</a>
-        <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wider uppercase">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="text-xl sm:text-2xl font-black tracking-widest uppercase hover:text-[#addedc]">UK TOP SONGS</a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wider uppercase">
                 <a href="charts.html" class="text-neutral-300 hover:text-[#addedc]">Charts</a>
                 <a href="artists.html" class="text-neutral-300 hover:text-[#addedc]">Artists</a>
                 <a href="news.html" class="text-neutral-300 hover:text-[#addedc]">News</a>
@@ -47,11 +47,11 @@
     <script src="script.js"></script>
     <script>
         const fallbackCoverSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23addedc'/></svg>";
-        const db = getDB();
         let currentActiveTab = 'songs';
         let currentSearchQuery = '';
 
         function checkAuthAndInit() {
+            const db = getDB();
             if (isAdminLoggedIn || sessionStorage.getItem('ukts_admin_auth') === 'true') {
                 isAdminLoggedIn = true;
                 closeAdminLoginModal();
@@ -59,10 +59,6 @@
             } else {
                 promptAdminLogin();
             }
-        }
-
-        function initAdminPage() {
-            renderAdminPage(document.getElementById('admin-main'), db);
         }
 
         function handleAdminLoginCustom(e) {
@@ -73,6 +69,7 @@
                 sessionStorage.setItem('ukts_admin_auth', 'true');
                 closeAdminLoginModal();
                 showToast('Welcome, Admin!');
+                const db = getDB();
                 renderAdminPage(document.getElementById('admin-main'), db);
             } else {
                 document.getElementById('admin-login-error').classList.remove('hidden');
@@ -120,33 +117,11 @@
             if (tab === 'charts') container.innerHTML = renderAdminChartsTab(currentDb, currentSearchQuery);
             if (tab === 'news') container.innerHTML = renderAdminNewsTab(currentDb, currentSearchQuery);
             if (tab === 'upload') container.innerHTML = renderAdminUploadTab();
-
-            const searchInput = document.getElementById('admin-search-input');
-            if (searchInput && currentSearchQuery) {
-                searchInput.focus();
-                searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
-            }
         }
 
         function filterCurrentTab(query) {
             currentSearchQuery = query;
-            const currentDb = getDB();
-            
-            if (currentActiveTab === 'songs') {
-                document.getElementById('admin-tab-content').innerHTML = renderAdminSongsTab(currentDb, query);
-            } else if (currentActiveTab === 'artists') {
-                document.getElementById('admin-tab-content').innerHTML = renderAdminArtistsTab(currentDb, query);
-            } else if (currentActiveTab === 'charts') {
-                document.getElementById('admin-tab-content').innerHTML = renderAdminChartsTab(currentDb, query);
-            } else if (currentActiveTab === 'news') {
-                document.getElementById('admin-tab-content').innerHTML = renderAdminNewsTab(currentDb, query);
-            }
-
-            const searchInput = document.getElementById('admin-search-input');
-            if (searchInput) {
-                searchInput.focus();
-                searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
-            }
+            switchAdminTab(currentActiveTab, query);
         }
 
         // --- SONGS TAB ---
@@ -163,11 +138,8 @@
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <h3 class="text-xl font-bold uppercase">Master Songs Catalog</h3>
                         <div class="flex items-center gap-3 w-full sm:w-auto">
-                            <div class="relative flex-grow sm:w-64">
-                                <input type="text" id="admin-search-input" value="${query}" placeholder="Search songs..." oninput="filterCurrentTab(this.value)" class="w-full bg-neutral-900 border border-neutral-800 px-4 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-neutral-600">
-                                <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
-                            </div>
-                            <button onclick="openSongModal()" class="bg-[#addedc] text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase flex items-center gap-2 shrink-0"><i class="fa-solid fa-plus"></i> Add New Song</button>
+                            <input type="text" id="admin-search-input" value="${query}" placeholder="Search songs..." oninput="filterCurrentTab(this.value)" class="w-full sm:w-64 bg-neutral-900 border border-neutral-800 px-4 py-2 rounded-xl text-xs text-white focus:outline-none">
+                            <button onclick="openSongModal()" class="bg-[#addedc] text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase flex items-center gap-2 shrink-0"><i class="fa-solid fa-plus"></i> Add Song</button>
                         </div>
                     </div>
                     <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
@@ -179,106 +151,42 @@
                                 <th class="p-4">Genres</th>
                                 <th class="p-4 text-right">Actions</th>
                             </tr>
-                            ${filteredSongs.map(song => {
-                                const coverImg = song.cover || fallbackCoverSVG;
-                                return `
-                                    <tr class="border-b border-neutral-800/50 text-sm">
-                                        <td class="p-4"><img src="${coverImg}" class="w-10 h-10 rounded-lg object-cover bg-neutral-800" onerror="this.onerror=null; this.src='${fallbackCoverSVG}';"></td>
-                                        <td class="p-4 font-mono text-neutral-400 text-xs">${song.code}</td>
-                                        <td class="p-4 font-bold">${song.title} <span class="block text-xs font-normal text-neutral-400">${song.artist}</span></td>
-                                        <td class="p-4">${renderGenreBadges(song)}</td>
-                                        <td class="p-4 text-right space-x-2">
-                                            <button onclick="openEditSongModal('${song.id}')" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-pen"></i> Edit</button>
-                                            <button onclick="deleteSong('${song.id}')" class="bg-red-950 hover:bg-red-900 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                `;
-                            }).join('')}
+                            ${filteredSongs.map(song => `
+                                <tr class="border-b border-neutral-800/50 text-sm">
+                                    <td class="p-4"><img src="${song.cover || fallbackCoverSVG}" class="w-10 h-10 rounded-lg object-cover bg-neutral-800"></td>
+                                    <td class="p-4 font-mono text-neutral-400 text-xs">${song.code}</td>
+                                    <td class="p-4 font-bold">${song.title} <span class="block text-xs font-normal text-neutral-400">${song.artist}</span></td>
+                                    <td class="p-4">${renderGenreBadges(song)}</td>
+                                    <td class="p-4 text-right space-x-2">
+                                        <button onclick="openSongModal('${song.id}')" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-pen"></i></button>
+                                        <button onclick="deleteSong('${song.id}')" class="bg-red-950 hover:bg-red-900 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            `).join('')}
                         </table>
                     </div>
                 </div>
             `;
         }
 
-        function openSongModal(songId = null) {
-            const currentDb = getDB();
-            let song = { id: '', code: '', title: '', artist: '', genres: ['Pop'], cover: '' };
-            let isEdit = false;
-
-            if (songId) {
-                const found = currentDb.songs.find(s => s.id === songId);
-                if (found) { song = found; isEdit = true; }
-            } else {
-                let nextNum = 1;
-                if (currentDb.songs && currentDb.songs.length > 0) {
-                    const sNumbers = currentDb.songs
-                        .map(s => s.code)
-                        .filter(c => c && c.toUpperCase().startsWith('S'))
-                        .map(c => parseInt(c.replace(/[^0-9]/g, ''), 10))
-                        .filter(n => !isNaN(n));
-                    nextNum = sNumbers.length > 0 ? Math.max(...sNumbers) + 1 : currentDb.songs.length + 1;
-                }
-                song.code = `S${nextNum}`;
-                if (currentDb.artists && currentDb.artists[song.artist]) {
-                    song.cover = currentDb.artists[song.artist];
-                }
-            }
-
-            const modalHTML = `
-                <div id="song-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-                    <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-lg w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
-                        <div class="flex justify-between items-center"><h3 class="text-xl font-bold uppercase">${isEdit ? 'Edit Song' : 'Add New Song'}</h3><button onclick="closeSongModal()"><i class="fa-solid fa-xmark text-xl"></i></button></div>
-                        <form onsubmit="handleSongSubmit(event, '${song.id}')" class="space-y-3">
-                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">Song Code</label><input type="text" id="song-code-input" value="${song.code}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white font-mono"></div>
-                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">Song Title</label><input type="text" id="song-title-input" value="${song.title}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
-                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">Artists</label><input type="text" id="song-artist-input" value="${song.artist}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
-                            <div>
-                                <label class="block text-xs uppercase text-neutral-400 mb-2">Genres</label>
-                                <div id="genresCheckboxContainer" class="grid grid-cols-2 gap-2 bg-black border border-neutral-700 p-3 rounded-xl max-h-40 overflow-y-auto"></div>
-                                <div style="margin-top: 10px; display: flex; gap: 8px;">
-                                    <input type="text" id="newGenreInput" placeholder="Add custom genre..." style="flex: 1; padding: 8px 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 8px; font-size: 12px;">
-                                    <button type="button" onclick="addNewGenre()" style="padding: 6px 12px; background: #333; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold;">Add</button>
-                                </div>
-                            </div>
-                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">Cover Art URL</label><input type="url" id="song-cover-input" value="${song.cover}" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
-                            <div class="flex justify-end gap-2 pt-3"><button type="button" onclick="closeSongModal()" class="bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold">Cancel</button><button type="submit" class="bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold">Save Song</button></div>
-                        </form>
-                    </div>
-                </div>
-            `;
-            document.getElementById('admin-modal-container').innerHTML = modalHTML;
-            renderGenreCheckboxes(song);
+        // --- ARTISTS TAB ---
+        function renderAdminArtistsTab(dbInstance, query = '') {
+            return `<div class="p-8 text-center text-neutral-500 bg-neutral-900 rounded-2xl border border-neutral-800">Artist profiles synced automatically from song metadata.</div>`;
         }
 
-        function renderGenreCheckboxes(song = null) {
-            const container = document.getElementById('genresCheckboxContainer');
-            if (!container) return;
-            const currentDb = getDB();
-            const currentSongGenres = song ? getSongGenres(song) : [];
-            container.innerHTML = currentDb.genres.map(genre => `
-                <label style="display: flex; align-items: center; gap: 8px; color: #fff; cursor: pointer; font-size: 12px;">
-                    <input type="checkbox" name="songGenres" value="${genre}" ${currentSongGenres.includes(genre) ? 'checked' : ''}>
-                    ${genre}
-                </label>
-            `).join('');
+        // --- CHARTS TAB ---
+        function renderAdminChartsTab(dbInstance, query = '') {
+            return `<div class="p-8 text-center text-neutral-500 bg-neutral-900 rounded-2xl border border-neutral-800">Chart History management view.</div>`;
         }
 
-        function addNewGenre() {
-            const input = document.getElementById('newGenreInput');
-            if (!input) return;
-            const val = input.value.trim();
-            if (!val) return;
-            const currentDb = getDB();
-            if (!currentDb.genres.includes(val)) {
-                currentDb.genres.push(val);
-                saveDB(currentDb);
-                renderGenreCheckboxes();
-                input.value = '';
-            }
+        // --- NEWS TAB ---
+        function renderAdminNewsTab(dbInstance, query = '') {
+            return `<div class="p-8 text-center text-neutral-500 bg-neutral-900 rounded-2xl border border-neutral-800">News Article management view.</div>`;
         }
 
-        function closeSongModal() {
-            document.getElementById('admin-modal-container').innerHTML = '';
+        // --- UPLOAD CSV TAB ---
+        function renderAdminUploadTab() {
+            return `<div class="p-8 text-center text-neutral-500 bg-neutral-900 rounded-2xl border border-neutral-800">CSV Importer view.</div>`;
         }
 
         window.addEventListener('DOMContentLoaded', () => {

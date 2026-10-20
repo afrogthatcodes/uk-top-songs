@@ -60,7 +60,6 @@
                 <a href="news.html" class="text-neutral-300 hover:text-[#addedc]">News</a>
                 <a href="about.html" class="text-neutral-300 hover:text-[#addedc]">About Us</a>
             </nav>
-            </nav>
         </div>
     </header>
 
@@ -154,18 +153,23 @@
                 }
             });
 
+            const artistImg = db.artists && db.artists[artistName] ? db.artists[artistName].trim() : '';
+
             container.innerHTML = `
                 <div class="space-y-8">
-                    <div class="bg-neutral-900 border border-neutral-800 p-8 rounded-3xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="bg-neutral-900 border border-neutral-800 p-8 rounded-3xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
                         <div>
                             <span class="text-xs font-black uppercase text-[#addedc] tracking-wider">Artist Profile</span>
                             <h1 class="text-3xl sm:text-4xl font-black uppercase text-white mt-1">${artistName}</h1>
                         </div>
-                        ${isAdminLoggedIn ? `
-                            <button onclick="openEditArtistModal('${artistName.replace(/'/g, "\\'")}')" class="bg-neutral-800 hover:bg-neutral-700 text-white px-4 py-2 rounded-xl text-xs font-bold uppercase flex items-center gap-2 shrink-0">
-                                <i class="fa-solid fa-pen"></i> Edit Artist Name
-                            </button>
-                        ` : ''}
+                        <div class="flex items-center gap-4">
+                            ${artistImg ? `<img src="${artistImg}" alt="${artistName}" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover bg-neutral-800 border border-neutral-700/50 shadow-xl" onerror="this.style.display='none';">` : ''}
+                            ${isAdminLoggedIn ? `
+                                <button onclick="openEditArtistModal('${artistName.replace(/'/g, "\\'")}')" class="bg-neutral-800 hover:bg-neutral-700 text-white px-4 py-2 rounded-xl text-xs font-bold uppercase flex items-center gap-2 shrink-0">
+                                    <i class="fa-solid fa-pen"></i> Edit Artist
+                                </button>
+                            ` : ''}
+                        </div>
                     </div>
 
                     <div class="bg-neutral-900/60 border border-neutral-800 rounded-3xl p-6">
@@ -224,13 +228,17 @@
         }
 
         function openEditArtistModal(oldName) {
+            const currentDb = getDB();
+            const currentImg = currentDb.artists && currentDb.artists[oldName] ? currentDb.artists[oldName] : '';
+
             const modalHTML = `
                 <div id="artist-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
                     <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-md w-full p-6 space-y-4">
-                        <div class="flex justify-between items-center"><h3 class="text-xl font-bold uppercase">Edit Artist Name</h3><button onclick="closeArtistModal()"><i class="fa-solid fa-xmark text-xl"></i></button></div>
-                        <form onsubmit="handleArtistRename(event, '${oldName.replace(/'/g, "\\'")}')" class="space-y-3">
-                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">New Artist Name</label><input type="text" id="new-artist-name" value="${oldName}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
-                            <div class="flex justify-end gap-2 pt-3"><button type="button" onclick="closeArtistModal()" class="bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold">Cancel</button><button type="submit" class="bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold">Update Name</button></div>
+                        <div class="flex justify-between items-center"><h3 class="text-xl font-bold uppercase">Edit Artist</h3><button onclick="closeArtistModal()"><i class="fa-solid fa-xmark text-xl"></i></button></div>
+                        <form onsubmit="handleArtistUpdate(event, '${oldName.replace(/'/g, "\\'")}')" class="space-y-3">
+                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">Artist Name</label><input type="text" id="new-artist-name" value="${oldName}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">Artist Image URL (Leave blank for none)</label><input type="url" id="new-artist-img" value="${currentImg}" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                            <div class="flex justify-end gap-2 pt-3"><button type="button" onclick="closeArtistModal()" class="bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold">Cancel</button><button type="submit" class="bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold">Save Changes</button></div>
                         </form>
                     </div>
                 </div>
@@ -240,20 +248,35 @@
 
         function closeArtistModal() { document.getElementById('admin-modal-container').innerHTML = ''; }
 
-        function handleArtistRename(e, oldName) {
+        function handleArtistUpdate(e, oldName) {
             e.preventDefault();
             const newName = document.getElementById('new-artist-name').value.trim();
+            const newImg = document.getElementById('new-artist-img').value.trim();
             if (!newName) return;
             const currentDb = getDB();
 
-            currentDb.songs.forEach(song => {
-                if (song.artist.toLowerCase().includes(oldName.toLowerCase())) {
-                    song.artist = song.artist.replace(new RegExp(oldName, 'gi'), newName);
+            if (!currentDb.artists) currentDb.artists = {};
+
+            if (oldName !== newName) {
+                currentDb.songs.forEach(song => {
+                    if (song.artist.toLowerCase().includes(oldName.toLowerCase())) {
+                        song.artist = song.artist.replace(new RegExp(oldName, 'gi'), newName);
+                    }
+                });
+                if (currentDb.artists[oldName]) {
+                    currentDb.artists[newName] = currentDb.artists[oldName];
+                    delete currentDb.artists[oldName];
                 }
-            });
+            }
+
+            if (newImg) {
+                currentDb.artists[newName] = newImg;
+            } else {
+                delete currentDb.artists[newName];
+            }
 
             saveDB(currentDb);
-            showToast('Artist name updated across songs catalog!');
+            showToast('Artist updated successfully!');
             closeArtistModal();
             window.location.href = `artist.html?name=${encodeURIComponent(newName)}`;
         }

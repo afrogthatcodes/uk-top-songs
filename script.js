@@ -115,18 +115,20 @@ function openHistoryModal(chartId, songId, songTitle) {
     modal.classList.remove('hidden');
 
     const historyObj = db.chartHistory[chartId] || {};
-    const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
+    
+    const allDates = Object.keys(historyObj).sort((a,b) => 
+        new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-'))
+    );
     
     const chartLabels = [];
     const chartRanks = [];
 
-    dates.forEach(dateStr => {
+    allDates.forEach(dateStr => {
         const entries = historyObj[dateStr] || [];
         const match = entries.find(e => e.songId === songId);
-        if (match) {
-            chartLabels.push(dateStr);
-            chartRanks.push(match.rank);
-        }
+        
+        chartLabels.push(dateStr);
+        chartRanks.push(match ? match.rank : null);
     });
 
     const canvas = document.getElementById('positionHistoryChart');
@@ -145,8 +147,9 @@ function openHistoryModal(chartId, songId, songTitle) {
                 borderColor: '#38bdf8',
                 backgroundColor: 'rgba(56, 189, 248, 0.1)',
                 borderWidth: 3,
-                fill: true,
-                tension: 0.2
+                fill: false,
+                tension: 0.2,
+                spanGaps: false
             }]
         },
         options: {
@@ -156,7 +159,7 @@ function openHistoryModal(chartId, songId, songTitle) {
                 if (activeElements && activeElements.length > 0) {
                     const index = activeElements[0].index;
                     const selectedDate = chartLabels[index];
-                    if (selectedDate) {
+                    if (selectedDate && chartRanks[index] !== null) {
                         closeHistoryModal();
                         window.location.href = `charts.html?chart=${chartId}&date=${encodeURIComponent(selectedDate)}`;
                     }

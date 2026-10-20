@@ -397,7 +397,9 @@
 
             tableHTML += `</div>`;
             container.innerHTML = tableHTML;
-            renderChartHighlightsPanel(currentChart.id, latestDate, db);
+            if (typeof renderChartHighlightsPanel === 'function') {
+                renderChartHighlightsPanel(currentChart.id, latestDate, db);
+            }
         }
 
         function navigateChartDate(chartId, direction, currentDateStr) {

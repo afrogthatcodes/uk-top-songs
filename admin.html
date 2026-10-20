@@ -518,12 +518,34 @@
                 const rankEl = document.getElementById(`rank-input-${entry.songId}`);
                 const salesEl = document.getElementById(`sales-input-${entry.songId}`);
 
-                const song = currentDb.songs.find(s => s.id === entry.songId);
-                if (song) {
-                    if (codeEl) song.code = codeEl.value.trim();
-                    if (titleEl) song.title = titleEl.value.trim();
-                    if (artistEl) song.artist = artistEl.value.trim();
+                const newCode = codeEl ? codeEl.value.trim() : '';
+                const newTitle = titleEl ? titleEl.value.trim() : '';
+                const newArtist = artistEl ? artistEl.value.trim() : '';
+
+                // Look up if a song with this code already exists in the database
+                let targetSong = currentDb.songs.find(s => s.code.toLowerCase() === newCode.toLowerCase());
+
+                if (targetSong) {
+                    // Remap the chart entry to the existing song's ID
+                    entry.songId = targetSong.id;
+                } else {
+                    // Otherwise update or create a song with this code
+                    let song = currentDb.songs.find(s => s.id === entry.songId);
+                    if (song) {
+                        song.code = newCode || song.code;
+                        song.title = newTitle;
+                        song.artist = newArtist;
+                    } else {
+                        const newId = 'song_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+                        let songCover = fallbackCoverSVG;
+                        if (currentDb.artists && currentDb.artists[newArtist]) {
+                            songCover = currentDb.artists[newArtist];
+                        }
+                        currentDb.songs.push({ id: newId, code: newCode || `S${currentDb.songs.length + 1}`, title: newTitle, artist: newArtist, genres: ['Pop'], cover: songCover });
+                        entry.songId = newId;
+                    }
                 }
+
                 if (rankEl) {
                     const newRank = parseInt(rankEl.value);
                     if (!isNaN(newRank)) entry.rank = newRank;

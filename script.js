@@ -317,18 +317,39 @@ window.switchAdminTab = function(tabName) {
 
 // --- CSV UPLOAD TAB UI ---
 function renderAdminUploadTab() {
+    const chartOptions = chartCategories.map(c => `<option value="${c.id}">${c.title}</option>`).join('');
+    
+    const today = new Date();
+    const defaultDateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+
     return `
         <div class="space-y-6 max-w-xl">
             <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
-                <h3 class="text-xl font-bold uppercase">Upload Songs via CSV</h3>
+                <h3 class="text-xl font-bold uppercase">Upload Songs & Chart Data via CSV</h3>
                 <p class="text-xs text-neutral-400">
                     Expected CSV format columns: <code class="text-[#addedc]">Title, Artist, Genres (semicolon separated), Cover URL, Album</code>.<br>
-                    Song codes (<code class="text-[#addedc]">UKTS-X</code>) and artist codes (<code class="text-[#addedc]">UKTA-X</code>) are automatically assigned in sequence!
+                    Song (<code class="text-[#addedc]">UKTS-X</code>) and artist (<code class="text-[#addedc]">UKTA-X</code>) codes assign sequentially!
                 </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                    <div>
+                        <label class="block text-xs uppercase text-neutral-400 mb-1">Select Chart</label>
+                        <select id="csv-chart-category" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
+                            ${chartOptions}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-neutral-400 mb-1">Chart Date (DD/MM/YYYY)</label>
+                        <input type="text" id="csv-chart-date" value="${defaultDateStr}" placeholder="DD/MM/YYYY" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none font-mono">
+                    </div>
+                </div>
+
                 <div>
+                    <label class="block text-xs uppercase text-neutral-400 mb-1">CSV File</label>
                     <input type="file" id="csv-file-input" accept=".csv" class="w-full bg-black border border-neutral-700 px-4 py-3 rounded-xl text-xs text-white">
                 </div>
-                <button onclick="handleCSVUpload(event)" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Import CSV</button>
+
+                <button onclick="handleCSVUpload(event)" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Import CSV to Chart</button>
             </div>
         </div>
     `;
@@ -337,18 +358,31 @@ function renderAdminUploadTab() {
 // --- CSV PROCESSING HANDLER ---
 function handleCSVUpload(e) {
     const fileInput = document.getElementById('csv-file-input');
+    const chartCategory = document.getElementById('csv-chart-category')?.value;
+    const chartDate = document.getElementById('csv-chart-date')?.value.trim();
+
     if (!fileInput || !fileInput.files[0]) {
         showToast('Please select a CSV file first.');
         return;
     }
 
+    if (!chartDate) {
+        showToast('Please specify a chart date (DD/MM/YYYY).');
+        return;
+    }
+
     const file = fileInput.files[0];
     const reader = new FileReader();
-    
+
     reader.onload = function(event) {
         const text = event.target.result;
         const lines = text.split(/\r\n|\n/);
         const db = getDB();
+
+        if (!db.chartHistory) db.chartHistory = {};
+        if (!db.chartHistory[chartCategory]) db.chartHistory[chartCategory] = {};
+
+        const chartEntries = [];
         let importedCount = 0;
 
         for (let i = 0; i < lines.length; i++) {
@@ -372,22 +406,38 @@ function handleCSVUpload(e) {
             const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
             artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
-            const newSong = {
-                id: (Date.now() + i).toString(),
-                code: getNextSongCode(db),
-                title,
-                artist,
-                album,
-                genres,
-                cover: cover || fallbackCoverSVG
-            };
-            db.songs.push(newSong);
+            let existingSong = db.songs.find(s => 
+                s.title.toLowerCase() === title.toLowerCase() && 
+                s.artist.toLowerCase() === artist.toLowerCase()
+            );
+
+            if (!existingSong) {
+                existingSong = {
+                    id: (Date.now() + i).toString(),
+                    code: getNextSongCode(db),
+                    title,
+                    artist,
+                    album,
+                    genres,
+                    cover: cover || fallbackCoverSVG
+                };
+                db.songs.push(existingSong);
+            }
+
             importedCount++;
+
+            chartEntries.push({
+                songId: existingSong.id,
+                rank: chartEntries.length + 1,
+                salesIncrease: false
+            });
         }
 
+        db.chartHistory[chartCategory][chartDate] = chartEntries;
+
         saveDB(db);
-        showToast(`Successfully imported ${importedCount} songs!`);
-        switchAdminTab('songs');
+        showToast(`Imported ${importedCount} songs into ${chartCategory} for ${chartDate}!`);
+        if (typeof switchAdminTab === 'function') switchAdminTab('songs');
     };
 
     reader.readAsText(file);
@@ -486,7 +536,7 @@ function handleSongSubmit(e, songId) {
     saveDB(db);
     showToast('Song saved successfully!');
     closeSongModal();
-    switchAdminTab('songs');
+    if (typeof switchAdminTab === 'function') switchAdminTab('songs');
 }
 
 function deleteSong(songId) {
@@ -495,7 +545,7 @@ function deleteSong(songId) {
     db.songs = db.songs.filter(s => s.id !== songId);
     saveDB(db);
     showToast('Song deleted.');
-    switchAdminTab('songs');
+    if (typeof switchAdminTab === 'function') switchAdminTab('songs');
 }
 
 // Automatically load database on startup

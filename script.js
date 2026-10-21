@@ -39,6 +39,56 @@ const defaultData = {
     ]
 };
 
+let globalDB = null;
+
+async function fetchDBAsync() {
+    try {
+        const response = await fetch('db.json?t=' + Date.now());
+        if (response.ok) {
+            globalDB = await response.json();
+            localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(globalDB));
+            return globalDB;
+        }
+    } catch (err) {
+        console.warn('Could not fetch remote db.json, using local storage.');
+    }
+    const localData = localStorage.getItem('uk_top_songs_db_v4');
+    if (localData) {
+        globalDB = JSON.parse(localData);
+    } else {
+        globalDB = defaultData;
+        localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(defaultData));
+    }
+    return globalDB;
+}
+
+function getDB() {
+    if (globalDB) return globalDB;
+    const localData = localStorage.getItem('uk_top_songs_db_v4');
+    if (!localData) return defaultData;
+    try {
+        return JSON.parse(localData);
+    } catch (e) {
+        return defaultData;
+    }
+}
+
+function saveDB(data) {
+    globalDB = data;
+    localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(data));
+    
+    // Automatically generates and triggers a download for the updated db.json file 
+    // so you can easily drop it straight into your GitHub repository!
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "db.json");
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+    showToast('Database saved & db.json downloaded for GitHub!');
+}
+
 const fallbackCoverSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23addedc'/></svg>";
 
 function getSongGenres(song) {
@@ -82,21 +132,6 @@ function formatArtists(artistString) {
     if (artists.length === 2) return `${makeLink(artists[0])} & ${makeLink(artists[1])}`;
     const lastArtist = artists.pop();
     return `${artists.map(a => makeLink(a)).join(', ')} & ${makeLink(lastArtist)}`;
-}
-
-function getDB() {
-    const data = localStorage.getItem('uk_top_songs_db_v4');
-    if (!data) {
-        localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(defaultData));
-        return defaultData;
-    }
-    const parsed = JSON.parse(data);
-    if (!parsed.genres) parsed.genres = defaultData.genres;
-    return parsed;
-}
-
-function saveDB(data) {
-    localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(data));
 }
 
 function showToast(msg) {
@@ -466,3 +501,11 @@ function deleteSong(songId) {
     showToast('Song deleted.');
     switchAdminTab('songs');
 }
+
+// Automatically load database on startup
+window.addEventListener('DOMContentLoaded', async () => {
+    await fetchDBAsync();
+    if (typeof checkAuthAndInit === 'function') {
+        checkAuthAndInit();
+    }
+});

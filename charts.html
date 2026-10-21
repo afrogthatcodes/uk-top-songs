@@ -311,7 +311,7 @@
                                         <span>${trendHTML}</span>
                                     </div>
                                     <div class="song-info-col min-w-0">
-                                        <img src="${song.cover}" class="w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0" onerror="this.src='https://placehold.co/100x100/222/fff?text=Song'">
+                                        ${renderSongCover(song)}
                                         <div class="min-w-0">
                                             <h2 class="font-bold text-sm truncate text-white">${song.title}</h2>
                                             <p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p>
@@ -362,7 +362,7 @@
                                             <span class="text-xl font-black text-white block">${d.rank}</span>
                                         </div>
                                         <div class="song-info-col min-w-0">
-                                            <img src="${song.cover}" class="w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0" onerror="this.src='https://placehold.co/100x100/222/fff?text=Song'">
+                                            ${renderSongCover(song)}
                                             <div class="min-w-0">
                                                 <h3 class="font-bold text-sm truncate text-white">${song.title}</h3>
                                                 <p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p>

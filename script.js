@@ -17,11 +17,11 @@ const chartCategories = [
 const defaultData = {
     genres: ['Afrobeats', 'Dance/Electronic', 'Folk/Country', 'Indie/Rock', 'Pop', 'Rap', 'Rnb/Funk'],
     songs: [
-        { id: '1', code: 'UKTS-1', title: 'Rein Me In', artist: 'Sam Fender & Olivia Dean', genres: ['Indie/Rock'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
-        { id: '2', code: 'UKTS-2', title: 'Man I Need', artist: 'Olivia Dean', genres: ['Rnb/Funk'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
-        { id: '3', code: 'UKTS-3', title: 'Great Expectation', artist: 'SIENNA SPIRO', genres: ['Pop'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
-        { id: '4', code: 'UKTS-4', title: "Choosin' Texas", artist: 'Ella Langley', genres: ['Folk/Country'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
-        { id: '5', code: 'UKTS-5', title: 'stupid song', artist: 'Olivia Rodrigo', genres: ['Pop'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' }
+        { id: '1', code: 'UKTS-1', title: 'Rein Me In', artist: 'Sam Fender & Olivia Dean', genres: ['Indie/Rock'], album: 'Single', cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
+        { id: '2', code: 'UKTS-2', title: 'Man I Need', artist: 'Olivia Dean', genres: ['Rnb/Funk'], album: 'Single', cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
+        { id: '3', code: 'UKTS-3', title: 'Great Expectation', artist: 'SIENNA SPIRO', genres: ['Pop'], album: 'Single', cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
+        { id: '4', code: 'UKTS-4', title: "Choosin' Texas", artist: 'Ella Langley', genres: ['Folk/Country'], album: 'Single', cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
+        { id: '5', code: 'UKTS-5', title: 'stupid song', artist: 'Olivia Rodrigo', genres: ['Pop'], album: 'Single', cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' }
     ],
     artistCodes: {
         'Sam Fender': 'UKTA-1',
@@ -182,6 +182,167 @@ function showToast(msg) {
     setTimeout(() => toast.remove(), 3000);
 }
 
+// Admin Panel Initialization & Tabs Handler
+function initAdminPage() {
+    const container = document.getElementById('admin-main-container');
+    if (!container) return;
+    
+    if (!isAdminLoggedIn) {
+        promptAdminLogin();
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+            <div class="flex justify-between items-center border-b border-neutral-800 pb-6">
+                <div>
+                    <h1 class="text-3xl font-black uppercase tracking-tight">Admin Dashboard</h1>
+                    <p class="text-xs text-neutral-400 mt-1">Manage database, songs, charts, and news</p>
+                </div>
+                <button onclick="adminLogout()" class="bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold uppercase">Log Out</button>
+            </div>
+            <div class="flex gap-2 border-b border-neutral-800 pb-4 overflow-x-auto">
+                <button onclick="switchAdminTab('songs')" id="btn-tab-songs" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-[#addedc] text-black">Songs Catalog</button>
+                <button onclick="switchAdminTab('upload')" id="btn-tab-upload" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">Upload CSV</button>
+                <button onclick="switchAdminTab('news')" id="btn-tab-news" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">News</button>
+            </div>
+            <div id="admin-tab-content"></div>
+        </div>
+    `;
+    switchAdminTab('songs');
+}
+
+function switchAdminTab(tabName) {
+    ['songs', 'upload', 'news'].forEach(t => {
+        const btn = document.getElementById(`btn-tab-${t}`);
+        if (btn) {
+            if (t === tabName) {
+                btn.className = "px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-[#addedc] text-black";
+            } else {
+                btn.className = "px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white";
+            }
+        }
+    });
+
+    const db = getDB();
+    const contentArea = document.getElementById('admin-tab-content');
+    if (!contentArea) return;
+
+    if (tabName === 'songs') {
+        contentArea.innerHTML = `
+            <div class="space-y-6">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold uppercase">Songs Catalog (${db.songs.length})</h3>
+                    <button onclick="openSongModal()" class="bg-[#addedc] text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase flex items-center gap-2"><i class="fa-solid fa-plus"></i> Add Song</button>
+                </div>
+                <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <tr class="border-b border-neutral-800 text-neutral-400 text-xs uppercase font-bold bg-neutral-900/50">
+                            <th class="p-4">Code</th>
+                            <th class="p-4">Title & Artist</th>
+                            <th class="p-4">Genres</th>
+                            <th class="p-4 text-right">Actions</th>
+                        </tr>
+                        ${db.songs.map(s => `
+                            <tr class="border-b border-neutral-800/50 text-sm">
+                                <td class="p-4 font-mono text-xs text-neutral-400">${s.code}</td>
+                                <td class="p-4 font-bold">${s.title} <span class="block text-xs font-normal text-neutral-400">${s.artist}</span></td>
+                                <td class="p-4">${renderGenreBadges(s)}</td>
+                                <td class="p-4 text-right space-x-2">
+                                    <button onclick="openSongModal('${s.id}')" class="bg-neutral-800 hover:bg-neutral-700 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-pen"></i></button>
+                                    <button onclick="deleteSong('${s.id}')" class="bg-red-950 hover:bg-red-900 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </table>
+                </div>
+            </div>
+        `;
+    } else if (tabName === 'upload') {
+        contentArea.innerHTML = renderAdminUploadTab();
+    } else if (tabName === 'news') {
+        contentArea.innerHTML = typeof renderAdminNewsTab === 'function' ? renderAdminNewsTab(db) : '';
+    }
+}
+
+// --- CSV UPLOAD TAB UI ---
+function renderAdminUploadTab() {
+    return `
+        <div class="space-y-6 max-w-xl">
+            <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
+                <h3 class="text-xl font-bold uppercase">Upload Songs via CSV</h3>
+                <p class="text-xs text-neutral-400">
+                    Expected CSV format columns: <code class="text-[#addedc]">Title, Artist, Genres (semicolon separated), Cover URL, Album</code>.<br>
+                    Song codes (<code class="text-[#addedc]">UKTS-X</code>) and artist codes (<code class="text-[#addedc]">UKTA-X</code>) are automatically assigned in sequence!
+                </p>
+                <div>
+                    <input type="file" id="csv-file-input" accept=".csv" class="w-full bg-black border border-neutral-700 px-4 py-3 rounded-xl text-xs text-white">
+                </div>
+                <button onclick="handleCSVUpload(event)" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Import CSV</button>
+            </div>
+        </div>
+    `;
+}
+
+// --- CSV PROCESSING HANDLER ---
+function handleCSVUpload(e) {
+    const fileInput = document.getElementById('csv-file-input');
+    if (!fileInput || !fileInput.files[0]) {
+        showToast('Please select a CSV file first.');
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    
+    reader.onload = function(event) {
+        const text = event.target.result;
+        const lines = text.split(/\r\n|\n/);
+        const db = getDB();
+        let importedCount = 0;
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
+
+            if (i === 0 && line.toLowerCase().includes('title')) continue;
+
+            const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+            if (cols.length < 2) continue;
+
+            const title = cols[0] || '';
+            const artist = cols[1] || '';
+            const genresRaw = cols[2] || 'Pop';
+            const cover = cols[3] || '';
+            const album = cols[4] || '';
+
+            const genres = genresRaw.split(';').map(g => g.trim()).filter(Boolean);
+            if (genres.length === 0) genres.push('Pop');
+
+            const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
+            artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
+
+            const newSong = {
+                id: (Date.now() + i).toString(),
+                code: getNextSongCode(db),
+                title,
+                artist,
+                genres,
+                album,
+                cover: cover || fallbackCoverSVG
+            };
+            db.songs.push(newSong);
+            importedCount++;
+        }
+
+        saveDB(db);
+        showToast(`Successfully imported ${importedCount} songs!`);
+        switchAdminTab('songs');
+    };
+
+    reader.readAsText(file);
+}
+
 function openSongModal(songId = null) {
     const db = getDB();
     const song = songId ? db.songs.find(s => s.id === songId) : null;
@@ -206,6 +367,7 @@ function openSongModal(songId = null) {
                     <div><label class="block text-xs uppercase text-neutral-400 mb-1">Song Code</label><input type="text" id="song-code-input" value="${autoCode}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white font-mono" readonly></div>
                     <div><label class="block text-xs uppercase text-neutral-400 mb-1">Title</label><input type="text" id="song-title-input" value="${song ? song.title : ''}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
                     <div><label class="block text-xs uppercase text-neutral-400 mb-1">Artist(s)</label><input type="text" id="song-artist-input" value="${song ? song.artist : ''}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                    <div><label class="block text-xs uppercase text-neutral-400 mb-1">Album</label><input type="text" id="song-album-input" value="${song ? (song.album || '') : ''}" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
                     <div>
                         <label class="block text-xs uppercase text-neutral-400 mb-2">Select Genres</label>
                         <div class="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto p-1">
@@ -238,13 +400,13 @@ function handleSongSubmit(e, songId) {
     const code = document.getElementById('song-code-input').value.trim();
     const title = document.getElementById('song-title-input').value.trim();
     const artist = document.getElementById('song-artist-input').value.trim();
+    const album = document.getElementById('song-album-input').value.trim();
     const cover = document.getElementById('song-cover-input').value.trim();
 
     const checkedBoxes = document.querySelectorAll('input[name="song-genre"]:checked');
     const genres = Array.from(checkedBoxes).map(cb => cb.value);
     if (genres.length === 0) genres.push('Pop');
 
-    // Automatically ensure artists get assigned UKTA- codes
     const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
     artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
@@ -254,6 +416,7 @@ function handleSongSubmit(e, songId) {
             song.code = code;
             song.title = title;
             song.artist = artist;
+            song.album = album;
             song.genres = genres;
             song.cover = cover;
         }
@@ -263,6 +426,7 @@ function handleSongSubmit(e, songId) {
             code: code || getNextSongCode(db),
             title,
             artist,
+            album,
             genres,
             cover: cover || fallbackCoverSVG
         };
@@ -272,7 +436,7 @@ function handleSongSubmit(e, songId) {
     saveDB(db);
     showToast('Song saved successfully!');
     closeSongModal();
-    if (typeof switchAdminTab === 'function') switchAdminTab('songs');
+    switchAdminTab('songs');
 }
 
 function deleteSong(songId) {
@@ -281,7 +445,7 @@ function deleteSong(songId) {
     db.songs = db.songs.filter(s => s.id !== songId);
     saveDB(db);
     showToast('Song deleted.');
-    if (typeof switchAdminTab === 'function') switchAdminTab('songs');
+    switchAdminTab('songs');
 }
 
 // Automatically load database on startup

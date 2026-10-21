@@ -49,7 +49,11 @@
         let currentActiveTab = 'songs';
         let currentSearchQuery = '';
 
-        function checkAuthAndInit() {
+        async function checkAuthAndInit() {
+            // Wait for script.js async fetch to load data completely
+            if (typeof fetchDBAsync === 'function') {
+                await fetchDBAsync();
+            }
             const db = getDB();
             if (isAdminLoggedIn || sessionStorage.getItem('ukts_admin_auth') === 'true') {
                 isAdminLoggedIn = true;
@@ -170,7 +174,98 @@
 
         // --- ARTISTS TAB ---
         function renderAdminArtistsTab(dbInstance, query = '') {
-            return `<div class="p-8 text-center text-neutral-500 bg-neutral-900 rounded-2xl border border-neutral-800">Artist profiles synced automatically from song metadata.</div>`;
+            const q = query.trim().toLowerCase();
+            const artistMap = {};
+
+            dbInstance.songs.forEach(song => {
+                if (!song.artist) return;
+                const cleaned = song.artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',');
+                cleaned.split(/,|\&/).map(a => a.trim()).forEach(artistName => {
+                    if (!artistName) return;
+                    if (!artistMap[artistName]) {
+                        artistMap[artistName] = {
+                            name: artistName,
+                            songCount: 0,
+                            image: (dbInstance.artists && dbInstance.artists[artistName]) || song.cover || fallbackCoverSVG
+                        };
+                    }
+                    artistMap[artistName].songCount++;
+                });
+            });
+
+            const artistsList = Object.values(artistMap).filter(a => a.name.toLowerCase().includes(q));
+
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <h3 class="text-xl font-bold uppercase">Artists Management (${artistsList.length})</h3>
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <input type="text" id="admin-search-input" value="${query}" placeholder="Search artists..." oninput="filterCurrentTab(this.value)" class="w-full sm:w-64 bg-neutral-900 border border-neutral-800 px-4 py-2 rounded-xl text-xs text-white focus:outline-none">
+                        </div>
+                    </div>
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <tr class="border-b border-neutral-800 text-neutral-400 text-xs uppercase font-bold bg-neutral-900/50">
+                                <th class="p-4">Artist Image</th>
+                                <th class="p-4">Artist Name</th>
+                                <th class="p-4">Songs Catalogued</th>
+                                <th class="p-4 text-right">Actions</th>
+                            </tr>
+                            ${artistsList.map(artist => `
+                                <tr class="border-b border-neutral-800/50 text-sm">
+                                    <td class="p-4"><img src="${artist.image}" class="w-12 h-12 rounded-full object-cover bg-neutral-800"></td>
+                                    <td class="p-4 font-bold text-white">${artist.name}</td>
+                                    <td class="p-4 text-neutral-400 text-xs">${artist.songCount} song(s)</td>
+                                    <td class="p-4 text-right">
+                                        <button onclick="openArtistImageModal('${artist.name.replace(/'/g, "\\'")}')" class="bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-pen mr-1"></i> Edit Image</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openArtistImageModal(artistName) {
+            const currentDb = getDB();
+            if (!currentDb.artists) currentDb.artists = {};
+            const currentImg = currentDb.artists[artistName] || '';
+
+            const modalHTML = `
+                <div id="artist-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-md w-full p-6 space-y-4">
+                        <div class="flex justify-between items-center"><h3 class="text-xl font-bold uppercase">Edit Artist: ${artistName}</h3><button onclick="closeArtistModal()"><i class="fa-solid fa-xmark text-xl"></i></button></div>
+                        <form onsubmit="handleArtistImageSubmit(event, '${artistName.replace(/'/g, "\\'")}')" class="space-y-3">
+                            <div><label class="block text-xs uppercase text-neutral-400 mb-1">Artist Image URL</label><input type="url" id="artist-image-input" value="${currentImg}" placeholder="https://example.com/image.jpg" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                            <div class="flex justify-end gap-2 pt-3"><button type="button" onclick="closeArtistModal()" class="bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold">Cancel</button><button type="submit" class="bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold">Save Image</button></div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            document.getElementById('admin-modal-container').innerHTML = modalHTML;
+        }
+
+        function closeArtistModal() {
+            document.getElementById('admin-modal-container').innerHTML = '';
+        }
+
+        function handleArtistImageSubmit(e, artistName) {
+            e.preventDefault();
+            const currentDb = getDB();
+            if (!currentDb.artists) currentDb.artists = {};
+            const imgUrl = document.getElementById('artist-image-input').value.trim();
+            
+            if (imgUrl) {
+                currentDb.artists[artistName] = imgUrl;
+            } else {
+                delete currentDb.artists[artistName];
+            }
+
+            saveDB(currentDb);
+            showToast('Artist image updated!');
+            closeArtistModal();
+            switchAdminTab('artists');
         }
 
         // --- CHARTS TAB ---

@@ -249,7 +249,7 @@ function initAdminPage() {
                 <button onclick="switchAdminTab('songs')" id="btn-tab-songs" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-[#addedc] text-black">Songs</button>
                 <button onclick="switchAdminTab('artists')" id="btn-tab-artists" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">Artists</button>
                 <button onclick="switchAdminTab('chart-history')" id="btn-tab-chart-history" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">Chart History</button>
-                <button onclick="switchAdminTab('upload-csv')" id="btn-tab-upload" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">Upload CSV</button>
+                <button onclick="switchAdminTab('upload')" id="btn-tab-upload" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">Upload CSV</button>
                 <button onclick="switchAdminTab('news')" id="btn-tab-news" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">News</button>
             </div>
             <div id="admin-tab-content"></div>
@@ -258,13 +258,13 @@ function initAdminPage() {
     switchAdminTab('songs');
 }
 
-function switchAdminTab(tabName) {
-    if (tabName === 'upload-csv') tabName = 'upload';
+window.switchAdminTab = function(tabName) {
+    if (tabName === 'upload-csv' || tabName === 'csv') tabName = 'upload';
 
     ['songs', 'artists', 'chart-history', 'upload', 'news'].forEach(t => {
         const btn = document.getElementById(`btn-tab-${t}`) || document.getElementById(`btn-${t}`) || document.getElementById(`btn-tab-upload-csv`);
         if (btn) {
-            if (t === tabName || (tabName === 'upload' && btn.id === 'btn-tab-upload-csv')) {
+            if (t === tabName || (tabName === 'upload' && (btn.id === 'btn-tab-upload-csv' || btn.id === 'btn-tab-upload'))) {
                 btn.className = "px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-[#addedc] text-black";
             } else {
                 btn.className = "px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white";
@@ -273,7 +273,7 @@ function switchAdminTab(tabName) {
     });
 
     const db = getDB();
-    const contentArea = document.getElementById('admin-tab-content');
+    const contentArea = document.getElementById('admin-tab-content') || document.getElementById('tab-content') || document.querySelector('.tab-content');
     if (!contentArea) return;
 
     if (tabName === 'songs') {
@@ -313,7 +313,7 @@ function switchAdminTab(tabName) {
     } else {
         contentArea.innerHTML = `<div class="text-neutral-400 text-sm capitalize">${tabName.replace('-', ' ')} management view.</div>`;
     }
-}
+};
 
 // --- CSV UPLOAD TAB UI ---
 function renderAdminUploadTab() {

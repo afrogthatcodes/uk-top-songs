@@ -42,19 +42,26 @@ const defaultData = {
 let globalDB = null;
 
 async function fetchDBAsync() {
+    const localData = localStorage.getItem('uk_top_songs_db_v4');
+    let localParsed = localData ? JSON.parse(localData) : null;
+
     try {
         const response = await fetch('db.json?t=' + Date.now());
         if (response.ok) {
-            globalDB = await response.json();
-            localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(globalDB));
-            return globalDB;
+            const remoteDB = await response.json();
+            // Only use remote if it has songs, otherwise trust local storage
+            if (remoteDB && remoteDB.songs && remoteDB.songs.length > 0) {
+                globalDB = remoteDB;
+                localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(globalDB));
+                return globalDB;
+            }
         }
     } catch (err) {
         console.warn('Could not fetch remote db.json, using local storage.');
     }
-    const localData = localStorage.getItem('uk_top_songs_db_v4');
-    if (localData) {
-        globalDB = JSON.parse(localData);
+
+    if (localParsed && localParsed.songs && localParsed.songs.length > 0) {
+        globalDB = localParsed;
     } else {
         globalDB = defaultData;
         localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(defaultData));
@@ -78,7 +85,7 @@ function saveDB(data) {
     localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(data));
     
     // Automatically generates and triggers a download for the updated db.json file 
-    // so you can easily drop it straight into your GitHub repository!
+    // so you can easily drop it straight into your GitHub repository![cite: 6]
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);

@@ -17,12 +17,19 @@ const chartCategories = [
 const defaultData = {
     genres: ['Afrobeats', 'Dance/Electronic', 'Folk/Country', 'Indie/Rock', 'Pop', 'Rap', 'Rnb/Funk'],
     songs: [
-        { id: '1', code: 'REIN-01', title: 'Rein Me In', artist: 'Sam Fender & Olivia Dean', genres: ['Indie/Rock'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
-        { id: '2', code: 'MAN-02', title: 'Man I Need', artist: 'Olivia Dean', genres: ['Rnb/Funk'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
-        { id: '3', code: 'GREAT-03', title: 'Great Expectation', artist: 'SIENNA SPIRO', genres: ['Pop'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
-        { id: '4', code: 'CHOOS-04', title: "Choosin' Texas", artist: 'Ella Langley', genres: ['Folk/Country'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
-        { id: '5', code: 'STUP-05', title: 'stupid song', artist: 'Olivia Rodrigo', genres: ['Pop'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' }
+        { id: '1', code: 'UKTS-1', title: 'Rein Me In', artist: 'Sam Fender & Olivia Dean', genres: ['Indie/Rock'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
+        { id: '2', code: 'UKTS-2', title: 'Man I Need', artist: 'Olivia Dean', genres: ['Rnb/Funk'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
+        { id: '3', code: 'UKTS-3', title: 'Great Expectation', artist: 'SIENNA SPIRO', genres: ['Pop'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
+        { id: '4', code: 'UKTS-4', title: "Choosin' Texas", artist: 'Ella Langley', genres: ['Folk/Country'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
+        { id: '5', code: 'UKTS-5', title: 'stupid song', artist: 'Olivia Rodrigo', genres: ['Pop'], cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' }
     ],
+    artistCodes: {
+        'Sam Fender': 'UKTA-1',
+        'Olivia Dean': 'UKTA-2',
+        'SIENNA SPIRO': 'UKTA-3',
+        'Ella Langley': 'UKTA-4',
+        'Olivia Rodrigo': 'UKTA-5'
+    },
     chartHistory: {
         'top-songs': {
             '18/09/2026': [
@@ -40,6 +47,35 @@ const defaultData = {
 };
 
 let globalDB = null;
+
+// --- Code Generators ---
+function getNextSongCode(db) {
+    let maxNum = 0;
+    (db.songs || []).forEach(s => {
+        if (s.code && s.code.startsWith('UKTS-')) {
+            const num = parseInt(s.code.replace('UKTS-', ''), 10);
+            if (!isNaN(num) && num > maxNum) maxNum = num;
+        }
+    });
+    return `UKTS-${maxNum + 1}`;
+}
+
+function getOrAssignArtistCode(artistName, db) {
+    if (!db.artistCodes) db.artistCodes = {};
+    if (db.artistCodes[artistName]) return db.artistCodes[artistName];
+
+    let maxNum = 0;
+    Object.values(db.artistCodes).forEach(code => {
+        if (code && code.startsWith('UKTA-')) {
+            const num = parseInt(code.replace('UKTA-', ''), 10);
+            if (!isNaN(num) && num > maxNum) maxNum = num;
+        }
+    });
+
+    const newCode = `UKTA-${maxNum + 1}`;
+    db.artistCodes[artistName] = newCode;
+    return newCode;
+}
 
 async function fetchDBAsync() {
     const localData = localStorage.getItem('uk_top_songs_db_v4');
@@ -146,292 +182,11 @@ function showToast(msg) {
     setTimeout(() => toast.remove(), 3000);
 }
 
-function renderArtistSongs(artistName, db) {
-    const artistSongs = db.songs.filter(s => songHasArtist(s.artist, artistName));
-    
-    return artistSongs.map(song => {
-        let bestPeak = 999;
-        let rankHistory = [];
-
-        Object.keys(db.chartHistory || {}).forEach(catId => {
-            const historyObj = db.chartHistory[catId] || {};
-            const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
-            
-            dates.forEach(dateStr => {
-                const entries = historyObj[dateStr] || [];
-                const match = entries.find(e => e.songId === song.id);
-                if (match) {
-                    rankHistory.push(match.rank);
-                    if (match.rank < bestPeak) {
-                        bestPeak = match.rank;
-                    }
-                }
-            });
-        });
-
-        const bestPeakCount = rankHistory.filter(r => r === bestPeak).length;
-        const peakDisplay = bestPeak <= 100 ? ((bestPeak === 1 && bestPeakCount > 1) ? `1×${bestPeakCount}` : `${bestPeak === 1 ? '1' : bestPeak}`) : '-';
-
-        return `
-            <div class="flex items-center justify-between p-3 bg-neutral-900/50 border border-neutral-800 rounded-xl">
-                <div class="flex items-center gap-3">
-                    <img src="${song.cover || fallbackCoverSVG}" class="w-12 h-12 rounded-lg object-cover">
-                    <div>
-                        <h4 class="font-bold text-sm text-white">${song.title}</h4>
-                        <p class="text-xs text-neutral-400 font-mono">${song.code}</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <span class="text-[10px] uppercase font-bold text-neutral-500 block">Peak</span>
-                    <span class="text-xs font-black text-[#addedc]">${peakDisplay}</span>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-function openHistoryModal(chartId, songId, songTitle) {
-    const db = getDB();
-    const modal = document.getElementById('history-modal');
-    const titleEl = document.getElementById('history-modal-title');
-    if (!modal || !titleEl) return;
-    
-    titleEl.textContent = `${songTitle} - Position History`;
-    modal.classList.remove('hidden');
-
-    const historyObj = db.chartHistory[chartId] || {};
-    const allDates = Object.keys(historyObj).sort((a,b) => 
-        new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-'))
-    );
-    
-    let firstIdx = -1;
-    let lastIdx = -1;
-
-    allDates.forEach((dateStr, idx) => {
-        const entries = historyObj[dateStr] || [];
-        if (entries.some(e => e.songId === songId)) {
-            if (firstIdx === -1) firstIdx = idx;
-            lastIdx = idx;
-        }
-    });
-
-    if (firstIdx === -1) return;
-
-    const relevantDates = allDates.slice(firstIdx, lastIdx + 1);
-    const chartLabels = [];
-    const chartRanks = [];
-
-    relevantDates.forEach(dateStr => {
-        const entries = historyObj[dateStr] || [];
-        const match = entries.find(e => e.songId === songId);
-        chartLabels.push(dateStr);
-        chartRanks.push(match ? match.rank : null);
-    });
-
-    const canvas = document.getElementById('positionHistoryChart');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    
-    if (window.myPositionChart) window.myPositionChart.destroy();
-
-    window.myPositionChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: chartLabels,
-            datasets: [{
-                label: 'Chart Position',
-                data: chartRanks,
-                borderColor: '#38bdf8',
-                backgroundColor: 'rgba(56, 189, 248, 0.1)',
-                borderWidth: 3,
-                fill: false,
-                tension: 0.2,
-                spanGaps: false
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            onClick: (evt, activeElements) => {
-                if (activeElements && activeElements.length > 0) {
-                    const index = activeElements[0].index;
-                    const selectedDate = chartLabels[index];
-                    if (selectedDate && chartRanks[index] !== null) {
-                        closeHistoryModal();
-                        window.location.href = `charts.html?chart=${chartId}&date=${encodeURIComponent(selectedDate)}`;
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    reverse: true,
-                    min: 1,
-                    max: 75,
-                    ticks: {
-                        stepSize: 5,
-                        callback: function(value) {
-                            if (value === 1 || value % 5 === 0) return value;
-                            return '';
-                        },
-                        color: '#a3a3a3'
-                    },
-                    grid: { color: '#262626' }
-                },
-                x: { ticks: { color: '#a3a3a3' }, grid: { display: false } }
-            },
-            plugins: { legend: { display: false } }
-        }
-    });
-}
-
-function closeHistoryModal() { 
-    const modal = document.getElementById('history-modal');
-    if (modal) modal.classList.add('hidden'); 
-}
-
-function promptAdminLogin() {
-    const modal = document.getElementById('admin-login-modal');
-    if (modal) {
-        document.getElementById('admin-pass-input').value = '';
-        document.getElementById('admin-login-error').classList.add('hidden');
-        modal.classList.remove('hidden');
-    }
-}
-
-function closeAdminLoginModal() {
-    const modal = document.getElementById('admin-login-modal');
-    if (modal) modal.classList.add('hidden');
-}
-
-function handleAdminLogin(e) {
-    e.preventDefault();
-    const pass = document.getElementById('admin-pass-input').value;
-    if (pass === ADMIN_PASSWORD) {
-        isAdminLoggedIn = true;
-        sessionStorage.setItem('ukts_admin_auth', 'true');
-        closeAdminLoginModal();
-        showToast('Welcome, Admin!');
-        if (typeof initAdminPage === 'function') initAdminPage();
-    } else {
-        const err = document.getElementById('admin-login-error');
-        if (err) err.classList.remove('hidden');
-    }
-}
-
-function adminLogout() {
-    isAdminLoggedIn = false;
-    sessionStorage.removeItem('ukts_admin_auth');
-    showToast('Logged out of Admin');
-    window.location.href = 'index.html';
-}
-
-window.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
-        e.preventDefault();
-        window.location.href = 'admin.html';
-    }
-});
-
-function getChartDropouts(chartId, currentDateStr) {
-    const db = getDB();
-    const historyObj = db.chartHistory[chartId] || {};
-    const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
-    
-    const currentIndex = dates.indexOf(currentDateStr);
-    if (currentIndex <= 0) return { prevDate: null, dropouts: [] };
-
-    const prevDate = dates[currentIndex - 1];
-    const prevEntries = historyObj[prevDate] || [];
-    const currentSongIds = new Set((historyObj[currentDateStr] || []).map(e => e.songId));
-
-    const dropouts = prevEntries.filter(entry => !currentSongIds.has(entry.songId));
-    return { prevDate, dropouts };
-}
-
-// Admin Panel Initialization & Tabs Handler
-function initAdminPage() {
-    const container = document.getElementById('admin-main-container');
-    if (!container) return;
-    
-    if (!isAdminLoggedIn) {
-        promptAdminLogin();
-        return;
-    }
-
-    container.innerHTML = `
-        <div class="max-w-7xl mx-auto px-4 py-8 space-y-8">
-            <div class="flex justify-between items-center border-b border-neutral-800 pb-6">
-                <div>
-                    <h1 class="text-3xl font-black uppercase tracking-tight">Admin Dashboard</h1>
-                    <p class="text-xs text-neutral-400 mt-1">Manage database, songs, charts, and news</p>
-                </div>
-                <button onclick="adminLogout()" class="bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold uppercase">Log Out</button>
-            </div>
-            <div class="flex gap-2 border-b border-neutral-800 pb-4 overflow-x-auto">
-                <button onclick="switchAdminTab('songs')" id="btn-tab-songs" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-[#addedc] text-black">Songs Catalog</button>
-                <button onclick="switchAdminTab('news')" id="btn-tab-news" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">News</button>
-            </div>
-            <div id="admin-tab-content"></div>
-        </div>
-    `;
-    switchAdminTab('songs');
-}
-
-function switchAdminTab(tabName) {
-    ['songs', 'news'].forEach(t => {
-        const btn = document.getElementById(`btn-tab-${t}`);
-        if (btn) {
-            if (t === tabName) {
-                btn.className = "px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-[#addedc] text-black";
-            } else {
-                btn.className = "px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white";
-            }
-        }
-    });
-
-    const db = getDB();
-    const contentArea = document.getElementById('admin-tab-content');
-    if (!contentArea) return;
-
-    if (tabName === 'songs') {
-        contentArea.innerHTML = `
-            <div class="space-y-6">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-xl font-bold uppercase">Songs Catalog (${db.songs.length})</h3>
-                    <button onclick="openSongModal()" class="bg-[#addedc] text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase flex items-center gap-2"><i class="fa-solid fa-plus"></i> Add Song</button>
-                </div>
-                <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
-                    <table class="w-full text-left border-collapse">
-                        <tr class="border-b border-neutral-800 text-neutral-400 text-xs uppercase font-bold bg-neutral-900/50">
-                            <th class="p-4">Code</th>
-                            <th class="p-4">Title & Artist</th>
-                            <th class="p-4">Genres</th>
-                            <th class="p-4 text-right">Actions</th>
-                        </tr>
-                        ${db.songs.map(s => `
-                            <tr class="border-b border-neutral-800/50 text-sm">
-                                <td class="p-4 font-mono text-xs text-neutral-400">${s.code}</td>
-                                <td class="p-4 font-bold">${s.title} <span class="block text-xs font-normal text-neutral-400">${s.artist}</span></td>
-                                <td class="p-4">${renderGenreBadges(s)}</td>
-                                <td class="p-4 text-right space-x-2">
-                                    <button onclick="openSongModal('${s.id}')" class="bg-neutral-800 hover:bg-neutral-700 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-pen"></i></button>
-                                    <button onclick="deleteSong('${s.id}')" class="bg-red-950 hover:bg-red-900 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </table>
-                </div>
-            </div>
-        `;
-    } else if (tabName === 'news') {
-        contentArea.innerHTML = typeof renderAdminNewsTab === 'function' ? renderAdminNewsTab(db) : '';
-    }
-}
-
 function openSongModal(songId = null) {
     const db = getDB();
     const song = songId ? db.songs.find(s => s.id === songId) : null;
     const currentGenres = song ? getSongGenres(song) : ['Pop'];
+    const autoCode = song ? song.code : getNextSongCode(db);
     
     const genreCheckboxes = db.genres.map(g => {
         const isChecked = currentGenres.includes(g) ? 'checked' : '';
@@ -448,7 +203,7 @@ function openSongModal(songId = null) {
             <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-lg w-full p-6 space-y-4">
                 <div class="flex justify-between items-center"><h3 class="text-xl font-bold uppercase">${song ? 'Edit Song' : 'Add Song'}</h3><button onclick="closeSongModal()"><i class="fa-solid fa-xmark text-xl"></i></button></div>
                 <form onsubmit="handleSongSubmit(event, '${songId || ''}')" class="space-y-3">
-                    <div><label class="block text-xs uppercase text-neutral-400 mb-1">Song Code (e.g., REIN-01)</label><input type="text" id="song-code-input" value="${song ? song.code : ''}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white font-mono"></div>
+                    <div><label class="block text-xs uppercase text-neutral-400 mb-1">Song Code</label><input type="text" id="song-code-input" value="${autoCode}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white font-mono" readonly></div>
                     <div><label class="block text-xs uppercase text-neutral-400 mb-1">Title</label><input type="text" id="song-title-input" value="${song ? song.title : ''}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
                     <div><label class="block text-xs uppercase text-neutral-400 mb-1">Artist(s)</label><input type="text" id="song-artist-input" value="${song ? song.artist : ''}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
                     <div>
@@ -489,6 +244,10 @@ function handleSongSubmit(e, songId) {
     const genres = Array.from(checkedBoxes).map(cb => cb.value);
     if (genres.length === 0) genres.push('Pop');
 
+    // Automatically ensure artists get assigned UKTA- codes
+    const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
+    artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
+
     if (songId) {
         const song = db.songs.find(s => s.id === songId);
         if (song) {
@@ -501,7 +260,7 @@ function handleSongSubmit(e, songId) {
     } else {
         const newSong = {
             id: Date.now().toString(),
-            code,
+            code: code || getNextSongCode(db),
             title,
             artist,
             genres,
@@ -513,7 +272,7 @@ function handleSongSubmit(e, songId) {
     saveDB(db);
     showToast('Song saved successfully!');
     closeSongModal();
-    switchAdminTab('songs');
+    if (typeof switchAdminTab === 'function') switchAdminTab('songs');
 }
 
 function deleteSong(songId) {
@@ -522,7 +281,7 @@ function deleteSong(songId) {
     db.songs = db.songs.filter(s => s.id !== songId);
     saveDB(db);
     showToast('Song deleted.');
-    switchAdminTab('songs');
+    if (typeof switchAdminTab === 'function') switchAdminTab('songs');
 }
 
 // Automatically load database on startup

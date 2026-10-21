@@ -182,6 +182,50 @@ function showToast(msg) {
     setTimeout(() => toast.remove(), 3000);
 }
 
+// --- Admin Authentication Helpers ---
+function promptAdminLogin() {
+    const modal = document.getElementById('admin-login-modal');
+    if (modal) {
+        document.getElementById('admin-pass-input').value = '';
+        document.getElementById('admin-login-error').classList.add('hidden');
+        modal.classList.remove('hidden');
+    }
+}
+
+function closeAdminLoginModal() {
+    const modal = document.getElementById('admin-login-modal');
+    if (modal) modal.classList.add('hidden');
+}
+
+function handleAdminLogin(e) {
+    e.preventDefault();
+    const pass = document.getElementById('admin-pass-input').value;
+    if (pass === ADMIN_PASSWORD) {
+        isAdminLoggedIn = true;
+        sessionStorage.setItem('ukts_admin_auth', 'true');
+        closeAdminLoginModal();
+        showToast('Welcome, Admin!');
+        if (typeof initAdminPage === 'function') initAdminPage();
+    } else {
+        const err = document.getElementById('admin-login-error');
+        if (err) err.classList.remove('hidden');
+    }
+}
+
+function adminLogout() {
+    isAdminLoggedIn = false;
+    sessionStorage.removeItem('ukts_admin_auth');
+    showToast('Logged out of Admin');
+    window.location.href = 'index.html';
+}
+
+window.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
+        e.preventDefault();
+        window.location.href = 'admin.html';
+    }
+});
+
 // Admin Panel Initialization & Tabs Handler
 function initAdminPage() {
     const container = document.getElementById('admin-main-container');
@@ -327,8 +371,8 @@ function handleCSVUpload(e) {
                 code: getNextSongCode(db),
                 title,
                 artist,
-                genres,
                 album,
+                genres,
                 cover: cover || fallbackCoverSVG
             };
             db.songs.push(newSong);

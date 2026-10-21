@@ -246,7 +246,9 @@ function initAdminPage() {
                 <button onclick="adminLogout()" class="bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold uppercase">Log Out</button>
             </div>
             <div class="flex gap-2 border-b border-neutral-800 pb-4 overflow-x-auto">
-                <button onclick="switchAdminTab('songs')" id="btn-tab-songs" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-[#addedc] text-black">Songs Catalog</button>
+                <button onclick="switchAdminTab('songs')" id="btn-tab-songs" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-[#addedc] text-black">Songs</button>
+                <button onclick="switchAdminTab('artists')" id="btn-tab-artists" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">Artists</button>
+                <button onclick="switchAdminTab('chart-history')" id="btn-tab-chart-history" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">Chart History</button>
                 <button onclick="switchAdminTab('upload')" id="btn-tab-upload" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">Upload CSV</button>
                 <button onclick="switchAdminTab('news')" id="btn-tab-news" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">News</button>
             </div>
@@ -257,8 +259,8 @@ function initAdminPage() {
 }
 
 function switchAdminTab(tabName) {
-    ['songs', 'upload', 'news'].forEach(t => {
-        const btn = document.getElementById(`btn-tab-${t}`);
+    ['songs', 'artists', 'chart-history', 'upload', 'news'].forEach(t => {
+        const btn = document.getElementById(`btn-tab-${t}`) || document.getElementById(`btn-${t}`);
         if (btn) {
             if (t === tabName) {
                 btn.className = "px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-[#addedc] text-black";
@@ -305,7 +307,9 @@ function switchAdminTab(tabName) {
     } else if (tabName === 'upload') {
         contentArea.innerHTML = renderAdminUploadTab();
     } else if (tabName === 'news') {
-        contentArea.innerHTML = typeof renderAdminNewsTab === 'function' ? renderAdminNewsTab(db) : '';
+        contentArea.innerHTML = typeof renderAdminNewsTab === 'function' ? renderAdminNewsTab(db) : '<div class="text-neutral-400 text-sm">News management</div>';
+    } else {
+        contentArea.innerHTML = `<div class="text-neutral-400 text-sm capitalize">${tabName.replace('-', ' ')} management view.</div>`;
     }
 }
 

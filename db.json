@@ -1,7 +1,13 @@
-{
-    "genres": ["Afrobeats", "Dance/Electronic", "Folk/Country", "Indie/Rock", "Pop", "Rap", "Rnb/Funk"],
-    "songs": [],
-    "chartHistory": {},
-    "news": [],
-    "artists": {}
-}
+{genres: ["Afrobeats", "Dance/Electronic", "Folk/Country", "Indie/Rock", "Pop", "Rap", "Rnb/Funk"],…}
+chartHistory
+: 
+{top-songs: {,…}}
+genres
+: 
+["Afrobeats", "Dance/Electronic", "Folk/Country", "Indie/Rock", "Pop", "Rap", "Rnb/Funk"]
+news
+: 
+[{id: "1", title: "Charts update: New milestones reached this week", category: "Latest News",…}]
+songs
+: 
+[{id: "1", code: "REIN-01", title: "Rein Me In", artist: "Sam Fender & Olivia Dean",…},…]

@@ -49,7 +49,6 @@ async function fetchDBAsync() {
         const response = await fetch('db.json?t=' + Date.now());
         if (response.ok) {
             const remoteDB = await response.json();
-            // Only use remote if it has songs, otherwise trust local storage
             if (remoteDB && remoteDB.songs && remoteDB.songs.length > 0) {
                 globalDB = remoteDB;
                 localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(globalDB));
@@ -84,8 +83,6 @@ function saveDB(data) {
     globalDB = data;
     localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(data));
     
-    // Automatically generates and triggers a download for the updated db.json file 
-    // so you can easily drop it straight into your GitHub repository![cite: 6]
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
@@ -434,7 +431,18 @@ function switchAdminTab(tabName) {
 function openSongModal(songId = null) {
     const db = getDB();
     const song = songId ? db.songs.find(s => s.id === songId) : null;
+    const currentGenres = song ? getSongGenres(song) : ['Pop'];
     
+    const genreCheckboxes = db.genres.map(g => {
+        const isChecked = currentGenres.includes(g) ? 'checked' : '';
+        return `
+            <label class="flex items-center space-x-2 text-xs bg-black p-2 rounded-xl border border-neutral-800 cursor-pointer hover:border-neutral-700">
+                <input type="checkbox" name="song-genre" value="${g}" ${isChecked} class="accent-[#addedc] rounded">
+                <span>${g}</span>
+            </label>
+        `;
+    }).join('');
+
     const modalHTML = `
         <div id="song-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
             <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-lg w-full p-6 space-y-4">
@@ -443,7 +451,12 @@ function openSongModal(songId = null) {
                     <div><label class="block text-xs uppercase text-neutral-400 mb-1">Song Code (e.g., REIN-01)</label><input type="text" id="song-code-input" value="${song ? song.code : ''}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white font-mono"></div>
                     <div><label class="block text-xs uppercase text-neutral-400 mb-1">Title</label><input type="text" id="song-title-input" value="${song ? song.title : ''}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
                     <div><label class="block text-xs uppercase text-neutral-400 mb-1">Artist(s)</label><input type="text" id="song-artist-input" value="${song ? song.artist : ''}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
-                    <div><label class="block text-xs uppercase text-neutral-400 mb-1">Genres (comma separated)</label><input type="text" id="song-genres-input" value="${song ? getSongGenres(song).join(', ') : 'Pop'}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                    <div>
+                        <label class="block text-xs uppercase text-neutral-400 mb-2">Select Genres</label>
+                        <div class="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto p-1">
+                            ${genreCheckboxes}
+                        </div>
+                    </div>
                     <div><label class="block text-xs uppercase text-neutral-400 mb-1">Cover Image URL / SVG</label><input type="text" id="song-cover-input" value="${song ? (song.cover || '') : ''}" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
                     <div class="flex justify-end gap-2 pt-3"><button type="button" onclick="closeSongModal()" class="bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold">Cancel</button><button type="submit" class="bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold">Save Song</button></div>
                 </form>
@@ -470,8 +483,11 @@ function handleSongSubmit(e, songId) {
     const code = document.getElementById('song-code-input').value.trim();
     const title = document.getElementById('song-title-input').value.trim();
     const artist = document.getElementById('song-artist-input').value.trim();
-    const genres = document.getElementById('song-genres-input').value.split(',').map(g => g.trim()).filter(Boolean);
     const cover = document.getElementById('song-cover-input').value.trim();
+
+    const checkedBoxes = document.querySelectorAll('input[name="song-genre"]:checked');
+    const genres = Array.from(checkedBoxes).map(cb => cb.value);
+    if (genres.length === 0) genres.push('Pop');
 
     if (songId) {
         const song = db.songs.find(s => s.id === songId);

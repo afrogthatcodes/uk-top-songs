@@ -119,6 +119,8 @@ function saveDB(data) {
     globalDB = data;
     localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(data));
     
+    // Automatically generates and triggers a download for the updated db.json file 
+    // so you can easily drop it straight into your GitHub repository![cite: 6]
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
@@ -226,121 +228,41 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-// Admin Panel Initialization & Tabs Handler
-function initAdminPage() {
-    const container = document.getElementById('admin-main-container');
-    if (!container) return;
-    
-    if (!isAdminLoggedIn) {
-        promptAdminLogin();
-        return;
-    }
-
-    container.innerHTML = `
-        <div class="max-w-7xl mx-auto px-4 py-8 space-y-8">
-            <div class="flex justify-between items-center border-b border-neutral-800 pb-6">
-                <div>
-                    <h1 class="text-3xl font-black uppercase tracking-tight">Admin Dashboard</h1>
-                    <p class="text-xs text-neutral-400 mt-1">Manage database, songs, charts, and news</p>
-                </div>
-                <button onclick="adminLogout()" class="bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold uppercase">Log Out</button>
-            </div>
-            <div class="flex gap-2 border-b border-neutral-800 pb-4 overflow-x-auto">
-                <button onclick="switchAdminTab('songs')" id="btn-tab-songs" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-[#addedc] text-black">Songs</button>
-                <button onclick="switchAdminTab('artists')" id="btn-tab-artists" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">Artists</button>
-                <button onclick="switchAdminTab('chart-history')" id="btn-tab-chart-history" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">Chart History</button>
-                <button onclick="switchAdminTab('upload')" id="btn-tab-upload" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">Upload CSV</button>
-                <button onclick="switchAdminTab('news')" id="btn-tab-news" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white">News</button>
-            </div>
-            <div id="admin-tab-content"></div>
-        </div>
-    `;
-    switchAdminTab('songs');
-}
-
-window.switchAdminTab = function(tabName) {
-    if (tabName === 'upload-csv' || tabName === 'csv') tabName = 'upload';
-
-    ['songs', 'artists', 'chart-history', 'upload', 'news'].forEach(t => {
-        const btn = document.getElementById(`btn-tab-${t}`) || document.getElementById(`btn-${t}`) || document.getElementById(`btn-tab-upload-csv`);
-        if (btn) {
-            if (t === tabName || (tabName === 'upload' && (btn.id === 'btn-tab-upload-csv' || btn.id === 'btn-tab-upload'))) {
-                btn.className = "px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-[#addedc] text-black";
-            } else {
-                btn.className = "px-5 py-2.5 rounded-xl text-xs font-bold uppercase bg-neutral-900 text-neutral-400 hover:text-white";
-            }
-        }
-    });
-
-    const db = getDB();
-    const contentArea = document.getElementById('admin-tab-content') || document.getElementById('tab-content') || document.querySelector('.tab-content');
-    if (!contentArea) return;
-
-    if (tabName === 'songs') {
-        contentArea.innerHTML = `
-            <div class="space-y-6">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-xl font-bold uppercase">Songs Catalog (${db.songs.length})</h3>
-                    <button onclick="openSongModal()" class="bg-[#addedc] text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase flex items-center gap-2"><i class="fa-solid fa-plus"></i> Add Song</button>
-                </div>
-                <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
-                    <table class="w-full text-left border-collapse">
-                        <tr class="border-b border-neutral-800 text-neutral-400 text-xs uppercase font-bold bg-neutral-900/50">
-                            <th class="p-4">Code</th>
-                            <th class="p-4">Title & Artist</th>
-                            <th class="p-4">Genres</th>
-                            <th class="p-4 text-right">Actions</th>
-                        </tr>
-                        ${db.songs.map(s => `
-                            <tr class="border-b border-neutral-800/50 text-sm">
-                                <td class="p-4 font-mono text-xs text-neutral-400">${s.code}</td>
-                                <td class="p-4 font-bold">${s.title} <span class="block text-xs font-normal text-neutral-400">${s.artist}</span></td>
-                                <td class="p-4">${renderGenreBadges(s)}</td>
-                                <td class="p-4 text-right space-x-2">
-                                    <button onclick="openSongModal('${s.id}')" class="bg-neutral-800 hover:bg-neutral-700 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-pen"></i></button>
-                                    <button onclick="deleteSong('${s.id}')" class="bg-red-950 hover:bg-red-900 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </table>
-                </div>
-            </div>
-        `;
-    } else if (tabName === 'upload') {
-        contentArea.innerHTML = renderAdminUploadTab();
-    } else if (tabName === 'news') {
-        contentArea.innerHTML = typeof renderAdminNewsTab === 'function' ? renderAdminNewsTab(db) : '<div class="text-neutral-400 text-sm">News management</div>';
-    } else {
-        contentArea.innerHTML = `<div class="text-neutral-400 text-sm capitalize">${tabName.replace('-', ' ')} management view.</div>`;
-    }
-};
-
-// --- CSV UPLOAD TAB UI ---
+// --- CSV UPLOAD TAB UI & HANDLER ---
 function renderAdminUploadTab() {
     const chartOptions = chartCategories.map(c => `<option value="${c.id}">${c.title}</option>`).join('');
-    
     const today = new Date();
     const defaultDateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
 
     return `
         <div class="space-y-6 max-w-xl">
             <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
-                <h3 class="text-xl font-bold uppercase">Upload Songs & Chart Data via CSV</h3>
+                <h3 class="text-xl font-bold uppercase">CSV Importer</h3>
                 <p class="text-xs text-neutral-400">
                     Expected CSV format columns: <code class="text-[#addedc]">Title, Artist, Genres (semicolon separated), Cover URL, Album</code>.<br>
-                    Song (<code class="text-[#addedc]">UKTS-X</code>) and artist (<code class="text-[#addedc]">UKTA-X</code>) codes assign sequentially!
+                    Song (<code class="text-[#addedc]">UKTS-X</code>) and artist (<code class="text-[#addedc]">UKTA-X</code>) codes are assigned sequentially automatically.
                 </p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                    <div>
-                        <label class="block text-xs uppercase text-neutral-400 mb-1">Select Chart</label>
-                        <select id="csv-chart-category" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
-                            ${chartOptions}
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase text-neutral-400 mb-1">Chart Date (DD/MM/YYYY)</label>
-                        <input type="text" id="csv-chart-date" value="${defaultDateStr}" placeholder="DD/MM/YYYY" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none font-mono">
+                <div>
+                    <label class="block text-xs uppercase text-neutral-400 mb-1">Upload Mode</label>
+                    <select id="csv-upload-type" onchange="toggleUploadModeFields()" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
+                        <option value="catalog">Master Songs Catalog Import (Songs Only)</option>
+                        <option value="chart">Chart Rankings Import (Assign to Chart & Date)</option>
+                    </select>
+                </div>
+
+                <div id="chart-options-container" class="space-y-3 hidden">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs uppercase text-neutral-400 mb-1">Select Chart</label>
+                            <select id="csv-chart-category" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
+                                ${chartOptions}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase text-neutral-400 mb-1">Chart Date (DD/MM/YYYY)</label>
+                            <input type="text" id="csv-chart-date" value="${defaultDateStr}" placeholder="DD/MM/YYYY" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none font-mono">
+                        </div>
                     </div>
                 </div>
 
@@ -349,15 +271,27 @@ function renderAdminUploadTab() {
                     <input type="file" id="csv-file-input" accept=".csv" class="w-full bg-black border border-neutral-700 px-4 py-3 rounded-xl text-xs text-white">
                 </div>
 
-                <button onclick="handleCSVUpload(event)" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Import CSV to Chart</button>
+                <button onclick="handleCSVUpload(event)" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Import CSV</button>
             </div>
         </div>
     `;
 }
 
-// --- CSV PROCESSING HANDLER ---
+function toggleUploadModeFields() {
+    const mode = document.getElementById('csv-upload-type')?.value;
+    const container = document.getElementById('chart-options-container');
+    if (container) {
+        if (mode === 'chart') {
+            container.classList.remove('hidden');
+        } else {
+            container.classList.add('hidden');
+        }
+    }
+}
+
 function handleCSVUpload(e) {
     const fileInput = document.getElementById('csv-file-input');
+    const uploadType = document.getElementById('csv-upload-type')?.value || 'catalog';
     const chartCategory = document.getElementById('csv-chart-category')?.value;
     const chartDate = document.getElementById('csv-chart-date')?.value.trim();
 
@@ -366,7 +300,7 @@ function handleCSVUpload(e) {
         return;
     }
 
-    if (!chartDate) {
+    if (uploadType === 'chart' && !chartDate) {
         showToast('Please specify a chart date (DD/MM/YYYY).');
         return;
     }
@@ -379,8 +313,10 @@ function handleCSVUpload(e) {
         const lines = text.split(/\r\n|\n/);
         const db = getDB();
 
-        if (!db.chartHistory) db.chartHistory = {};
-        if (!db.chartHistory[chartCategory]) db.chartHistory[chartCategory] = {};
+        if (uploadType === 'chart') {
+            if (!db.chartHistory) db.chartHistory = {};
+            if (!db.chartHistory[chartCategory]) db.chartHistory[chartCategory] = {};
+        }
 
         const chartEntries = [];
         let importedCount = 0;
@@ -426,17 +362,23 @@ function handleCSVUpload(e) {
 
             importedCount++;
 
-            chartEntries.push({
-                songId: existingSong.id,
-                rank: chartEntries.length + 1,
-                salesIncrease: false
-            });
+            if (uploadType === 'chart') {
+                chartEntries.push({
+                    songId: existingSong.id,
+                    rank: chartEntries.length + 1,
+                    salesIncrease: false
+                });
+            }
         }
 
-        db.chartHistory[chartCategory][chartDate] = chartEntries;
+        if (uploadType === 'chart') {
+            db.chartHistory[chartCategory][chartDate] = chartEntries;
+            showToast(`Successfully imported ${importedCount} songs into ${chartCategory} for ${chartDate}!`);
+        } else {
+            showToast(`Successfully added ${importedCount} songs to catalog!`);
+        }
 
         saveDB(db);
-        showToast(`Imported ${importedCount} songs into ${chartCategory} for ${chartDate}!`);
         if (typeof switchAdminTab === 'function') switchAdminTab('songs');
     };
 
@@ -536,7 +478,7 @@ function handleSongSubmit(e, songId) {
     saveDB(db);
     showToast('Song saved successfully!');
     closeSongModal();
-    if (typeof switchAdminTab === 'function') switchAdminTab('songs');
+    switchAdminTab('songs');
 }
 
 function deleteSong(songId) {
@@ -545,7 +487,7 @@ function deleteSong(songId) {
     db.songs = db.songs.filter(s => s.id !== songId);
     saveDB(db);
     showToast('Song deleted.');
-    if (typeof switchAdminTab === 'function') switchAdminTab('songs');
+    switchAdminTab('songs');
 }
 
 // Automatically load database on startup

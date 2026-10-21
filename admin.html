@@ -50,7 +50,6 @@
         let currentSearchQuery = '';
 
         async function checkAuthAndInit() {
-            // Wait for script.js async fetch to load data completely
             if (typeof fetchDBAsync === 'function') {
                 await fetchDBAsync();
             }
@@ -280,7 +279,21 @@
 
         // --- UPLOAD CSV TAB ---
         function renderAdminUploadTab() {
-            return `<div class="p-8 text-center text-neutral-500 bg-neutral-900 rounded-2xl border border-neutral-800">CSV Importer view.</div>`;
+            return `
+                <div class="space-y-6 max-w-xl">
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
+                        <h3 class="text-xl font-bold uppercase">Upload Songs via CSV</h3>
+                        <p class="text-xs text-neutral-400">
+                            Expected CSV format columns: <code class="text-[#addedc]">Title, Artist, Genres (semicolon separated), Cover URL, Album</code>.<br>
+                            Song codes (<code class="text-[#addedc]">UKTS-X</code>) and artist codes (<code class="text-[#addedc]">UKTA-X</code>) are automatically assigned in sequence!
+                        </p>
+                        <div>
+                            <input type="file" id="csv-file-input" accept=".csv" class="w-full bg-black border border-neutral-700 px-4 py-3 rounded-xl text-xs text-white">
+                        </div>
+                        <button onclick="handleCSVUpload(event)" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Import CSV</button>
+                    </div>
+                </div>
+            `;
         }
 
         window.addEventListener('DOMContentLoaded', () => {

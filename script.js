@@ -119,8 +119,6 @@ function saveDB(data) {
     globalDB = data;
     localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(data));
     
-    // Automatically generates and triggers a download for the updated db.json file 
-    // so you can easily drop it straight into your GitHub repository![cite: 6]
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
@@ -132,6 +130,12 @@ function saveDB(data) {
 }
 
 const fallbackCoverSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23addedc'/></svg>";
+
+// --- Global Cover Image Helper ---
+function renderSongCover(song, customClass = "w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0") {
+    const imgSrc = (song && (song.cover || song.coverUrl)) ? (song.cover || song.coverUrl) : fallbackCoverSVG;
+    return `<img src="${imgSrc}" class="${customClass}" onerror="this.src='https://placehold.co/100x100/222/fff?text=Song'">`;
+}
 
 function getSongGenres(song) {
     if (song.genres && Array.isArray(song.genres)) return song.genres;
@@ -379,7 +383,7 @@ function handleCSVUpload(e) {
         }
 
         saveDB(db);
-        if (typeof switchAdminTab === 'function') switchAdminTab('songs');
+        switchAdminTab('songs');
     };
 
     reader.readAsText(file);
@@ -490,7 +494,6 @@ function deleteSong(songId) {
     switchAdminTab('songs');
 }
 
-// Automatically load database on startup
 window.addEventListener('DOMContentLoaded', async () => {
     await fetchDBAsync();
     if (typeof checkAuthAndInit === 'function') {

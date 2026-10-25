@@ -1,0 +1,4003 @@
+{
+  "genres": [
+    "Afrobeats",
+    "Dance/Electronic",
+    "Folk/Country",
+    "Indie/Rock",
+    "Pop",
+    "Rap",
+    "Rnb/Funk"
+  ],
+  "songs": [
+    {
+      "id": "1",
+      "code": "REIN-01",
+      "title": "Rein Me In",
+      "artist": "Sam Fender & Olivia Dean",
+      "genres": [
+        "Indie/Rock"
+      ],
+      "cover": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23addedc\"/></svg>"
+    },
+    {
+      "id": "2",
+      "code": "MAN-02",
+      "title": "Man I Need",
+      "artist": "Olivia Dean",
+      "genres": [
+        "Rnb/Funk"
+      ],
+      "cover": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23addedc\"/></svg>"
+    },
+    {
+      "id": "3",
+      "code": "GREAT-03",
+      "title": "Great Expectation",
+      "artist": "SIENNA SPIRO",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23addedc\"/></svg>"
+    },
+    {
+      "id": "4",
+      "code": "CHOOS-04",
+      "title": "Choosin' Texas",
+      "artist": "Ella Langley",
+      "genres": [
+        "Folk/Country"
+      ],
+      "cover": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23addedc\"/></svg>"
+    },
+    {
+      "id": "5",
+      "code": "STUP-05",
+      "title": "stupid song",
+      "artist": "Olivia Rodrigo",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23addedc\"/></svg>"
+    },
+    {
+      "id": "1792622556053",
+      "code": "UKTS-1",
+      "title": "The Hardest Part",
+      "artist": "Olivia Dean",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/525480b43da77693b265d7baeaba0e4a/13680935/olivia-dean-the-hardest-part-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556054",
+      "code": "UKTS-2",
+      "title": "Dive",
+      "artist": "Olivia Dean",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/9c6ddd1cd08e1fe201b7cb22b9919a87/11607098/olivia-dean-dive-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556055",
+      "code": "UKTS-3",
+      "title": "Nice To Each Other",
+      "artist": "Olivia Dean",
+      "album": "The Art of Loving",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/325ce20c948d129b58e256812c7b9c63/13401943/olivia-dean-nice-to-each-other-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556056",
+      "code": "UKTS-4",
+      "title": "Rein Me In",
+      "artist": "Sam Fender; Olivia Dean",
+      "album": "People Watching",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/91a09f9c8c227b487c6737a3b074dd27/13471395/sam-fender-and-olivia-dean-rein-me-in-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556057",
+      "code": "UKTS-5",
+      "title": "Lady Lady",
+      "artist": "Olivia Dean",
+      "album": "The Art of Loving",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/563d2f62d34c326d6e6eecb6e6331761/13543168/olivia-dean-lady-lady-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556059",
+      "code": "UKTS-6",
+      "title": "Ok Love You Bye",
+      "artist": "Olivia Dean",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/8b0ff9819385e4607068189b358d631a/10706572/olivia-dean-ok-love-you-bye-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556061",
+      "code": "UKTS-7",
+      "title": "The Art of Loving (Intro)",
+      "artist": "Olivia Dean",
+      "album": "The Art of Loving",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0f8a68485a08f5661775b02ba64086d9/13414235/olivia-dean-the-art-of-loving-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556062",
+      "code": "UKTS-8",
+      "title": "Close Up",
+      "artist": "Olivia Dean",
+      "album": "The Art of Loving",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0f8a68485a08f5661775b02ba64086d9/13414235/olivia-dean-the-art-of-loving-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556063",
+      "code": "UKTS-9",
+      "title": "So Easy (To Fall In Love)",
+      "artist": "Olivia Dean",
+      "album": "The Art of Loving",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0f8a68485a08f5661775b02ba64086d9/13414235/olivia-dean-the-art-of-loving-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556064",
+      "code": "UKTS-10",
+      "title": "Baby Steps",
+      "artist": "Olivia Dean",
+      "album": "The Art of Loving",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0f8a68485a08f5661775b02ba64086d9/13414235/olivia-dean-the-art-of-loving-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556065",
+      "code": "UKTS-11",
+      "title": "Let Alone The One You Love",
+      "artist": "Olivia Dean",
+      "album": "The Art of Loving",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0f8a68485a08f5661775b02ba64086d9/13414235/olivia-dean-the-art-of-loving-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556066",
+      "code": "UKTS-12",
+      "title": "A Couple Minutes",
+      "artist": "Olivia Dean",
+      "album": "The Art of Loving",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0f8a68485a08f5661775b02ba64086d9/13414235/olivia-dean-the-art-of-loving-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556067",
+      "code": "UKTS-13",
+      "title": "Loud",
+      "artist": "Olivia Dean",
+      "album": "The Art of Loving",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0f8a68485a08f5661775b02ba64086d9/13414235/olivia-dean-the-art-of-loving-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556068",
+      "code": "UKTS-14",
+      "title": "I've Seen It",
+      "artist": "Olivia Dean",
+      "album": "The Art of Loving",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0f8a68485a08f5661775b02ba64086d9/13414235/olivia-dean-the-art-of-loving-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556069",
+      "code": "UKTS-15",
+      "title": "Something Inbetween",
+      "artist": "Olivia Dean",
+      "album": "The Art of Loving",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0f8a68485a08f5661775b02ba64086d9/13414235/olivia-dean-the-art-of-loving-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556070",
+      "code": "UKTS-16",
+      "title": "It Isn't Perfect But It Might Be",
+      "artist": "Olivia Dean",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/cff63eb50ba16e4b70231daada19a2ff/13097367/olivia-dean-it-isnt-perfect-but-it-might-be-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556071",
+      "code": "UKTS-17",
+      "title": "Hypersonic Missiles",
+      "artist": "Sam Fender",
+      "album": "Hypersonic Missiles",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e32b609f57293b59cbd3097f2b0d117e/7428839/sam-fender-hypersonic-missiles-Cover-Art.png"
+    },
+    {
+      "id": "1792622556072",
+      "code": "UKTS-18",
+      "title": "People Watching",
+      "artist": "Sam Fender",
+      "album": "People Watching",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5014394650dd11d707a0723304bc6bb3/12719263/sam-fender-people-watching-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556073",
+      "code": "UKTS-19",
+      "title": "Arm's Length",
+      "artist": "Sam Fender",
+      "album": "People Watching",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c7df9db873b459be9bccaad4b6c6e894/12963863/sam-fender-arms-length-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556075",
+      "code": "UKTS-20",
+      "title": "Remember My Name",
+      "artist": "Sam Fender",
+      "album": "People Watching",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/20f62813da5837bc50f548013cb7c342/13040646/sam-fender-remember-my-name-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556076",
+      "code": "UKTS-21",
+      "title": "Little Bit Closer",
+      "artist": "Sam Fender",
+      "album": "People Watching",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/03cb768ed11136f08717f1b8c14c0f7a/13066362/sam-fender-little-bit-closer-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556077",
+      "code": "UKTS-22",
+      "title": "Tyrants",
+      "artist": "Sam Fender",
+      "album": "People Watching",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/89e05a979fee43d3dee5dff6fbbdb8fa/13279950/sam-fender-tyrants-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556078",
+      "code": "UKTS-23",
+      "title": "Talk to You",
+      "artist": "Sam Fender; Elton John",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/04d1dca2896ae3248cb20f76feb2e69a/13857281/sam-fender-and-elton-john-talk-to-you-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556079",
+      "code": "UKTS-24",
+      "title": "Nostalgia's Lie",
+      "artist": "Sam Fender",
+      "album": "People Watching",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/d38a4374763346413609ef9601ab3a24/12718957/sam-fender-people-watching-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556080",
+      "code": "UKTS-25",
+      "title": "Chin Up",
+      "artist": "Sam Fender",
+      "album": "People Watching",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/d38a4374763346413609ef9601ab3a24/12718957/sam-fender-people-watching-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556081",
+      "code": "UKTS-26",
+      "title": "TV Dinner",
+      "artist": "Sam Fender",
+      "album": "People Watching",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/d38a4374763346413609ef9601ab3a24/12718957/sam-fender-people-watching-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556082",
+      "code": "UKTS-27",
+      "title": "Crumbling Empire",
+      "artist": "Sam Fender",
+      "album": "People Watching",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/d38a4374763346413609ef9601ab3a24/12718957/sam-fender-people-watching-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556083",
+      "code": "UKTS-28",
+      "title": "Wild Long Lie",
+      "artist": "Sam Fender",
+      "album": "People Watching",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/ed078c34e6556bca92bd87365b3360f7/12778561/sam-fender-wild-long-lie-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556084",
+      "code": "UKTS-29",
+      "title": "Tití Me Preguntó",
+      "artist": "Bad Bunny",
+      "album": "Un Verano Sin Ti",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e1c701b497adda4266344d7976ebd96b/14261880/bad-bunny-un-verano-sin-ti-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556085",
+      "code": "UKTS-30",
+      "title": "DtMF",
+      "artist": "Bad Bunny",
+      "album": "Debí Tirar Más Fotos",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/78539c15edcd36b9b00e9ec841fb7ca3/12891718/bad-bunny-debi-tirar-mas-fotos-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556087",
+      "code": "UKTS-31",
+      "title": "BAILE InOLVIDABLE",
+      "artist": "Bad Bunny",
+      "album": "Debí Tirar Más Fotos",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/78539c15edcd36b9b00e9ec841fb7ca3/12891718/bad-bunny-debi-tirar-mas-fotos-Cover-Art.jpg"
+    },
+    {
+      "id": "1792622556088",
+      "code": "UKTS-32",
+      "title": "NUEVAYoL",
+      "artist": "Bad Bunny",
+      "album": "Debí Tirar Más Fotos",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/78539c15edcd36b9b00e9ec841fb7ca3/12891718/bad-bunny-debi-tirar-mas-fotos-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123911",
+      "code": "UKTS-33",
+      "title": "Golden",
+      "artist": "HUNTR/X; EJAE; AUDREY NUNA; REI AMI; KPop Demon Hunters Cast",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f5427385103ea29b833f140081b0106f/13524868/huntr_x-golden-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123912",
+      "code": "UKTS-34",
+      "title": "I Will Overcome.",
+      "artist": "RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b30964e18a292776eec1cc65076cf7a4/14457760/raye-this-music-may-contain-hope-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123913",
+      "code": "UKTS-35",
+      "title": "Beware.. the South London Lover Boy.",
+      "artist": "RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b30964e18a292776eec1cc65076cf7a4/14457760/raye-this-music-may-contain-hope-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123914",
+      "code": "UKTS-36",
+      "title": "The WhatsApp Shakespeare.",
+      "artist": "RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b30964e18a292776eec1cc65076cf7a4/14457760/raye-this-music-may-contain-hope-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123915",
+      "code": "UKTS-37",
+      "title": "Winter Woman.",
+      "artist": "RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b30964e18a292776eec1cc65076cf7a4/14457760/raye-this-music-may-contain-hope-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123916",
+      "code": "UKTS-38",
+      "title": "Click Clack Symphony.",
+      "artist": "RAYE feat. Hans Zimmer",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b30964e18a292776eec1cc65076cf7a4/14457760/raye-this-music-may-contain-hope-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123917",
+      "code": "UKTS-39",
+      "title": "Nightingale Lane.",
+      "artist": "RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b30964e18a292776eec1cc65076cf7a4/14457760/raye-this-music-may-contain-hope-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123918",
+      "code": "UKTS-40",
+      "title": "Life Boat.",
+      "artist": "RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b30964e18a292776eec1cc65076cf7a4/14457760/raye-this-music-may-contain-hope-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123919",
+      "code": "UKTS-41",
+      "title": "I Know You're Hurting.",
+      "artist": "RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b30964e18a292776eec1cc65076cf7a4/14457760/raye-this-music-may-contain-hope-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123921",
+      "code": "UKTS-42",
+      "title": "Skin & Bones.",
+      "artist": "RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b30964e18a292776eec1cc65076cf7a4/14457760/raye-this-music-may-contain-hope-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123922",
+      "code": "UKTS-43",
+      "title": "Goodbye Henry.",
+      "artist": "RAYE feat. Al Green",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b30964e18a292776eec1cc65076cf7a4/14457760/raye-this-music-may-contain-hope-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123923",
+      "code": "UKTS-44",
+      "title": "Joy.",
+      "artist": "RAYE feat. Amma; Absolutely",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/dc2c40a07d4269a7ee96ed5c6396b5d3/15015892/raye-joy-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123924",
+      "code": "UKTS-45",
+      "title": "Prada",
+      "artist": "Cassö; RAYE; D Block Europe",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/83b5da24edc51194b59fca1c02177687/11218243/casso-raye-and-d-block-europe-prada-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123925",
+      "code": "UKTS-46",
+      "title": "Worth It.",
+      "artist": "RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/aaecc08d8dfe3b3d7f6750e91b0bf1ea/10598558/raye-my-21st-century-blues-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123926",
+      "code": "UKTS-47",
+      "title": "Oscar Winning Tears.",
+      "artist": "RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/965bd3d6f6d2231e4399d503447b54af/12692001/raye-oscar-winning-tears-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123927",
+      "code": "UKTS-48",
+      "title": "Suzanne",
+      "artist": "Mark Ronson; RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/818486c37c24960785bfdbe954f47657/13448716/mark-ronson-and-raye-suzanne-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123928",
+      "code": "UKTS-49",
+      "title": "Genesis.",
+      "artist": "RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0d337c05287a452a1ebd6da54fec6841/12197438/raye-genesis-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123929",
+      "code": "UKTS-50",
+      "title": "Moi",
+      "artist": "Central Cee; RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/7c9a4ea75c9bfa98533fc5eb44889bdd/12486524/central-cee-and-raye-moi-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123930",
+      "code": "UKTS-51",
+      "title": "WHERE IS MY HUSBAND!",
+      "artist": "RAYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/6d63e1ad5f0660869f2ca3fb85a256da/13768463/raye-where-is-my-husband-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123931",
+      "code": "UKTS-52",
+      "title": "The Fate of Ophelia",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/ef6d1967c5250c6d10131cf9f1ee2ae9/13907260/taylor-swift-the-fate-of-ophelia-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123932",
+      "code": "UKTS-53",
+      "title": "Raindance",
+      "artist": "Dave feat. Tems",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c4e8336b329ecfbbbbdd8f65158342ea/14987991/dave-the-boy-who-played-the-harp-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123933",
+      "code": "UKTS-54",
+      "title": "Sprinter",
+      "artist": "Dave; Central Cee",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/a12fd2cf91383a3eb1d4a56531157dd5/11022909/dave-and-central-cee-sprinter-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123934",
+      "code": "UKTS-55",
+      "title": "Stop Giving Me Advice",
+      "artist": "Lyrical Lemonade; Jack Harlow; Dave",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/a093738aea94d8f3151c81eb2458e323/11575994/cole-bennett-jack-harlow-and-dave-stop-giving-me-advice-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123935",
+      "code": "UKTS-56",
+      "title": "History",
+      "artist": "Dave feat. James Blake",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c4e8336b329ecfbbbbdd8f65158342ea/14987991/dave-the-boy-who-played-the-harp-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123936",
+      "code": "UKTS-57",
+      "title": "175 Months",
+      "artist": "Dave",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c4e8336b329ecfbbbbdd8f65158342ea/14987991/dave-the-boy-who-played-the-harp-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123937",
+      "code": "UKTS-58",
+      "title": "No Weapons",
+      "artist": "Dave feat. Jim Legxacy",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c4e8336b329ecfbbbbdd8f65158342ea/14987991/dave-the-boy-who-played-the-harp-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123938",
+      "code": "UKTS-59",
+      "title": "Chapter 16",
+      "artist": "Dave feat. Kano",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c4e8336b329ecfbbbbdd8f65158342ea/14987991/dave-the-boy-who-played-the-harp-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123939",
+      "code": "UKTS-60",
+      "title": "Selfish",
+      "artist": "Dave feat. James Blake",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c4e8336b329ecfbbbbdd8f65158342ea/14987991/dave-the-boy-who-played-the-harp-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123940",
+      "code": "UKTS-61",
+      "title": "My 27th Birthday",
+      "artist": "Dave",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c4e8336b329ecfbbbbdd8f65158342ea/14987991/dave-the-boy-who-played-the-harp-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123941",
+      "code": "UKTS-62",
+      "title": "Marvellous",
+      "artist": "Dave",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c4e8336b329ecfbbbbdd8f65158342ea/14987991/dave-the-boy-who-played-the-harp-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123942",
+      "code": "UKTS-63",
+      "title": "The Boy Who Played The Harp",
+      "artist": "Dave",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c4e8336b329ecfbbbbdd8f65158342ea/14987991/dave-the-boy-who-played-the-harp-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123943",
+      "code": "UKTS-64",
+      "title": "Fairchild",
+      "artist": "Dave feat. Nicole Blakk",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c4e8336b329ecfbbbbdd8f65158342ea/14987991/dave-the-boy-who-played-the-harp-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123944",
+      "code": "UKTS-65",
+      "title": "Before You Leave Me",
+      "artist": "Alex Warren",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/7c903d1294ab8b6c85f573aeda41867b/12701860/alex-warren-before-you-leave-me-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123945",
+      "code": "UKTS-66",
+      "title": "Burning Down",
+      "artist": "Alex Warren",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c3348c16a88128ca32c97020abd9e3a0/12722144/alex-warren-burning-down-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123947",
+      "code": "UKTS-67",
+      "title": "APT.",
+      "artist": "ROSÉ; Bruno Mars",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b8168764a6812ba7ee521cd32406b9ad/12621308/rose-and-bruno-mars-apt-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123948",
+      "code": "UKTS-68",
+      "title": "Fat Juicy & Wet",
+      "artist": "Sexyy Red; Bruno Mars",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/167306f531e2ec47e75fd884cf04c529/12966316/sexyy-red-and-bruno-mars-fat-juicy-and-wet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123949",
+      "code": "UKTS-69",
+      "title": "Die With A Smile",
+      "artist": "Lady Gaga; Bruno Mars",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5cc1448c4812510b1f210b375cb18e56/12420225/lady-gaga-and-bruno-mars-die-with-a-smile-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123950",
+      "code": "UKTS-70",
+      "title": "I Just Might",
+      "artist": "Bruno Mars",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/fef5c8f5a127a2a25d136ee35ffe6793/14293701/bruno-mars-the-romantic-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123951",
+      "code": "UKTS-71",
+      "title": "Risk It All",
+      "artist": "Bruno Mars",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/fef5c8f5a127a2a25d136ee35ffe6793/14293701/bruno-mars-the-romantic-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123952",
+      "code": "UKTS-72",
+      "title": "Cha Cha Cha",
+      "artist": "Bruno Mars",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/fef5c8f5a127a2a25d136ee35ffe6793/14293701/bruno-mars-the-romantic-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123953",
+      "code": "UKTS-73",
+      "title": "On My Soul",
+      "artist": "Bruno Mars",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/fef5c8f5a127a2a25d136ee35ffe6793/14293701/bruno-mars-the-romantic-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123954",
+      "code": "UKTS-74",
+      "title": "RUNWAY",
+      "artist": "Lady Gaga; Doechii",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b4a447cdca509c0042223e429faff4df/14488211/lady-gaga-and-doechii-runway-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123955",
+      "code": "UKTS-75",
+      "title": "DENIAL IS A RIVER",
+      "artist": "Doechii",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/432c3873526aa2be3ffbd4867176d7bf/13051058/doechii-denial-is-a-river-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123956",
+      "code": "UKTS-76",
+      "title": "Anxiety",
+      "artist": "Doechii",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/352513dd35154d27c84e70624e6a7fd5/13104344/doechii-anxiety-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123957",
+      "code": "UKTS-77",
+      "title": "Disease",
+      "artist": "Lady Gaga",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/046ba64e9d9ac9b91653d2e9f26eee35/12645873/lady-gaga-disease-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123958",
+      "code": "UKTS-78",
+      "title": "The Dead Dance",
+      "artist": "Lady Gaga",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/a6ddc54a621baaa2a89f9ee83ee40f34/13719950/lady-gaga-the-dead-dance-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123959",
+      "code": "UKTS-79",
+      "title": "Shadow of a Man",
+      "artist": "Lady Gaga",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f22566b7d5866dff0249e8635143d965/12979170/lady-gaga-mayhem-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123960",
+      "code": "UKTS-80",
+      "title": "Perfect Celebrity",
+      "artist": "Lady Gaga",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f22566b7d5866dff0249e8635143d965/12979170/lady-gaga-mayhem-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123961",
+      "code": "UKTS-81",
+      "title": "LoveDrug",
+      "artist": "Lady Gaga",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f22566b7d5866dff0249e8635143d965/12979170/lady-gaga-mayhem-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123962",
+      "code": "UKTS-82",
+      "title": "Zombieboy",
+      "artist": "Lady Gaga",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f22566b7d5866dff0249e8635143d965/12979170/lady-gaga-mayhem-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123963",
+      "code": "UKTS-83",
+      "title": "How Bad Do U Want Me",
+      "artist": "Lady Gaga",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f22566b7d5866dff0249e8635143d965/12979170/lady-gaga-mayhem-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123964",
+      "code": "UKTS-84",
+      "title": "Garden of Eden",
+      "artist": "Lady Gaga",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f22566b7d5866dff0249e8635143d965/12979170/lady-gaga-mayhem-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123965",
+      "code": "UKTS-85",
+      "title": "Abracadabra",
+      "artist": "Lady Gaga",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f22566b7d5866dff0249e8635143d965/12979170/lady-gaga-mayhem-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123966",
+      "code": "UKTS-86",
+      "title": "Vanish Into You",
+      "artist": "Lady Gaga",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f22566b7d5866dff0249e8635143d965/12979170/lady-gaga-mayhem-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123967",
+      "code": "UKTS-87",
+      "title": "Killah",
+      "artist": "Lady Gaga feat. Gesaffelstein",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f22566b7d5866dff0249e8635143d965/12979170/lady-gaga-mayhem-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123968",
+      "code": "UKTS-88",
+      "title": "God Was Showing Off",
+      "artist": "Bruno Mars",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/fef5c8f5a127a2a25d136ee35ffe6793/14293701/bruno-mars-the-romantic-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123969",
+      "code": "UKTS-89",
+      "title": "Carry You Home",
+      "artist": "Alex Warren",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c6e0d2ac164d3ffcdeb611587ceb38da/12228561/alex-warren-carry-you-home-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123970",
+      "code": "UKTS-90",
+      "title": "Bloodline",
+      "artist": "Alex Warren; Jelly Roll",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f706b99fb47a238b94692236dab0f7cf/13376306/alex-warren-bloodline-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123971",
+      "code": "UKTS-91",
+      "title": "On My Mind",
+      "artist": "Alex Warren; ROSÉ",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/7a33c73035e23deec4ffb46b0f04eea2/13496799/alex-warren-and-rose-on-my-mind-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123972",
+      "code": "UKTS-92",
+      "title": "Ordinary",
+      "artist": "Alex Warren",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/1e89ccbb8834d64e29c1029d5ef9592e/13016601/alex-warren-ordinary-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123973",
+      "code": "UKTS-93",
+      "title": "FEVER DREAM",
+      "artist": "Alex Warren",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/ee469553749af0fa329c195e8dbf4514/14333796/alex-warren-fever-dream-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123974",
+      "code": "UKTS-94",
+      "title": "FINE PLACE TO DIE",
+      "artist": "Alex Warren",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/fc21b2d1854fa2414981842a4600193c/14563447/alex-warren-fine-place-to-die-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123975",
+      "code": "UKTS-95",
+      "title": "PASSENGER",
+      "artist": "Alex Warren",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5eb79eae9a110a41001af797810e20a1/14683440/alex-warren-wildchild-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123976",
+      "code": "UKTS-96",
+      "title": "RESCUER",
+      "artist": "Alex Warren",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5eb79eae9a110a41001af797810e20a1/14683440/alex-warren-wildchild-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123977",
+      "code": "UKTS-97",
+      "title": "CRY WOLF",
+      "artist": "Alex Warren",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5eb79eae9a110a41001af797810e20a1/14683440/alex-warren-wildchild-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123978",
+      "code": "UKTS-98",
+      "title": "EMERALD EYES",
+      "artist": "Alex Warren",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5eb79eae9a110a41001af797810e20a1/14683440/alex-warren-wildchild-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123979",
+      "code": "UKTS-99",
+      "title": "Midnight Sun",
+      "artist": "Zara Larsson",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0fa07d05bec6befb0f04c1367d892650/13448893/zara-larsson-midnight-sun-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123980",
+      "code": "UKTS-100",
+      "title": "End of Beginning",
+      "artist": "Djo",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/2d50182762d807a75178f3c5041914fd/12047567/djo-end-of-beginning-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123982",
+      "code": "UKTS-101",
+      "title": "Basic Being Basic",
+      "artist": "Djo",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/916697dc6527ccbd7dc97b4118bfe4fe/12963842/djo-basic-being-basic-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123983",
+      "code": "UKTS-102",
+      "title": "No Broke Boys",
+      "artist": "Disco Lines; Tinashe",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e120b97f798b46f1f1f29b59131da350/13428811/disco-lines-and-tinashe-no-broke-boys-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123984",
+      "code": "UKTS-103",
+      "title": "12 to 12",
+      "artist": "sombr",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/da4d7993b6850349cdaa0b6b63a309c2/13590171/sombr-12-to-12-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123985",
+      "code": "UKTS-104",
+      "title": "Lush Life",
+      "artist": "Zara Larsson",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/a8af20af6abdf3531a0fbed0c58889bc/5778696/zara-larsson-lush-life-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123986",
+      "code": "UKTS-105",
+      "title": "Soda Pop",
+      "artist": "Saja Boys; Andrew Choi; Neckwav; Danny Chung; KEVIN WOO; samUIL Lee; KPop Demon Hunters Cast",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/7bc2f591d47b246679976f5e3227255e/13741644/saja-boys-soda-pop-Cover-Art.png"
+    },
+    {
+      "id": "1792887123987",
+      "code": "UKTS-106",
+      "title": "Opalite",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/6a64769f14193df9540a3f82310b3e0a/14193688/taylor-swift-opalite-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123988",
+      "code": "UKTS-107",
+      "title": "back to friends",
+      "artist": "sombr",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f5c2ab9ef5dc0fc7c724c7e787ae46ae/13138995/sombr-back-to-friends-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123989",
+      "code": "UKTS-108",
+      "title": "undressed",
+      "artist": "sombr",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/cee8bf5b307baa0edf601a98b89bdf8f/13168245/sombr-undressed-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123990",
+      "code": "UKTS-109",
+      "title": "My Body Isn't Ready",
+      "artist": "sombr",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/baf3084173ad9fdd605e3030b5c5e293/14759615/sombr-my-body-isnt-ready-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123991",
+      "code": "UKTS-110",
+      "title": "Homewrecker",
+      "artist": "sombr",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/30d6de63944522f38d0cfac02509cb81/14249838/sombr-homewrecker-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123992",
+      "code": "UKTS-111",
+      "title": "Potential",
+      "artist": "sombr",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f7f6ed9a38e6f335714250b52cd148a7/14512487/sombr-potential-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123993",
+      "code": "UKTS-112",
+      "title": "Die On This Hill",
+      "artist": "SIENNA SPIRO",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/10b3811082a108e578c8f34377eb2e2b/13848285/sienna-spiro-die-on-this-hill-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123994",
+      "code": "UKTS-113",
+      "title": "Manchild",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/8574df7596e6aaa434de03f55e4852c7/13426290/sabrina-carpenter-manchild-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123995",
+      "code": "UKTS-114",
+      "title": "Phantom",
+      "artist": "EsDeeKid; Rico Ace",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/96fce0dd3dec7d04bae2f55e35cf81be/13111342/esdeekid-and-rico-ace-phantom-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123996",
+      "code": "UKTS-115",
+      "title": "CHANEL",
+      "artist": "Tyla",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/dc9d96a55084f46b05bd0948f083a6cb/13879634/tyla-chanel-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123997",
+      "code": "UKTS-116",
+      "title": "PUSH 2 START",
+      "artist": "Tyla",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/d18ce8dedc56b9557fb3b2a1408c7b34/12781923/tyla-push-2-start-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887123998",
+      "code": "UKTS-117",
+      "title": "Water",
+      "artist": "Tyla",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/9e611fd167ab377c9b416e2ffd4b17c9/11430596/tyla-water-Cover-Art.png"
+    },
+    {
+      "id": "1792887123999",
+      "code": "UKTS-118",
+      "title": "Show Me Love",
+      "artist": "WizTheMc; bees & honey",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/af6b4c66d0a6fa316caf6e372c364c6a/13117960/wizthemc-and-bees-and-honey-show-me-love-Cover-Art.png"
+    },
+    {
+      "id": "1792887124000",
+      "code": "UKTS-119",
+      "title": "Take My Mind",
+      "artist": "WizTheMc; bees & honey",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/7af4e35fa4ef133b0ef45a154a769a4b/13570037/wizthemc-and-bees-and-honey-take-my-mind-Cover-Art.png"
+    },
+    {
+      "id": "1792887124002",
+      "code": "UKTS-120",
+      "title": "SHE DID IT AGAIN",
+      "artist": "Tyla feat. Zara Larsson",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/2c633b02514ec98aa9c1d2cbbf5abfb9/14510807/tyla-she-did-it-again-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124003",
+      "code": "UKTS-121",
+      "title": "Running Up That Hill (A Deal With God)",
+      "artist": "Kate Bush",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0e15dba5fb0dabb22417b1e1a9f7a72c/2971105/kate-bush-running-up-that-hill-under-the-ivy-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124004",
+      "code": "UKTS-122",
+      "title": "Wuthering Heights",
+      "artist": "Kate Bush",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/682db21d5c30aa2ea0bb1f00654a5eb7/13317470/kate-bush-wuthering-heights-kite-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124005",
+      "code": "UKTS-123",
+      "title": "Your Idol",
+      "artist": "Saja Boys; Andrew Choi; Neckwav; Danny Chung; KEVIN WOO; samUIL Lee; KPop Demon Hunters Cast",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f76ea5771f1292a0d56df0874ed6ae1a/13753658/saja-boys-your-idol-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124006",
+      "code": "UKTS-124",
+      "title": "Century",
+      "artist": "EsDeeKid",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5f7b33950fcf128100b60449286e5744/13904359/esdeekid-century-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124007",
+      "code": "UKTS-125",
+      "title": "Every Breath You Take",
+      "artist": "The Police",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5dd252a292df5c2a3cca7838ee89d5ab/3294350/the-police-every-breath-you-take-murder-by-numbers-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124008",
+      "code": "UKTS-126",
+      "title": "How It's Done",
+      "artist": "HUNTR/X; EJAE; AUDREY NUNA; REI AMI; KPop Demon Hunters Cast",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c9b68b0947c90839585bbd33dbd03ca4/13785514/huntr_x-how-its-done-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124009",
+      "code": "UKTS-127",
+      "title": "What It Sounds Like",
+      "artist": "HUNTR/X; EJAE; AUDREY NUNA; REI AMI; KPop Demon Hunters Cast",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f636b4acf2616b1abfcb59ee68c875e7/13785524/huntr_x-what-it-sounds-like-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124010",
+      "code": "UKTS-128",
+      "title": "Eternity",
+      "artist": "Alex Warren",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/ddb0b97b68c8d7a9792ca22457ad6ea1/13636449/alex-warren-eternity-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124011",
+      "code": "UKTS-129",
+      "title": "Tears",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/490dc5822fc82d0426452f8e89eca7a0/13746069/sabrina-carpenter-tears-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124012",
+      "code": "UKTS-130",
+      "title": "XMAS",
+      "artist": "Kylie Minogue",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/9943eec54d0dea79588a1d1fdd8cf6b8/14135018/kylie-minogue-xmas-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124013",
+      "code": "UKTS-131",
+      "title": "Padam Padam",
+      "artist": "Kylie Minogue",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/952e9f7a29910e6b926ca5310bdb2110/11281320/kylie-padam-padam-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124014",
+      "code": "UKTS-132",
+      "title": "4 Raws",
+      "artist": "EsDeeKid",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/1f6370cd0a27285460d68b0360b5885f/13452143/esdeekid-rebel-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124015",
+      "code": "UKTS-133",
+      "title": "Think About Us",
+      "artist": "Sonny Fodera; D.O.D; Poppy Baskcomb",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/6baaa487af5d5283bcece8b3c1551316/13856900/sonny-fodera-d_o_d-and-poppy-baskcomb-think-about-us-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124017",
+      "code": "UKTS-134",
+      "title": "TIT FOR TAT",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/387b2a23357fd47ed2781de39c765dd0/13789390/tate-mcrae-tit-for-tat-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124018",
+      "code": "UKTS-135",
+      "title": "Folded",
+      "artist": "Kehlani",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/841706178e7a9781d74cf145e54f2f48/13446018/kehlani-folded-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124019",
+      "code": "UKTS-136",
+      "title": "Upside Down",
+      "artist": "Diana Ross",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/a3d822916fbb98517e6b9d73433345da/6401878/diana-ross-upside-down-friend-to-friend-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124020",
+      "code": "UKTS-137",
+      "title": "I Think We're Alone Now",
+      "artist": "Tiffany",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/cb488a14a7690e10685b65ede05e6e52/1490677/tiffany-i-think-were-alone-now-no-rules-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124021",
+      "code": "UKTS-138",
+      "title": "Sapphire",
+      "artist": "Ed Sheeran",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/3af3aa0d6e36555b3e37f6b56cb94628/13424838/ed-sheeran-sapphire-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124022",
+      "code": "UKTS-139",
+      "title": "Azizam",
+      "artist": "Ed Sheeran",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/6f3f982220b8903a32874e1a291468ea/13182148/ed-sheeran-azizam-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124023",
+      "code": "UKTS-140",
+      "title": "Drive",
+      "artist": "Ed Sheeran",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/da5636e3a72680ed85e12471af0f7b01/13471378/ed-sheeran-drive-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124024",
+      "code": "UKTS-141",
+      "title": "Camera",
+      "artist": "Ed Sheeran",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/3318ec32210fbeee2efb31c8488093a2/14040514/ed-sheeran-camera-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124025",
+      "code": "UKTS-142",
+      "title": "A Little More",
+      "artist": "Ed Sheeran",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0039f2556d235e20e4820e565ec287cd/13635186/ed-sheeran-a-little-more-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124026",
+      "code": "UKTS-143",
+      "title": "Old Phone",
+      "artist": "Ed Sheeran",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/7f3de11556c1235b5f25fb5120d9a645/13424841/ed-sheeran-old-phone-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124027",
+      "code": "UKTS-144",
+      "title": "YUKON",
+      "artist": "Justin Bieber",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5e5e7ce0fb68d823157e68c319ac14d0/13543163/justin-bieber-swag-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124028",
+      "code": "UKTS-145",
+      "title": "DAISIES",
+      "artist": "Justin Bieber",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/1643807fb0a780a093ddccd4fefb0a2c/14016266/justin-bieber-daisies-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124029",
+      "code": "UKTS-146",
+      "title": "Mistletoe",
+      "artist": "Justin Bieber",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b83ba12f7cb2066c97a29f095e318e8f/3935331/justin-bieber-mistletoe-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124030",
+      "code": "UKTS-147",
+      "title": "SPEED DEMON",
+      "artist": "Justin Bieber",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/9177c2ce232ccc8e2793474f7d5a7380/13726229/justin-bieber-swag-ii-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124031",
+      "code": "UKTS-148",
+      "title": "Eenie Meenie",
+      "artist": "Sean Kingston; Justin Bieber",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/d189b49f2290dbe0bcff8450893d8dcf/3135201/sean-kingston-justin-bieber-eenie-meenie-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124032",
+      "code": "UKTS-149",
+      "title": "One Less Lonely Girl",
+      "artist": "Justin Bieber",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/d3fdba9cf1ac6385d8594b104c0cbe5a/13819475/justin-bieber-one-less-lonely-girl-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124033",
+      "code": "UKTS-150",
+      "title": "Confident",
+      "artist": "Justin Bieber feat. Chance the Rapper",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/29c98e3a260a63533a0c8fbe8679fc34/5047747/justin-bieber-confident-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124034",
+      "code": "UKTS-151",
+      "title": "Beauty and a Beat",
+      "artist": "Justin Bieber feat. Nicki Minaj",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/8c00221b261e20bc418e35efea820ecf/7855739/justin-bieber-beauty-and-a-beat-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124035",
+      "code": "UKTS-152",
+      "title": "ALL I CAN TAKE",
+      "artist": "Justin Bieber",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5e5e7ce0fb68d823157e68c319ac14d0/13543163/justin-bieber-swag-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124036",
+      "code": "UKTS-153",
+      "title": "GO BABY",
+      "artist": "Justin Bieber",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5e5e7ce0fb68d823157e68c319ac14d0/13543163/justin-bieber-swag-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124037",
+      "code": "UKTS-154",
+      "title": "Juno",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0cba86ceac92f4aecd28289edb8ec11d/12449233/sabrina-carpenter-short-n-sweet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124038",
+      "code": "UKTS-155",
+      "title": "Good Graces",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0cba86ceac92f4aecd28289edb8ec11d/12449233/sabrina-carpenter-short-n-sweet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124039",
+      "code": "UKTS-156",
+      "title": "Bed Chem",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/3114159933d17244b36cd04b56c12005/12665603/sabrina-carpenter-bed-chem-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124040",
+      "code": "UKTS-157",
+      "title": "Espresso",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/fe5241669df7d88a930a447775352c91/11999974/sabrina-carpenter-espresso-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124041",
+      "code": "UKTS-158",
+      "title": "Nonsense",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c1dcb379ee4b7fb74ca6684ba26c38b1/10714322/sabrina-carpenter-nonsense-sped-up-version-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124042",
+      "code": "UKTS-159",
+      "title": "A Nonsense Christmas",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/9b18ae66d489c5d3b4d9aa76e094087e/10494884/sabrina-carpenter-a-nonsense-christmas-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124043",
+      "code": "UKTS-160",
+      "title": "Feather",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f3c500d7dc0297564e43b7c945acf1fb/12453878/sabrina-carpenter-feather-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124044",
+      "code": "UKTS-161",
+      "title": "Please Please Please",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f322cd094b3cef1fa1518f9e167cff00/12234943/sabrina-carpenter-please-please-please-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124045",
+      "code": "UKTS-162",
+      "title": "Sharpest Tool",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0cba86ceac92f4aecd28289edb8ec11d/12449233/sabrina-carpenter-short-n-sweet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124046",
+      "code": "UKTS-163",
+      "title": "Coincidence",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0cba86ceac92f4aecd28289edb8ec11d/12449233/sabrina-carpenter-short-n-sweet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124047",
+      "code": "UKTS-164",
+      "title": "Dumb & Poetic",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0cba86ceac92f4aecd28289edb8ec11d/12449233/sabrina-carpenter-short-n-sweet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124048",
+      "code": "UKTS-165",
+      "title": "Slim Pickins",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0cba86ceac92f4aecd28289edb8ec11d/12449233/sabrina-carpenter-short-n-sweet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124049",
+      "code": "UKTS-166",
+      "title": "Don't Smile",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0cba86ceac92f4aecd28289edb8ec11d/12449233/sabrina-carpenter-short-n-sweet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124050",
+      "code": "UKTS-167",
+      "title": "Lie to Girls",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0cba86ceac92f4aecd28289edb8ec11d/12449233/sabrina-carpenter-short-n-sweet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124051",
+      "code": "UKTS-168",
+      "title": "Busy Woman",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/cba619874678c6c52130ecaed9a92546/13036752/sabrina-carpenter-short-n-sweet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124052",
+      "code": "UKTS-169",
+      "title": "15 Minutes",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/cba619874678c6c52130ecaed9a92546/13036752/sabrina-carpenter-short-n-sweet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124054",
+      "code": "UKTS-170",
+      "title": "Couldn't Make It Any Harder",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/cba619874678c6c52130ecaed9a92546/13036752/sabrina-carpenter-short-n-sweet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124055",
+      "code": "UKTS-171",
+      "title": "Bad Reviews",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/cba619874678c6c52130ecaed9a92546/13036752/sabrina-carpenter-short-n-sweet-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124056",
+      "code": "UKTS-172",
+      "title": "My Man on Willpower",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e4cd2d27af093aa8fb2e8cc609792e8c/13444894/sabrina-carpenter-mans-best-friend-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124057",
+      "code": "UKTS-173",
+      "title": "Sugar Talking",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e4cd2d27af093aa8fb2e8cc609792e8c/13444894/sabrina-carpenter-mans-best-friend-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124058",
+      "code": "UKTS-174",
+      "title": "We Almost Broke Up Again Last Night",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e4cd2d27af093aa8fb2e8cc609792e8c/13444894/sabrina-carpenter-mans-best-friend-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124059",
+      "code": "UKTS-175",
+      "title": "Don't Worry I'll Make You Worry",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e4cd2d27af093aa8fb2e8cc609792e8c/13444894/sabrina-carpenter-mans-best-friend-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124060",
+      "code": "UKTS-176",
+      "title": "Never Getting Laid",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e4cd2d27af093aa8fb2e8cc609792e8c/13444894/sabrina-carpenter-mans-best-friend-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124061",
+      "code": "UKTS-177",
+      "title": "Go Go Juice",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e4cd2d27af093aa8fb2e8cc609792e8c/13444894/sabrina-carpenter-mans-best-friend-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124062",
+      "code": "UKTS-178",
+      "title": "Goodbye",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e4cd2d27af093aa8fb2e8cc609792e8c/13444894/sabrina-carpenter-mans-best-friend-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124063",
+      "code": "UKTS-179",
+      "title": "Gabriela",
+      "artist": "KATSEYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/aa1ce41f75e1ec5dd017a8ea0cf3124e/13461130/katseye-gabriela-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124064",
+      "code": "UKTS-180",
+      "title": "Gnarly",
+      "artist": "KATSEYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/06fc365f4265d2fc0b25398050a2fd3d/13298100/katseye-gnarly-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124065",
+      "code": "UKTS-181",
+      "title": "Internet Girl",
+      "artist": "KATSEYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/2db397db443e9186e420c9d1a24a3abb/14115315/katseye-internet-girl-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124066",
+      "code": "UKTS-182",
+      "title": "PINKY UP",
+      "artist": "KATSEYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/45d2fbd894bc96c597e0b4db221ec587/14454347/katseye-pinky-up-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124067",
+      "code": "UKTS-183",
+      "title": "Hootie Frutti",
+      "artist": "KATSEYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/3ff5fb92bd7f3b4a5d4a5921bc833313/14728648/katseye-wild-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124068",
+      "code": "UKTS-184",
+      "title": "Animal",
+      "artist": "KATSEYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/49d1c150442b02ecdac35f150f40c363/14846887/katseye-animal-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124070",
+      "code": "UKTS-185",
+      "title": "ICONIC BY MISTAKE",
+      "artist": "LE SSERAFIM; ILLIT; KATSEYE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/9a8a8a83995cbf95f966daa46bdc3986/14712388/le-sserafim-illit-and-katseye-iconic-by-mistake-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124071",
+      "code": "UKTS-186",
+      "title": "Elizabeth Taylor",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/8ae9ccbc5278866100a41764e274ee56/14347918/taylor-swift-elizabeth-taylor-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124072",
+      "code": "UKTS-187",
+      "title": "Talk of the Town",
+      "artist": "Fred again..; Sammy Virji; Reggie",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/62acee0fd5da1481e784fd693d6b7e92/13919997/fred-again-sammy-virji-and-reggie-talk-of-the-town-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124073",
+      "code": "UKTS-188",
+      "title": "Turn The Lights Off",
+      "artist": "Kato; Jon",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/bc69ba48948329ad7bed9afffe301e88/4707522/kato-turn-the-lights-off-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124074",
+      "code": "UKTS-189",
+      "title": "one of wun",
+      "artist": "Gunna",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/1189eeb8eef28d462d3bb137ad799ee7/12103429/gunna-one-of-wun-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124075",
+      "code": "UKTS-190",
+      "title": "on one tonight",
+      "artist": "Gunna",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/1189eeb8eef28d462d3bb137ad799ee7/12103429/gunna-one-of-wun-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124076",
+      "code": "UKTS-191",
+      "title": "Jump",
+      "artist": "Tyla; Gunna; Skillibeng",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/793f86ff04f041096a8a926ac53fae01/11930946/tyla-gunna-and-skillibeng-jump-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124078",
+      "code": "UKTS-192",
+      "title": "i adore u",
+      "artist": "Fred again..; Obongjayar",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0ffaa5a8fcb493a29cd2e98b84f71002/11244502/fred-again-and-obongjayar-i-adore-u-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124079",
+      "code": "UKTS-193",
+      "title": "leavemealone",
+      "artist": "Fred again..; Baby Keem",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/601b89c7b0c266703e98ae69cfb21fe2/11575915/fred-again-and-baby-keem-leavemealone-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124080",
+      "code": "UKTS-194",
+      "title": "stayinit",
+      "artist": "Fred again..; Lil Yachty; Overmono",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/6b1e1c8ab5593bd1152308d9d7bf3374/11851530/fred-again-lil-yachty-and-overmono-stayinit-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124081",
+      "code": "UKTS-195",
+      "title": "places to be",
+      "artist": "Fred again..; Anderson .Paak; Chika",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/596a4cae0b730dedb619936626f9ed32/12175893/fred-again-anderson-paak-and-chika-places-to-be-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124082",
+      "code": "UKTS-196",
+      "title": "Scared",
+      "artist": "Fred again..; Young Thug",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/302bc55a1ac268f21d57115279390644/14198699/fred-again-and-young-thug-scared-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124083",
+      "code": "UKTS-197",
+      "title": "Lights Burn Dimmer",
+      "artist": "Fred again..; Jamie T",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/992677e4996c086b9f9128a3fc5a4f10/14276979/fred-again-and-jamie-t-lights-burn-dimmer-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124084",
+      "code": "UKTS-198",
+      "title": "Step Into Christmas",
+      "artist": "Elton John",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/897ddf11b14b6019e0837ec0c4146d98/2092684/elton-john-step-into-christmas-ho-ho-ho-whod-be-a-turkey-at-christmas-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124085",
+      "code": "UKTS-199",
+      "title": "Vienna",
+      "artist": "Billy Joel",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f2c6a8e6ab2a18db66fd8ac993f5ec67/2748870/billy-joel-shes-always-a-woman-vienna-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124086",
+      "code": "UKTS-200",
+      "title": "Merry Christmas",
+      "artist": "Ed Sheeran; Elton John",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f98ac91609874326ad15ba8becfc2444/9517008/ed-sheeran-and-elton-john-merry-christmas-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124087",
+      "code": "UKTS-201",
+      "title": "Forever Be Mine",
+      "artist": "Gunna feat. WizKid",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5c86bdbef144281e8c1c0f4eb9462306/13637201/gunna-wgft-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124088",
+      "code": "UKTS-202",
+      "title": "Victory Lap",
+      "artist": "Fred again..; Skepta; PlaqueBoyMax",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e7958cf63b88a68ed17c6505416187bf/13465761/fred-again-skepta-and-plaqueboymax-victory-lap-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124089",
+      "code": "UKTS-203",
+      "title": "wgft",
+      "artist": "Gunna feat. Burna Boy",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5c86bdbef144281e8c1c0f4eb9462306/13637201/gunna-wgft-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124090",
+      "code": "UKTS-204",
+      "title": "Such A Funny Way",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/ab64cd1632bdd50caf0cab2aa395fe8a/14092468/sabrina-carpenter-mans-best-friend-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124091",
+      "code": "UKTS-205",
+      "title": "Piano Man",
+      "artist": "Billy Joel",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5e01044e41af9809befa60dca41376c6/15046931/billy-joel-piano-man-youre-my-home-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124092",
+      "code": "UKTS-206",
+      "title": "Stateside",
+      "artist": "PinkPantheress; Zara Larsson",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/2cac2e230842d5e1f18c9249daa2188d/13831730/pinkpantheress-and-zara-larsson-stateside-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124093",
+      "code": "UKTS-207",
+      "title": "I Thought I Saw Your Face Today",
+      "artist": "She & Him",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/8497f16412f8ade180dfb65cadfcfc8d/11361882/she-and-him-volume-one-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124094",
+      "code": "UKTS-208",
+      "title": "LV Sandals",
+      "artist": "EsDeeKid; fakemink; Rico Ace",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/b700235d7233c762ec131f0a2b3a5b83/13012579/esdeekid-fakemink-and-rico-ace-lv-sandals-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124095",
+      "code": "UKTS-209",
+      "title": "Boys Don't Cry",
+      "artist": "The Cure",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/19e15e3ae2a79cee3d9beb421c53a994/8412142/the-cure-boys-dont-cry-plastic-passion-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124097",
+      "code": "UKTS-210",
+      "title": "Dracula",
+      "artist": "Tame Impala; JENNIE",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/20fcf8113f8dace9a800de6dbe9e599f/14563852/tame-impala-and-jennie-dracula-remix-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124098",
+      "code": "UKTS-211",
+      "title": "Should I Stay Or Should I Go",
+      "artist": "The Clash",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/91f1074b6e57bc7efd9c4adbbd91d3ba/10450289/the-clash-should-i-stay-or-should-i-go-inoculated-city-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124099",
+      "code": "UKTS-212",
+      "title": "Fame is a Gun",
+      "artist": "Addison Rae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/55e613afe0458171e4cedd7c61a1c30b/13398598/addison-rae-fame-is-a-gun-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124100",
+      "code": "UKTS-213",
+      "title": "Diet Pepsi",
+      "artist": "Addison Rae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e3524ede4d3a2ef07d27171e7ba4a240/13269240/addison-rae-diet-pepsi-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124101",
+      "code": "UKTS-214",
+      "title": "Aquamarine",
+      "artist": "Addison Rae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/bc0bc2aa8a010b04c205abb6ffad2801/12644314/addison-rae-aquamarine-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124102",
+      "code": "UKTS-215",
+      "title": "Headphones On",
+      "artist": "Addison Rae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/d26785672e27417485e6f0bf96e75711/13254719/addison-rae-headphones-on-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124103",
+      "code": "UKTS-216",
+      "title": "When Did You Get Hot?",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e4cd2d27af093aa8fb2e8cc609792e8c/13444894/sabrina-carpenter-mans-best-friend-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124104",
+      "code": "UKTS-217",
+      "title": "Silver Springs",
+      "artist": "Fleetwood Mac",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/92a30064c9a49d64c2885fac0bbbbeea/11613626/fleetwood-mac-rumours-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124105",
+      "code": "UKTS-218",
+      "title": "You Stole The Show",
+      "artist": "SIENNA SPIRO",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e4342f902b0b66d0b5ad5c1b01c46edc/13848292/sienna-spiro-you-stole-the-show-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124106",
+      "code": "UKTS-219",
+      "title": "Landslide",
+      "artist": "Fleetwood Mac",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/cd5664d3ef791e7a133d17c623d0be47/5718312/fleetwood-mac-fleetwood-mac-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124107",
+      "code": "UKTS-220",
+      "title": "Go Your Own Way",
+      "artist": "Fleetwood Mac",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/92a30064c9a49d64c2885fac0bbbbeea/11613626/fleetwood-mac-rumours-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124108",
+      "code": "UKTS-221",
+      "title": "The Chain",
+      "artist": "Fleetwood Mac",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/92a30064c9a49d64c2885fac0bbbbeea/11613626/fleetwood-mac-rumours-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124109",
+      "code": "UKTS-222",
+      "title": "Dreams",
+      "artist": "Fleetwood Mac",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/fd0f50061b5d4b312d8d373b1f675832/4450230/fleetwood-mac-dreams-dont-stop-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124110",
+      "code": "UKTS-223",
+      "title": "Everywhere",
+      "artist": "Fleetwood Mac",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e0d57f202e526169a1714a1f77fda54d/10499216/fleetwood-mac-everywhere-when-i-see-you-again-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124111",
+      "code": "UKTS-224",
+      "title": "Loser",
+      "artist": "Tame Impala",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/1e7f2ae5d5bf761f8c9ffefb694c5f76/13721389/tame-impala-loser-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124112",
+      "code": "UKTS-225",
+      "title": "House Tour",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/4e6a33b19c0f7ebeecc7bc4575800a3a/14488048/sabrina-carpenter-house-tour-back-door-Cover-Art.png"
+    },
+    {
+      "id": "1792887124113",
+      "code": "UKTS-226",
+      "title": "The Less I Know The Better",
+      "artist": "Tame Impala",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/fb56808d4afa6d8d54c61763e54a2dbf/6486541/tame-impala-the-less-i-know-the-better-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124114",
+      "code": "UKTS-227",
+      "title": "Nobody's Son",
+      "artist": "Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e4cd2d27af093aa8fb2e8cc609792e8c/13444894/sabrina-carpenter-mans-best-friend-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124115",
+      "code": "UKTS-228",
+      "title": "Waterfalls",
+      "artist": "James Hype; Ben Harvey; Sam Harper",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/9a96e9542cf666da9bba43761f27256f/13701870/james-hype-waterfalls-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124117",
+      "code": "UKTS-229",
+      "title": "Don't Wake Me Up",
+      "artist": "James Hype",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0d01d55900f5a07ed7f75cdd0101b347/13162528/james-hype-dont-wake-me-up-Cover-Art.png"
+    },
+    {
+      "id": "1792887124118",
+      "code": "UKTS-230",
+      "title": "Gone Gone Gone",
+      "artist": "David Guetta; Teddy Swims; Tones and I",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/7684101c6f9bfd7e3ed95954b55dd5d0/13834112/david-guetta-teddy-swims-and-tones-and-i-gone-gone-gone-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124119",
+      "code": "UKTS-231",
+      "title": "Lose Control",
+      "artist": "Teddy Swims",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f803490f2a0bca2d26807d9dedfc6aa4/11090152/teddy-swims-lose-control-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124120",
+      "code": "UKTS-232",
+      "title": "The Door",
+      "artist": "Teddy Swims",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f803490f2a0bca2d26807d9dedfc6aa4/11090152/teddy-swims-lose-control-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124121",
+      "code": "UKTS-233",
+      "title": "Bad Dreams",
+      "artist": "Teddy Swims",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/dd842a6a81d25f81eea932ea006a0ed8/12565523/teddy-swims-bad-dreams-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124122",
+      "code": "UKTS-234",
+      "title": "Are You Even Real",
+      "artist": "Teddy Swims feat. GIVĒON",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/3335a8f8d255964fa46b60f076e4a696/12916848/teddy-swims-are-you-even-real-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124123",
+      "code": "UKTS-235",
+      "title": "Mr. Know It All",
+      "artist": "Teddy Swims",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/304dc3805651ac2ccdf8bf6834aa8ac3/14491139/teddy-swims-mr-know-it-all-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124124",
+      "code": "UKTS-236",
+      "title": "NOBODY'S GIRL",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/1406f604faccb213acb250b552234644/13965708/tate-mcrae-so-close-to-what-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124125",
+      "code": "UKTS-237",
+      "title": "greedy",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/da8477e1e25c3095112f1d51363b6bb0/11322670/tate-mcrae-greedy-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124126",
+      "code": "UKTS-238",
+      "title": "2 hands",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/483a8e2448fd8c3339d4d7a567dc962e/12717914/tate-mcrae-2-hands-Cover-Art.png"
+    },
+    {
+      "id": "1792887124127",
+      "code": "UKTS-239",
+      "title": "It's ok I'm ok",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/2c8979d034cd0d095c9239391cda5fed/12507826/tate-mcrae-its-ok-im-ok-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124129",
+      "code": "UKTS-240",
+      "title": "exes",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/6aa44ff15caf3ebb2f8ed8b960652d07/11513429/tate-mcrae-exes-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124130",
+      "code": "UKTS-241",
+      "title": "Housewife",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/1136a63ff4a55d4aa570bcda32bcf5e1/15152146/tate-mcrae-housewife-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124131",
+      "code": "UKTS-242",
+      "title": "Just Keep Watching",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/de040badf3392d6b8860bcb5fe4b960b/13398813/tate-mcrae-just-keep-watching-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124132",
+      "code": "UKTS-243",
+      "title": "I know love",
+      "artist": "Tate McRae feat. The Kid LAROI",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5710e518c15ec3d248613790e6f7925c/12716553/tate-mcrae-so-close-to-what-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124133",
+      "code": "UKTS-244",
+      "title": "Bloodonmyhands",
+      "artist": "Tate McRae feat. Flo Milli",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5710e518c15ec3d248613790e6f7925c/12716553/tate-mcrae-so-close-to-what-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124134",
+      "code": "UKTS-245",
+      "title": "Dear god",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5710e518c15ec3d248613790e6f7925c/12716553/tate-mcrae-so-close-to-what-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124135",
+      "code": "UKTS-246",
+      "title": "Purple lace bra",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5710e518c15ec3d248613790e6f7925c/12716553/tate-mcrae-so-close-to-what-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124136",
+      "code": "UKTS-247",
+      "title": "Signs",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5710e518c15ec3d248613790e6f7925c/12716553/tate-mcrae-so-close-to-what-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124137",
+      "code": "UKTS-248",
+      "title": "Sports car",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5710e518c15ec3d248613790e6f7925c/12716553/tate-mcrae-so-close-to-what-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124138",
+      "code": "UKTS-249",
+      "title": "Revolving door",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5710e518c15ec3d248613790e6f7925c/12716553/tate-mcrae-so-close-to-what-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124139",
+      "code": "UKTS-250",
+      "title": "Miss possessive",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5710e518c15ec3d248613790e6f7925c/12716553/tate-mcrae-so-close-to-what-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124140",
+      "code": "UKTS-251",
+      "title": "TRYING ON SHOES",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/1406f604faccb213acb250b552234644/13965708/tate-mcrae-so-close-to-what-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124141",
+      "code": "UKTS-252",
+      "title": "HORSESHOE",
+      "artist": "Tate McRae",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/1406f604faccb213acb250b552234644/13965708/tate-mcrae-so-close-to-what-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124142",
+      "code": "UKTS-253",
+      "title": "Shake the Snow Globe",
+      "artist": "Gwen Stefani",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5425590159291acca72d54184a286585/13925400/gwen-stefani-shake-the-snow-globe-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124143",
+      "code": "UKTS-254",
+      "title": "We Are The People",
+      "artist": "Empire Of The Sun",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0c5b8cdcd1302f392cd54eec7d1d69a9/2428463/empire-of-the-sun-we-are-the-people-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124144",
+      "code": "UKTS-255",
+      "title": "Walking On A Dream",
+      "artist": "Empire Of The Sun",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/9af8fb51255a682b086133c9afacfd18/2523179/empire-of-the-sun-walking-on-a-dream-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124145",
+      "code": "UKTS-256",
+      "title": "Come Find Me",
+      "artist": "MK; Clementine Douglas",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/4583a8c55c6f2b9ac1acb049382567bd/13789850/mk-and-clementine-douglas-come-find-me-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124146",
+      "code": "UKTS-257",
+      "title": "FU & UF",
+      "artist": "Skye Newman",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/14787736a2b5559aa2984c5e3f8a864f/14333807/skye-newman-fu-and-uf-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124147",
+      "code": "UKTS-258",
+      "title": "Hairdresser",
+      "artist": "Skye Newman",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f835d05ed7a78b01c82e6009ef33c26c/13336565/skye-newman-hairdresser-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124148",
+      "code": "UKTS-259",
+      "title": "Family Matters",
+      "artist": "Skye Newman",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/ac61410be314a9ebdca47622703e251d/13362735/skye-newman-family-matters-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124149",
+      "code": "UKTS-260",
+      "title": "Out Out",
+      "artist": "Skye Newman",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0a8136bf886e34555d496100406d41e7/13570039/skye-newman-out-out-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124151",
+      "code": "UKTS-261",
+      "title": "Walk",
+      "artist": "Skye Newman",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e318d8d8de82dc6b8199620cd71292fd/14333811/skye-newman-walk-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124152",
+      "code": "UKTS-262",
+      "title": "MAYBE.",
+      "artist": "SIENNA SPIRO",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/9a0373c53fbfea943037cab39a4e6539/12596045/sienna-spiro-maybe-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124153",
+      "code": "UKTS-263",
+      "title": "The Visitor",
+      "artist": "SIENNA SPIRO",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/d47f5c840fe84eeeb4a7d561ee8eccef/14386229/sienna-spiro-the-visitor-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124154",
+      "code": "UKTS-264",
+      "title": "Pure",
+      "artist": "SIENNA SPIRO",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/17640a876896f7b23ff3bf5eb5455cd3/14632465/sienna-spiro-visitor-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124155",
+      "code": "UKTS-265",
+      "title": "Material Lover",
+      "artist": "SIENNA SPIRO",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/ee4907cb788b910cc7d81a3c30d2d1e7/14804082/sienna-spiro-material-lover-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124156",
+      "code": "UKTS-266",
+      "title": "Dior",
+      "artist": "MK feat. CHRYSTAL",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/d965a3a2b06951c699564db0ae683fef/13454257/mk-dior-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124157",
+      "code": "UKTS-267",
+      "title": "Asking",
+      "artist": "MK; Sonny Fodera feat. Clementine Douglas",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/61707d869141717737939d582e317095/11119463/mk-and-sonny-fodera-asking-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124158",
+      "code": "UKTS-268",
+      "title": "Blessings",
+      "artist": "Calvin Harris; Clementine Douglas",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/a2cd2dd5a8e64eaa658554af59784cfe/13784935/calvin-harris-and-clementine-douglas-blessings-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124159",
+      "code": "UKTS-269",
+      "title": "Tell Me",
+      "artist": "Sonny Fodera; Clementine Douglas",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/babedc3e72ab358ce4750ca9fdfee83b/13014495/sonny-fodera-and-clementine-douglas-tell-me-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124160",
+      "code": "UKTS-270",
+      "title": "So Much In Love",
+      "artist": "D.O.D",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/dbd4ed68026c479f71cf33941e16b755/10895061/d_o_d-so-much-in-love-Cover-Art.png"
+    },
+    {
+      "id": "1792887124161",
+      "code": "UKTS-271",
+      "title": "Body Moving",
+      "artist": "Eliza Rose; Calvin Harris",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/924a77a25ca617b8e0074abf76e937c9/13784934/eliza-rose-and-calvin-harris-body-moving-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124162",
+      "code": "UKTS-272",
+      "title": "Satisfy",
+      "artist": "Calvin Harris; Jazzy",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/85da6dfdee7ba39a9f9e14366d4feb04/14586630/calvin-harris-and-jazzy-satisfy-Cover-Art.png"
+    },
+    {
+      "id": "1792887124163",
+      "code": "UKTS-273",
+      "title": "Free",
+      "artist": "Calvin Harris; Ellie Goulding",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/067555bcc80980031c582c085973743d/12348457/calvin-harris-and-ellie-goulding-free-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124164",
+      "code": "UKTS-274",
+      "title": "Ocean",
+      "artist": "Calvin Harris; Jessie Reyez",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/437c5403d89a5cc45495e7f00924662f/13723704/calvin-harris-and-jessie-reyez-ocean-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124165",
+      "code": "UKTS-275",
+      "title": "SMOKE THE PAIN AWAY",
+      "artist": "Calvin Harris",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/06bafa601f659c336909c3b0d066056e/13137837/calvin-harris-smoke-the-pain-away-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124166",
+      "code": "UKTS-276",
+      "title": "Release The Pressure",
+      "artist": "Calvin Harris; Kasabian",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/e644532517251c4a643e7efa4a498f80/14247696/calvin-harris-and-kasabian-release-the-pressure-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124167",
+      "code": "UKTS-277",
+      "title": "Desire",
+      "artist": "Calvin Harris; Sam Smith",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/a8c74e9658388e26038a84563176581c/11179438/calvin-harris-and-sam-smith-desire-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124168",
+      "code": "UKTS-278",
+      "title": "Lovers In A Past Life",
+      "artist": "Calvin Harris; Rag'n'Bone Man",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/aa8b6a93061e8155d571668289ca4939/11815953/calvin-harris-and-ragnbone-man-lovers-in-a-past-life-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124170",
+      "code": "UKTS-279",
+      "title": "Somedays",
+      "artist": "Sonny Fodera; Jazzy; D.O.D",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/7e40acf5e3f152bce80e7bb7b9f4a85d/12329853/sonny-fodera-jazzy-and-d_o_d-somedays-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124171",
+      "code": "UKTS-280",
+      "title": "No Bad Vibes",
+      "artist": "Jazzy; KILIMANJARO",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/856907aca0f01eb1ab688670b0d62463/12602542/jazzy-and-kilimanjaro-no-bad-vibes-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124172",
+      "code": "UKTS-281",
+      "title": "High on Me",
+      "artist": "Rossi.; Jazzy",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/6be276cf9ec326d1e866e2c6b0404a80/13494230/rossi-and-jazzy-high-on-me-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124173",
+      "code": "UKTS-282",
+      "title": "All This Time",
+      "artist": "Sonny Fodera; Jazzy",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/2bdd008664c1006d9a5cb0c234898293/13569058/sonny-fodera-and-jazzy-all-this-time-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124174",
+      "code": "UKTS-283",
+      "title": "Won't Forget You",
+      "artist": "Jax Jones; D.O.D; Ina Wroldsen",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5ce1a40308f9f3aa9ec045bc89a8151e/11364972/jax-jones-and-d_o_d-wont-forget-you-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124175",
+      "code": "UKTS-284",
+      "title": "Let Me Be In Your Arms",
+      "artist": "Sonny Fodera; Libianca",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/194f0977569a0448667e3a5d99e015f2/14687775/sonny-fodera-and-libianca-let-me-be-in-your-arms-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124176",
+      "code": "UKTS-285",
+      "title": "Never Be Alone",
+      "artist": "Becky Hill; Sonny Fodera",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/db72cc8fcdc22f0ec8a331ad7b68dd6d/11716223/becky-hill-and-sonny-fodera-never-be-alone-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124177",
+      "code": "UKTS-286",
+      "title": "Say Something",
+      "artist": "Sonny Fodera; Becky Hill",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/4b0d829f17d816fc269e6ed356f4b009/14928891/sonny-fodera-and-becky-hill-say-something-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124178",
+      "code": "UKTS-287",
+      "title": "Indestructible",
+      "artist": "Andy C; Becky Hill",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5da0d4e9aab7364b31d11ad0b47f0280/12463839/andy-c-and-becky-hill-indestructible-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124179",
+      "code": "UKTS-288",
+      "title": "Disconnect",
+      "artist": "Becky Hill; Chase & Status",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/ad12878facc2fab63e1ad7d0359e5d8c/11149567/becky-hill-and-chase-and-status-disconnect-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124180",
+      "code": "UKTS-289",
+      "title": "Carnage",
+      "artist": "Chase & Status feat. Little Simz",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c08ec48311b5dba36c88e766cc43e12f/14974720/chase-and-status-generic-everything-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124181",
+      "code": "UKTS-290",
+      "title": "Liquor & Cigarettes",
+      "artist": "Chase & Status; Hedex feat. ArrDee",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/bee7f69a281564084a5d776889f6b982/11324089/chase-and-status-and-hedex-liquor-and-cigarettes-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124183",
+      "code": "UKTS-291",
+      "title": "Baddadan",
+      "artist": "Chase & Status; Bou feat. IRAH; Flowdan; Trigga; Takura",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/c84b936f739e0eaf1a18cc6dcc4333a0/11179152/chase-and-status-and-bou-baddadan-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124184",
+      "code": "UKTS-292",
+      "title": "BACKBONE",
+      "artist": "Chase & Status; Stormzy",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/414d96c8443c4d37ae15cc5235e5264f/12393087/chase-and-status-and-stormzy-backbone-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124185",
+      "code": "UKTS-293",
+      "title": "The Life of a Showgirl",
+      "artist": "Taylor Swift feat. Sabrina Carpenter",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/31335fcc158e5beed788abc89b1cdd60/13662694/taylor-swift-the-life-of-a-showgirl-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124186",
+      "code": "UKTS-294",
+      "title": "Patient Zero",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/ddab8fe8f962d7b81774040947eb4f64/15073840/taylor-swift-patient-zero-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124187",
+      "code": "UKTS-295",
+      "title": "Cleveland!",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/96b7fb2cffae651ba781d634f705a2c5/15074416/taylor-swift-the-life-of-a-showgirl-the-encore-Cover-Art.png"
+    },
+    {
+      "id": "1792887124188",
+      "code": "UKTS-296",
+      "title": "Pink Clouding",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/96b7fb2cffae651ba781d634f705a2c5/15074416/taylor-swift-the-life-of-a-showgirl-the-encore-Cover-Art.png"
+    },
+    {
+      "id": "1792887124189",
+      "code": "UKTS-297",
+      "title": "Babylon",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/96b7fb2cffae651ba781d634f705a2c5/15074416/taylor-swift-the-life-of-a-showgirl-the-encore-Cover-Art.png"
+    },
+    {
+      "id": "1792887124190",
+      "code": "UKTS-298",
+      "title": "Father Figure",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/31335fcc158e5beed788abc89b1cdd60/13662694/taylor-swift-the-life-of-a-showgirl-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124191",
+      "code": "UKTS-299",
+      "title": "Eldest Daughter",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/31335fcc158e5beed788abc89b1cdd60/13662694/taylor-swift-the-life-of-a-showgirl-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124192",
+      "code": "UKTS-300",
+      "title": "Ruin the Friendship",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/31335fcc158e5beed788abc89b1cdd60/13662694/taylor-swift-the-life-of-a-showgirl-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124193",
+      "code": "UKTS-301",
+      "title": "Wood!",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/31335fcc158e5beed788abc89b1cdd60/13662694/taylor-swift-the-life-of-a-showgirl-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124194",
+      "code": "UKTS-302",
+      "title": "Honey",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/31335fcc158e5beed788abc89b1cdd60/13662694/taylor-swift-the-life-of-a-showgirl-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124195",
+      "code": "UKTS-303",
+      "title": "Absolutely Romantic",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/31335fcc158e5beed788abc89b1cdd60/13662694/taylor-swift-the-life-of-a-showgirl-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124196",
+      "code": "UKTS-304",
+      "title": "Wi$h Li$t",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/31335fcc158e5beed788abc89b1cdd60/13662694/taylor-swift-the-life-of-a-showgirl-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124197",
+      "code": "UKTS-305",
+      "title": "Cancelled!",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/31335fcc158e5beed788abc89b1cdd60/13662694/taylor-swift-the-life-of-a-showgirl-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124198",
+      "code": "UKTS-306",
+      "title": "Cruel Summer",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/19c87afa619a3093f28d5a8b2dff80e1/11424646/taylor-swift-cruel-summer-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124200",
+      "code": "UKTS-307",
+      "title": "You're Losing Me (From The Vault)",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/d711597235c26445e48948d501a50437/11550846/taylor-swift-youre-losing-me-from-the-vault-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124201",
+      "code": "UKTS-308",
+      "title": "I Knew It, I Knew You",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/528c01b81e5cd88d502607bf00598dae/14683597/taylor-swift-i-knew-it-i-knew-you-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124202",
+      "code": "UKTS-309",
+      "title": "Christmas Tree Farm",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/2d82b1442d2d79744f74f2351f441af7/7863699/taylor-swift-christmas-tree-farm-Cover-Art.png"
+    },
+    {
+      "id": "1792887124203",
+      "code": "UKTS-310",
+      "title": "Lover",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/f22360584144a0a4d0a4f0d74a469f16/7680724/taylor-swift-lover-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124204",
+      "code": "UKTS-311",
+      "title": "Fortnight",
+      "artist": "Taylor Swift feat. Post Malone",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/7959ed20176fbba7a7a1a0e537471c26/12024513/taylor-swift-fortnight-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124205",
+      "code": "UKTS-312",
+      "title": "I Can Do It With a Broken Heart",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/5e736fbb7a5ac081056edebbcba55116/12319387/taylor-swift-i-can-do-it-with-a-broken-heart-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124206",
+      "code": "UKTS-313",
+      "title": "The Tortured Poets Department",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124207",
+      "code": "UKTS-314",
+      "title": "So Long, London",
+      "artist": "Taylor Swift",
+      "album": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124208",
+      "code": "UKTS-315",
+      "title": "Down Bad",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124209",
+      "code": "UKTS-316",
+      "title": "But Daddy I Love Him",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124210",
+      "code": "UKTS-317",
+      "title": "My Boy Only Breaks His Favorite Toys",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124211",
+      "code": "UKTS-318",
+      "title": "Who's Afraid Of Little Old Me?",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124212",
+      "code": "UKTS-319",
+      "title": "Florida!!!",
+      "artist": "Taylor Swift feat. Florence + The Machine",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124213",
+      "code": "UKTS-320",
+      "title": "Guilty as Sin?",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124214",
+      "code": "UKTS-321",
+      "title": "The Smallest Man Who Ever Lived",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124215",
+      "code": "UKTS-322",
+      "title": "loml",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124217",
+      "code": "UKTS-323",
+      "title": "Fresh Out The Slammer",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124218",
+      "code": "UKTS-324",
+      "title": "I Can Fix Him (No Really I Can)",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124219",
+      "code": "UKTS-325",
+      "title": "The Alchemy",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124220",
+      "code": "UKTS-326",
+      "title": "Clara Bow",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/70098aa3197c9593a9ed0de544ff5548/12031410/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124221",
+      "code": "UKTS-327",
+      "title": "The Black Dog",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124222",
+      "code": "UKTS-328",
+      "title": "imgonnagetyouback",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124223",
+      "code": "UKTS-329",
+      "title": "So High School",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124224",
+      "code": "UKTS-330",
+      "title": "thanK you aIMee",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124225",
+      "code": "UKTS-331",
+      "title": "The Albatross",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124226",
+      "code": "UKTS-332",
+      "title": "How Did It End?",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124227",
+      "code": "UKTS-333",
+      "title": "The Prophecy",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124228",
+      "code": "UKTS-334",
+      "title": "Chloe or Sam or Sophia or Marcus",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124229",
+      "code": "UKTS-335",
+      "title": "I Hate It Here",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124230",
+      "code": "UKTS-336",
+      "title": "I Look in People's Windows",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124232",
+      "code": "UKTS-337",
+      "title": "Peter",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124233",
+      "code": "UKTS-338",
+      "title": "Cassandra",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124234",
+      "code": "UKTS-339",
+      "title": "The Bolter",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124235",
+      "code": "UKTS-340",
+      "title": "The Manuscript",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792887124236",
+      "code": "UKTS-341",
+      "title": "Robin",
+      "artist": "Taylor Swift",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    }
+  ],
+  "chartHistory": {
+    "top-songs": {
+      "18/09/2026": [
+        {
+          "songId": "1",
+          "rank": 1,
+          "salesIncrease": false
+        },
+        {
+          "songId": "2",
+          "rank": 2,
+          "salesIncrease": true
+        },
+        {
+          "songId": "3",
+          "rank": 3,
+          "salesIncrease": false
+        },
+        {
+          "songId": "4",
+          "rank": 4,
+          "salesIncrease": false
+        },
+        {
+          "songId": "5",
+          "rank": 5,
+          "salesIncrease": true
+        }
+      ]
+    }
+  },
+  "news": [
+    {
+      "id": "1",
+      "title": "Charts update: New milestones reached this week",
+      "category": "Latest News",
+      "date": "Sept 18, 2026",
+      "content": "Check out the latest movements across the official UK charts."
+    }
+  ],
+  "artistCodes": {
+    "Olivia Dean": "UKTA-1",
+    "Sam Fender": "UKTA-2",
+    "Elton John": "UKTA-3",
+    "Bad Bunny": "UKTA-4",
+    "HUNTR/X": "UKTA-5",
+    "EJAE": "UKTA-6",
+    "AUDREY NUNA": "UKTA-7",
+    "REI AMI": "UKTA-8",
+    "KPop Demon Hunters Cast": "UKTA-9",
+    "RAYE": "UKTA-10",
+    "Hans Zimmer": "UKTA-11",
+    "Al Green": "UKTA-12",
+    "Amma": "UKTA-13",
+    "Absolutely": "UKTA-14",
+    "Cassö": "UKTA-15",
+    "D Block Europe": "UKTA-16",
+    "Mark Ronson": "UKTA-17",
+    "Central Cee": "UKTA-18",
+    "Taylor Swift": "UKTA-19",
+    "Dave": "UKTA-20",
+    "Tems": "UKTA-21",
+    "Lyrical Lemonade": "UKTA-22",
+    "Jack Harlow": "UKTA-23",
+    "James Blake": "UKTA-24",
+    "Jim Legxacy": "UKTA-25",
+    "Kano": "UKTA-26",
+    "Nicole Blakk": "UKTA-27",
+    "Alex Warren": "UKTA-28",
+    "ROSÉ": "UKTA-29",
+    "Bruno Mars": "UKTA-30",
+    "Sexyy Red": "UKTA-31",
+    "Lady Gaga": "UKTA-32",
+    "Doechii": "UKTA-33",
+    "Gesaffelstein": "UKTA-34",
+    "Jelly Roll": "UKTA-35",
+    "Zara Larsson": "UKTA-36",
+    "Djo": "UKTA-37",
+    "Disco Lines": "UKTA-38",
+    "Tinashe": "UKTA-39",
+    "sombr": "UKTA-40",
+    "Saja Boys": "UKTA-41",
+    "Andrew Choi": "UKTA-42",
+    "Neckwav": "UKTA-43",
+    "Danny Chung": "UKTA-44",
+    "KEVIN WOO": "UKTA-45",
+    "samUIL Lee": "UKTA-46",
+    "SIENNA SPIRO": "UKTA-47",
+    "Sabrina Carpenter": "UKTA-48",
+    "EsDeeKid": "UKTA-49",
+    "Rico Ace": "UKTA-50",
+    "Tyla": "UKTA-51",
+    "WizTheMc": "UKTA-52",
+    "bees": "UKTA-53",
+    "honey": "UKTA-54",
+    "Kate Bush": "UKTA-55",
+    "The Police": "UKTA-56",
+    "Kylie Minogue": "UKTA-57",
+    "Sonny Fodera": "UKTA-58",
+    "D.O.D": "UKTA-59",
+    "Poppy Baskcomb": "UKTA-60",
+    "Tate McRae": "UKTA-61",
+    "Kehlani": "UKTA-62",
+    "Diana Ross": "UKTA-63",
+    "Tiffany": "UKTA-64",
+    "Ed Sheeran": "UKTA-65",
+    "Justin Bieber": "UKTA-66",
+    "Sean Kingston": "UKTA-67",
+    "Chance the Rapper": "UKTA-68",
+    "Nicki Minaj": "UKTA-69",
+    "KATSEYE": "UKTA-70",
+    "LE SSERAFIM": "UKTA-71",
+    "ILLIT": "UKTA-72",
+    "Fred again..": "UKTA-73",
+    "Sammy Virji": "UKTA-74",
+    "Reggie": "UKTA-75",
+    "Kato": "UKTA-76",
+    "Jon": "UKTA-77",
+    "Gunna": "UKTA-78",
+    "Skillibeng": "UKTA-79",
+    "Obongjayar": "UKTA-80",
+    "Baby Keem": "UKTA-81",
+    "Lil Yachty": "UKTA-82",
+    "Overmono": "UKTA-83",
+    "Anderson .Paak": "UKTA-84",
+    "Chika": "UKTA-85",
+    "Young Thug": "UKTA-86",
+    "Jamie T": "UKTA-87",
+    "Billy Joel": "UKTA-88",
+    "WizKid": "UKTA-89",
+    "Skepta": "UKTA-90",
+    "PlaqueBoyMax": "UKTA-91",
+    "Burna Boy": "UKTA-92",
+    "PinkPantheress": "UKTA-93",
+    "She": "UKTA-94",
+    "Him": "UKTA-95",
+    "fakemink": "UKTA-96",
+    "The Cure": "UKTA-97",
+    "Tame Impala": "UKTA-98",
+    "JENNIE": "UKTA-99",
+    "The Clash": "UKTA-100",
+    "Addison Rae": "UKTA-101",
+    "Fleetwood Mac": "UKTA-102",
+    "James Hype": "UKTA-103",
+    "Ben Harvey": "UKTA-104",
+    "Sam Harper": "UKTA-105",
+    "David Guetta": "UKTA-106",
+    "Teddy Swims": "UKTA-107",
+    "Tones and I": "UKTA-108",
+    "GIVĒON": "UKTA-109",
+    "The Kid LAROI": "UKTA-110",
+    "Flo Milli": "UKTA-111",
+    "Gwen Stefani": "UKTA-112",
+    "Empire Of The Sun": "UKTA-113",
+    "MK": "UKTA-114",
+    "Clementine Douglas": "UKTA-115",
+    "Skye Newman": "UKTA-116",
+    "CHRYSTAL": "UKTA-117",
+    "Calvin Harris": "UKTA-118",
+    "Eliza Rose": "UKTA-119",
+    "Jazzy": "UKTA-120",
+    "Ellie Goulding": "UKTA-121",
+    "Jessie Reyez": "UKTA-122",
+    "Kasabian": "UKTA-123",
+    "Sam Smith": "UKTA-124",
+    "Rag'n'Bone Man": "UKTA-125",
+    "KILIMANJARO": "UKTA-126",
+    "Rossi.": "UKTA-127",
+    "Jax Jones": "UKTA-128",
+    "Ina Wroldsen": "UKTA-129",
+    "Libianca": "UKTA-130",
+    "Becky Hill": "UKTA-131",
+    "Andy C": "UKTA-132",
+    "Chase": "UKTA-133",
+    "Status": "UKTA-134",
+    "Little Simz": "UKTA-135",
+    "Hedex": "UKTA-136",
+    "ArrDee": "UKTA-137",
+    "Bou": "UKTA-138",
+    "IRAH": "UKTA-139",
+    "Flowdan": "UKTA-140",
+    "Trigga": "UKTA-141",
+    "Takura": "UKTA-142",
+    "Stormzy": "UKTA-143",
+    "I Knew You": "UKTA-144",
+    "Post Malone": "UKTA-145",
+    "London": "UKTA-146",
+    "Florence + The Machine": "UKTA-147"
+  }
+}

@@ -131,7 +131,7 @@ function saveDB(data) {
 
 const fallbackCoverSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23addedc'/></svg>";
 
-// --- Safe Global Cover URL Helper ---
+// --- Global Cover Image Helper ---
 function renderSongCover(song) {
     const rawCover = song && (song.cover || song.coverUrl);
     if (rawCover && typeof rawCover === 'string' && rawCover.trim() !== '' && !rawCover.startsWith('data:image/svg')) {
@@ -151,6 +151,7 @@ function renderGenreBadges(song) {
     return genres.map(g => `<span class="bg-neutral-800 px-2.5 py-1 rounded-full text-xs inline-block mr-1 mb-1">${g}</span>`).join('');
 }
 
+// Split artists on commas and 'feat.', while preserving band names containing '&'
 function parseArtistNames(artistString) {
     if (!artistString) return [];
     const cleaned = artistString.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',');
@@ -251,8 +252,8 @@ function renderAdminUploadTab() {
             <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
                 <h3 class="text-xl font-bold uppercase">CSV Importer</h3>
                 <p class="text-xs text-neutral-400">
-                    Expected CSV format columns: <code class="text-[#addedc]">Title, Artist, Genres (semicolon separated), Cover URL, Album</code>.<br>
-                    Song (<code class="text-[#addedc]">UKTS-X</code>) and artist (<code class="text-[#addedc]">UKTA-X</code>) codes are assigned sequentially automatically.
+                    <strong>Catalog Mode:</strong> <code class="text-[#addedc]">Title, Artist, Genres, Cover URL, Album</code>.<br>
+                    <strong>Chart Mode:</strong> <code class="text-[#addedc]">Rank, Title, Artist, Genres, Cover URL, Album, Sales Increase (true/false)</code>.
                 </p>
 
                 <div>
@@ -347,14 +348,16 @@ function handleCSVUpload(e) {
             let genresRaw = 'Pop';
             let cover = '';
             let album = '';
+            let salesIncreaseVal = false;
 
-            // Smart check for chart CSVs that include a leading Rank column (e.g., 1, Title, Artist)
             if (uploadType === 'chart' && !isNaN(cols[0]) && cols.length >= 3) {
                 title = cols[1] || '';
                 artist = cols[2] || '';
                 genresRaw = cols[3] || 'Pop';
                 cover = cols[4] || '';
                 album = cols[5] || '';
+                const rawSales = (cols[6] || '').toLowerCase();
+                salesIncreaseVal = ['true', 'yes', '1', 'up', 'y'].includes(rawSales);
             } else {
                 title = cols[0] || '';
                 artist = cols[1] || '';
@@ -371,7 +374,6 @@ function handleCSVUpload(e) {
             const artistNames = parseArtistNames(artist);
             artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
-            // Case-insensitive & trimmed match check to prevent duplicate entries
             let existingSong = db.songs.find(s => 
                 s.title.trim().toLowerCase() === title.trim().toLowerCase() && 
                 s.artist.trim().toLowerCase() === artist.trim().toLowerCase()
@@ -398,7 +400,7 @@ function handleCSVUpload(e) {
                 chartEntries.push({
                     songId: existingSong.id,
                     rank: chartEntries.length + 1,
-                    salesIncrease: false
+                    salesIncrease: salesIncreaseVal
                 });
             }
         }

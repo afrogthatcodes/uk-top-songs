@@ -253,7 +253,7 @@ function renderAdminUploadTab() {
                 <h3 class="text-xl font-bold uppercase">CSV Importer</h3>
                 <p class="text-xs text-neutral-400">
                     <strong>Catalog Mode:</strong> <code class="text-[#addedc]">Title, Artist, Genres, Cover URL, Album</code>.<br>
-                    <strong>Chart Mode:</strong> <code class="text-[#addedc]">Rank, Title, Artist, Genres, Cover URL, Album, Sales Increase (true/false)</code>.
+                    <strong>Chart Mode:</strong> <code class="text-[#addedc]">Rank, Song, Artist, Sales Increase (true/false)</code> or Full 7-column format.
                 </p>
 
                 <div>
@@ -338,7 +338,7 @@ function handleCSVUpload(e) {
             const line = lines[i].trim();
             if (!line) continue;
 
-            if (i === 0 && line.toLowerCase().includes('title')) continue;
+            if (i === 0 && line.toLowerCase().includes('title') || i === 0 && line.toLowerCase().includes('song')) continue;
 
             const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
             if (cols.length < 2) continue;
@@ -351,14 +351,20 @@ function handleCSVUpload(e) {
             let salesIncreaseVal = false;
 
             if (uploadType === 'chart') {
-                if (!isNaN(cols[0]) && cols.length >= 3) {
+                if (!isNaN(cols[0])) {
                     title = cols[1] || '';
                     artist = cols[2] || '';
-                    genresRaw = cols[3] || 'Pop';
-                    cover = cols[4] || '';
-                    album = cols[5] || '';
-                    const rawSales = (cols[6] || '').trim().toLowerCase();
-                    salesIncreaseVal = ['true', 'yes', '1', 'up', 'y', 't'].includes(rawSales);
+                    
+                    if (cols.length === 4) {
+                        const rawSales = (cols[3] || '').trim().toLowerCase();
+                        salesIncreaseVal = ['true', 'yes', '1', 'up', 'y', 't'].includes(rawSales);
+                    } else {
+                        genresRaw = cols[3] || 'Pop';
+                        cover = cols[4] || '';
+                        album = cols[5] || '';
+                        const rawSales = (cols[6] || '').trim().toLowerCase();
+                        salesIncreaseVal = ['true', 'yes', '1', 'up', 'y', 't'].includes(rawSales);
+                    }
                 } else {
                     title = cols[0] || '';
                     artist = cols[1] || '';

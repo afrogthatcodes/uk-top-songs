@@ -131,11 +131,13 @@ function saveDB(data) {
 
 const fallbackCoverSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23addedc'/></svg>";
 
-// --- Global Cover Image Helper ---
-function renderSongCover(song, customClass = "w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0") {
+// --- Safe Global Cover URL Helper ---
+function renderSongCover(song) {
     const rawCover = song && (song.cover || song.coverUrl);
-    const imgSrc = (rawCover && !rawCover.startsWith('data:image/svg')) ? rawCover : fallbackCoverSVG;
-    return `<img src="${imgSrc}" class="${customClass}" onerror="this.src='https://placehold.co/100x100/222/fff?text=Song'">`;
+    if (rawCover && typeof rawCover === 'string' && rawCover.trim() !== '' && !rawCover.startsWith('data:image/svg')) {
+        return rawCover.trim();
+    }
+    return fallbackCoverSVG;
 }
 
 function getSongGenres(song) {
@@ -149,7 +151,6 @@ function renderGenreBadges(song) {
     return genres.map(g => `<span class="bg-neutral-800 px-2.5 py-1 rounded-full text-xs inline-block mr-1 mb-1">${g}</span>`).join('');
 }
 
-// Split artists on commas and 'feat.', while preserving band names containing '&'
 function parseArtistNames(artistString) {
     if (!artistString) return [];
     const cleaned = artistString.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',');
@@ -341,11 +342,28 @@ function handleCSVUpload(e) {
             const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
             if (cols.length < 2) continue;
 
-            const title = cols[0] || '';
-            const artist = cols[1] || '';
-            const genresRaw = cols[2] || 'Pop';
-            const cover = cols[3] || '';
-            const album = cols[4] || '';
+            let title = '';
+            let artist = '';
+            let genresRaw = 'Pop';
+            let cover = '';
+            let album = '';
+
+            // Smart check for chart CSVs that include a leading Rank column (e.g., 1, Title, Artist)
+            if (uploadType === 'chart' && !isNaN(cols[0]) && cols.length >= 3) {
+                title = cols[1] || '';
+                artist = cols[2] || '';
+                genresRaw = cols[3] || 'Pop';
+                cover = cols[4] || '';
+                album = cols[5] || '';
+            } else {
+                title = cols[0] || '';
+                artist = cols[1] || '';
+                genresRaw = cols[2] || 'Pop';
+                cover = cols[3] || '';
+                album = cols[4] || '';
+            }
+
+            if (!title || !artist) continue;
 
             const genres = genresRaw.split(';').map(g => g.trim()).filter(Boolean);
             if (genres.length === 0) genres.push('Pop');
@@ -353,9 +371,10 @@ function handleCSVUpload(e) {
             const artistNames = parseArtistNames(artist);
             artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
+            // Case-insensitive & trimmed match check to prevent duplicate entries
             let existingSong = db.songs.find(s => 
-                s.title.toLowerCase() === title.toLowerCase() && 
-                s.artist.toLowerCase() === artist.toLowerCase()
+                s.title.trim().toLowerCase() === title.trim().toLowerCase() && 
+                s.artist.trim().toLowerCase() === artist.trim().toLowerCase()
             );
 
             if (!existingSong) {
@@ -369,6 +388,8 @@ function handleCSVUpload(e) {
                     cover: cover || ''
                 };
                 db.songs.push(existingSong);
+            } else if (cover && !existingSong.cover) {
+                existingSong.cover = cover;
             }
 
             importedCount++;
@@ -402,7 +423,6 @@ function openSongModal(songId = null) {
     const currentGenres = song ? getSongGenres(song) : ['Pop'];
     const autoCode = song ? song.code : getNextSongCode(db);
     
-    // Clean SVG string out of text input field if present
     const cleanCoverInput = song && song.cover && !song.cover.startsWith('data:image/svg') ? song.cover : '';
 
     const genreCheckboxes = db.genres.map(g => {

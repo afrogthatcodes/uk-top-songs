@@ -350,14 +350,24 @@ function handleCSVUpload(e) {
             let album = '';
             let salesIncreaseVal = false;
 
-            if (uploadType === 'chart' && !isNaN(cols[0]) && cols.length >= 3) {
-                title = cols[1] || '';
-                artist = cols[2] || '';
-                genresRaw = cols[3] || 'Pop';
-                cover = cols[4] || '';
-                album = cols[5] || '';
-                const rawSales = (cols[6] || '').toLowerCase();
-                salesIncreaseVal = ['true', 'yes', '1', 'up', 'y'].includes(rawSales);
+            if (uploadType === 'chart') {
+                if (!isNaN(cols[0]) && cols.length >= 3) {
+                    title = cols[1] || '';
+                    artist = cols[2] || '';
+                    genresRaw = cols[3] || 'Pop';
+                    cover = cols[4] || '';
+                    album = cols[5] || '';
+                    const rawSales = (cols[6] || '').trim().toLowerCase();
+                    salesIncreaseVal = ['true', 'yes', '1', 'up', 'y', 't'].includes(rawSales);
+                } else {
+                    title = cols[0] || '';
+                    artist = cols[1] || '';
+                    genresRaw = cols[2] || 'Pop';
+                    cover = cols[3] || '';
+                    album = cols[4] || '';
+                    const rawSales = (cols[5] || '').trim().toLowerCase();
+                    salesIncreaseVal = ['true', 'yes', '1', 'up', 'y', 't'].includes(rawSales);
+                }
             } else {
                 title = cols[0] || '';
                 artist = cols[1] || '';
@@ -374,10 +384,15 @@ function handleCSVUpload(e) {
             const artistNames = parseArtistNames(artist);
             artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
-            let existingSong = db.songs.find(s => 
-                s.title.trim().toLowerCase() === title.trim().toLowerCase() && 
-                s.artist.trim().toLowerCase() === artist.trim().toLowerCase()
-            );
+            const cleanTitle = title.trim().toLowerCase();
+            const csvArtists = artistNames.map(a => a.toLowerCase());
+
+            let existingSong = db.songs.find(s => {
+                if (s.title.trim().toLowerCase() !== cleanTitle) return false;
+                if (s.artist.trim().toLowerCase() === artist.trim().toLowerCase()) return true;
+                const dbArtists = parseArtistNames(s.artist).map(a => a.toLowerCase());
+                return csvArtists.some(a => dbArtists.includes(a));
+            });
 
             if (!existingSong) {
                 existingSong = {
@@ -390,8 +405,9 @@ function handleCSVUpload(e) {
                     cover: cover || ''
                 };
                 db.songs.push(existingSong);
-            } else if (cover && !existingSong.cover) {
-                existingSong.cover = cover;
+            } else {
+                if (cover && !existingSong.cover) existingSong.cover = cover;
+                if (album && !existingSong.album) existingSong.album = album;
             }
 
             importedCount++;

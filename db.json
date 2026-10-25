@@ -10,36 +10,6 @@
   ],
   "songs": [
     {
-      "id": "1",
-      "code": "REIN-01",
-      "title": "Rein Me In",
-      "artist": "Sam Fender & Olivia Dean",
-      "genres": [
-        "Indie/Rock"
-      ],
-      "cover": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23addedc\"/></svg>"
-    },
-    {
-      "id": "2",
-      "code": "MAN-02",
-      "title": "Man I Need",
-      "artist": "Olivia Dean",
-      "genres": [
-        "Rnb/Funk"
-      ],
-      "cover": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23addedc\"/></svg>"
-    },
-    {
-      "id": "3",
-      "code": "GREAT-03",
-      "title": "Great Expectation",
-      "artist": "SIENNA SPIRO",
-      "genres": [
-        "Pop"
-      ],
-      "cover": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23addedc\"/></svg>"
-    },
-    {
       "id": "4",
       "code": "CHOOS-04",
       "title": "Choosin' Texas",

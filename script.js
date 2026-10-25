@@ -17,11 +17,11 @@ const chartCategories = [
 const defaultData = {
     genres: ['Afrobeats', 'Dance/Electronic', 'Folk/Country', 'Indie/Rock', 'Pop', 'Rap', 'Rnb/Funk'],
     songs: [
-        { id: '1', code: 'UKTS-1', title: 'Rein Me In', artist: 'Sam Fender & Olivia Dean', genres: ['Indie/Rock'], album: 'Single', cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
-        { id: '2', code: 'UKTS-2', title: 'Man I Need', artist: 'Olivia Dean', genres: ['Rnb/Funk'], album: 'Single', cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
-        { id: '3', code: 'UKTS-3', title: 'Great Expectation', artist: 'SIENNA SPIRO', genres: ['Pop'], album: 'Single', cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
-        { id: '4', code: 'UKTS-4', title: "Choosin' Texas", artist: 'Ella Langley', genres: ['Folk/Country'], album: 'Single', cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' },
-        { id: '5', code: 'UKTS-5', title: 'stupid song', artist: 'Olivia Rodrigo', genres: ['Pop'], album: 'Single', cover: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23addedc"/></svg>' }
+        { id: '1', code: 'UKTS-1', title: 'Rein Me In', artist: 'Sam Fender & Olivia Dean', genres: ['Indie/Rock'], album: 'Single', cover: '' },
+        { id: '2', code: 'UKTS-2', title: 'Man I Need', artist: 'Olivia Dean', genres: ['Rnb/Funk'], album: 'Single', cover: '' },
+        { id: '3', code: 'UKTS-3', title: 'Great Expectation', artist: 'SIENNA SPIRO', genres: ['Pop'], album: 'Single', cover: '' },
+        { id: '4', code: 'UKTS-4', title: "Choosin' Texas", artist: 'Ella Langley', genres: ['Folk/Country'], album: 'Single', cover: '' },
+        { id: '5', code: 'UKTS-5', title: 'stupid song', artist: 'Olivia Rodrigo', genres: ['Pop'], album: 'Single', cover: '' }
     ],
     artistCodes: {
         'Sam Fender': 'UKTA-1',
@@ -78,7 +78,7 @@ function getOrAssignArtistCode(artistName, db) {
 }
 
 async function fetchDBAsync() {
-    const localData = localStorage.getItem('uk_top_songs_db_v4');
+    const localData = localStorage.getItem('uk_top_songs_db_v5');
     let localParsed = localData ? JSON.parse(localData) : null;
 
     try {
@@ -87,7 +87,7 @@ async function fetchDBAsync() {
             const remoteDB = await response.json();
             if (remoteDB && remoteDB.songs && remoteDB.songs.length > 0) {
                 globalDB = remoteDB;
-                localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(globalDB));
+                localStorage.setItem('uk_top_songs_db_v5', JSON.stringify(globalDB));
                 return globalDB;
             }
         }
@@ -99,14 +99,14 @@ async function fetchDBAsync() {
         globalDB = localParsed;
     } else {
         globalDB = defaultData;
-        localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(defaultData));
+        localStorage.setItem('uk_top_songs_db_v5', JSON.stringify(defaultData));
     }
     return globalDB;
 }
 
 function getDB() {
     if (globalDB) return globalDB;
-    const localData = localStorage.getItem('uk_top_songs_db_v4');
+    const localData = localStorage.getItem('uk_top_songs_db_v5');
     if (!localData) return defaultData;
     try {
         return JSON.parse(localData);
@@ -117,7 +117,7 @@ function getDB() {
 
 function saveDB(data) {
     globalDB = data;
-    localStorage.setItem('uk_top_songs_db_v4', JSON.stringify(data));
+    localStorage.setItem('uk_top_songs_db_v5', JSON.stringify(data));
     
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
     const downloadAnchor = document.createElement('a');
@@ -133,7 +133,8 @@ const fallbackCoverSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/
 
 // --- Global Cover Image Helper ---
 function renderSongCover(song, customClass = "w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0") {
-    const imgSrc = (song && (song.cover || song.coverUrl)) ? (song.cover || song.coverUrl) : fallbackCoverSVG;
+    const rawCover = song && (song.cover || song.coverUrl);
+    const imgSrc = (rawCover && !rawCover.startsWith('data:image/svg')) ? rawCover : fallbackCoverSVG;
     return `<img src="${imgSrc}" class="${customClass}" onerror="this.src='https://placehold.co/100x100/222/fff?text=Song'">`;
 }
 
@@ -148,10 +149,16 @@ function renderGenreBadges(song) {
     return genres.map(g => `<span class="bg-neutral-800 px-2.5 py-1 rounded-full text-xs inline-block mr-1 mb-1">${g}</span>`).join('');
 }
 
+// Split artists on commas and 'feat.', while preserving band names containing '&'
+function parseArtistNames(artistString) {
+    if (!artistString) return [];
+    const cleaned = artistString.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',');
+    return cleaned.split(',').map(a => a.trim()).filter(Boolean);
+}
+
 function songHasArtist(artistString, targetArtist) {
     if (!artistString) return false;
-    const cleaned = artistString.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',');
-    const artists = cleaned.split(/,|\&/).map(a => a.trim().toLowerCase());
+    const artists = parseArtistNames(artistString).map(a => a.toLowerCase());
     const target = targetArtist.trim().toLowerCase();
     return artists.includes(target);
 }
@@ -165,7 +172,7 @@ function formatArtists(artistString) {
         const parts = cleanedString.split(/feat\./i).map(a => a.trim()).filter(Boolean);
         const primaryPart = parts[0];
         const primaryArtists = primaryPart.split(',').map(a => a.trim()).filter(Boolean);
-        const featuredArtists = parts.slice(1).join(' ').split(/&|,/).map(a => a.trim()).filter(Boolean);
+        const featuredArtists = parts.slice(1).join(' ').split(',').map(a => a.trim()).filter(Boolean);
         
         let formattedPrimary = primaryArtists.length === 1 ? makeLink(primaryArtists[0]) : `${primaryArtists.slice(0, -1).map(a => makeLink(a)).join(', ')} & ${makeLink(primaryArtists[primaryArtists.length - 1])}`;
         if (featuredArtists.length === 0) return formattedPrimary;
@@ -343,7 +350,7 @@ function handleCSVUpload(e) {
             const genres = genresRaw.split(';').map(g => g.trim()).filter(Boolean);
             if (genres.length === 0) genres.push('Pop');
 
-            const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
+            const artistNames = parseArtistNames(artist);
             artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
             let existingSong = db.songs.find(s => 
@@ -359,7 +366,7 @@ function handleCSVUpload(e) {
                     artist,
                     album,
                     genres,
-                    cover: cover || fallbackCoverSVG
+                    cover: cover || ''
                 };
                 db.songs.push(existingSong);
             }
@@ -383,7 +390,7 @@ function handleCSVUpload(e) {
         }
 
         saveDB(db);
-        switchAdminTab('songs');
+        if (typeof switchAdminTab === 'function') switchAdminTab('songs');
     };
 
     reader.readAsText(file);
@@ -395,6 +402,9 @@ function openSongModal(songId = null) {
     const currentGenres = song ? getSongGenres(song) : ['Pop'];
     const autoCode = song ? song.code : getNextSongCode(db);
     
+    // Clean SVG string out of text input field if present
+    const cleanCoverInput = song && song.cover && !song.cover.startsWith('data:image/svg') ? song.cover : '';
+
     const genreCheckboxes = db.genres.map(g => {
         const isChecked = currentGenres.includes(g) ? 'checked' : '';
         return `
@@ -420,7 +430,7 @@ function openSongModal(songId = null) {
                             ${genreCheckboxes}
                         </div>
                     </div>
-                    <div><label class="block text-xs uppercase text-neutral-400 mb-1">Cover Image URL / SVG</label><input type="text" id="song-cover-input" value="${song ? (song.cover || '') : ''}" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
+                    <div><label class="block text-xs uppercase text-neutral-400 mb-1">Cover Image URL</label><input type="text" id="song-cover-input" value="${cleanCoverInput}" placeholder="https://example.com/cover.jpg" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white"></div>
                     <div class="flex justify-end gap-2 pt-3"><button type="button" onclick="closeSongModal()" class="bg-neutral-800 px-4 py-2 rounded-xl text-xs font-bold">Cancel</button><button type="submit" class="bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold">Save Song</button></div>
                 </form>
             </div>
@@ -453,7 +463,7 @@ function handleSongSubmit(e, songId) {
     const genres = Array.from(checkedBoxes).map(cb => cb.value);
     if (genres.length === 0) genres.push('Pop');
 
-    const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
+    const artistNames = parseArtistNames(artist);
     artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
     if (songId) {
@@ -474,7 +484,7 @@ function handleSongSubmit(e, songId) {
             artist,
             album,
             genres,
-            cover: cover || fallbackCoverSVG
+            cover: cover || ''
         };
         db.songs.push(newSong);
     }
@@ -482,7 +492,7 @@ function handleSongSubmit(e, songId) {
     saveDB(db);
     showToast('Song saved successfully!');
     closeSongModal();
-    switchAdminTab('songs');
+    if (typeof switchAdminTab === 'function') switchAdminTab('songs');
 }
 
 function deleteSong(songId) {
@@ -491,7 +501,7 @@ function deleteSong(songId) {
     db.songs = db.songs.filter(s => s.id !== songId);
     saveDB(db);
     showToast('Song deleted.');
-    switchAdminTab('songs');
+    if (typeof switchAdminTab === 'function') switchAdminTab('songs');
 }
 
 window.addEventListener('DOMContentLoaded', async () => {

@@ -47,6 +47,7 @@ const defaultData = {
 };
 
 let globalDB = null;
+let currentBuilderEntries = [];
 
 // --- Code Generators ---
 function getNextSongCode(db) {
@@ -175,6 +176,43 @@ function songHasArtist(artistString, targetArtist) {
     return artists.includes(target);
 }
 
+// --- Artist Peak Sorting Helper ---
+function getArtistTracksSortedByPeak(artistName, db) {
+    const artistSongs = (db.songs || []).filter(s => songHasArtist(s.artist, artistName));
+    const trackMap = {};
+
+    artistSongs.forEach(song => {
+        let peak = 999;
+        let weeks = 0;
+
+        if (db.chartHistory) {
+            Object.values(db.chartHistory).forEach(categoryDates => {
+                Object.values(categoryDates).forEach(entries => {
+                    const entry = entries.find(e => e.songId === song.id);
+                    if (entry) {
+                        weeks++;
+                        if (entry.rank < peak) {
+                            peak = entry.rank;
+                        }
+                    }
+                });
+            });
+        }
+
+        trackMap[song.id] = {
+            ...song,
+            peak: peak === 999 ? '-' : peak,
+            weeks: weeks
+        };
+    });
+
+    return Object.values(trackMap).sort((a, b) => {
+        const peakA = typeof a.peak === 'number' ? a.peak : 999;
+        const peakB = typeof b.peak === 'number' ? b.peak : 999;
+        return peakA - peakB;
+    });
+}
+
 // --- Missing Helpers to Prevent Page Crashes ---
 function getChartDropouts(chartHistoryData, currentChartDate) {
     return [];
@@ -260,7 +298,7 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-// --- ADMIN UPLOAD & CHART BUILDER TAB UI ---
+// --- ADMIN UPLOAD & CROWNNOTE-STYLE CHART BUILDER TAB UI ---
 function renderAdminUploadTab() {
     const chartOptions = chartCategories.map(c => `<option value="${c.id}">${c.title} (${c.maxRank} max)</option>`).join('');
     const today = new Date();
@@ -271,7 +309,7 @@ function renderAdminUploadTab() {
             <!-- Mode Switcher Tabs -->
             <div class="flex gap-2 border-b border-neutral-800 pb-4">
                 <button onclick="switchAdminToolMode('csv')" id="tool-mode-csv-btn" class="bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold uppercase transition-all">CSV Importer</button>
-                <button onclick="switchAdminToolMode('builder')" id="tool-mode-builder-btn" class="bg-neutral-800 text-neutral-400 px-5 py-2 rounded-xl text-xs font-bold uppercase transition-all hover:text-white">In-Site Chart Builder</button>
+                <button onclick="switchAdminToolMode('builder')" id="tool-mode-builder-btn" class="bg-neutral-800 text-neutral-400 px-5 py-2 rounded-xl text-xs font-bold uppercase transition-all hover:text-white">Crownnote-Style Chart Builder</button>
             </div>
 
             <!-- CSV Importer Section -->
@@ -313,12 +351,12 @@ function renderAdminUploadTab() {
                 <button onclick="handleCSVUpload(event)" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Import CSV</button>
             </div>
 
-            <!-- In-Site Chart Builder Section -->
+            <!-- Crownnote-Style Chart Builder Section -->
             <div id="tool-builder-section" class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-6 hidden">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                        <h3 class="text-xl font-bold uppercase">In-Site Chart Builder</h3>
-                        <p class="text-xs text-neutral-400">Build or update weekly charts directly from your master catalog without needing CSVs.</p>
+                        <h3 class="text-xl font-bold uppercase">Crownnote-Style Chart Builder</h3>
+                        <p class="text-xs text-neutral-400">Add songs dynamically, reorder positions, and build your weekly chart flexibly.</p>
                     </div>
                     <button onclick="saveInteractiveChart()" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Save Chart</button>
                 </div>
@@ -336,7 +374,16 @@ function renderAdminUploadTab() {
                     </div>
                 </div>
 
-                <div id="builder-rows-container" class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                <!-- Song Picker / Add Bar -->
+                <div class="bg-black/60 p-4 rounded-xl border border-neutral-800 flex flex-col sm:flex-row gap-3 items-center">
+                    <select id="builder-song-picker" class="flex-1 w-full bg-neutral-900 border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
+                        <option value="">-- Select Song from Catalog to Add --</option>
+                    </select>
+                    <button onclick="addSongToBuilder()" class="w-full sm:w-auto bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase shrink-0">Add to Chart</button>
+                </div>
+
+                <!-- Dynamic Chart List -->
+                <div id="builder-rows-container" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
                     <!-- Dynamically populated chart rows -->
                 </div>
 
@@ -368,46 +415,106 @@ function switchAdminToolMode(mode) {
 
 function loadBuilderRows() {
     const container = document.getElementById('builder-rows-container');
-    if (!container) return;
+    const picker = document.getElementById('builder-song-picker');
+    if (!container || !picker) return;
 
     const db = getDB();
     const category = document.getElementById('builder-chart-category')?.value || 'top-songs';
     const dateInput = document.getElementById('builder-chart-date')?.value.trim();
-    const catObj = chartCategories.find(c => c.id === category);
-    const maxRank = catObj ? catObj.maxRank : 25;
+
+    const sortedSongs = [...(db.songs || [])].sort((a, b) => a.title.localeCompare(b.title));
+    picker.innerHTML = `<option value="">-- Select Song from Catalog to Add --</option>` + sortedSongs.map(s => `<option value="${s.id}">${s.title} - ${s.artist} (${s.code})</option>`).join('');
 
     const existingEntries = (db.chartHistory && db.chartHistory[category] && db.chartHistory[category][dateInput]) || [];
-    const sortedSongs = [...(db.songs || [])].sort((a, b) => a.title.localeCompare(b.title));
-    const songOptions = `<option value="">-- Select Song from Catalog --</option>` + sortedSongs.map(s => `<option value="${s.id}">${s.title} - ${s.artist} (${s.code})</option>`).join('');
+    currentBuilderEntries = JSON.parse(JSON.stringify(existingEntries));
 
-    let rowsHTML = '';
-    for (let r = 1; r <= maxRank; r++) {
-        const existingItem = existingEntries.find(e => e.rank === r);
-        const salesChecked = existingItem && existingItem.salesIncrease ? 'checked' : '';
+    renderBuilderList();
+}
 
-        rowsHTML += `
+function renderBuilderList() {
+    const container = document.getElementById('builder-rows-container');
+    if (!container) return;
+    const db = getDB();
+
+    if (currentBuilderEntries.length === 0) {
+        container.innerHTML = `<div class="p-8 text-center text-neutral-500 bg-black/40 rounded-xl border border-neutral-800">No songs added to this chart yet. Use the picker above to add songs.</div>`;
+        return;
+    }
+
+    let html = '';
+    currentBuilderEntries.forEach((entry, idx) => {
+        const song = db.songs.find(s => s.id === entry.songId);
+        const title = song ? song.title : 'Unknown Song';
+        const artist = song ? song.artist : 'Unknown Artist';
+        const cover = song ? renderSongCover(song, "w-8 h-8 rounded-lg object-cover bg-neutral-800 shrink-0") : '';
+        const rank = idx + 1;
+        entry.rank = rank;
+
+        html += `
             <div class="flex items-center gap-3 bg-black/60 border border-neutral-800 p-3 rounded-xl">
-                <div class="w-10 text-center font-bold text-sm text-[#addedc]">#${r}</div>
-                <div class="flex-1">
-                    <select data-rank-index="${r}" class="builder-song-select w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none">
-                        ${songOptions}
-                    </select>
+                <div class="w-12 text-center font-black text-sm text-[#addedc]">#${rank}</div>
+                <div class="shrink-0">${cover}</div>
+                <div class="flex-1 min-w-0">
+                    <p class="font-bold text-xs truncate text-white">${title}</p>
+                    <p class="text-[10px] text-neutral-400 truncate">${artist}</p>
                 </div>
                 <div class="flex items-center space-x-2 shrink-0 px-2">
-                    <input type="checkbox" data-rank-sales="${r}" class="builder-sales-checkbox accent-[#addedc] w-4 h-4 rounded cursor-pointer" ${salesChecked}>
-                    <span class="text-xs text-neutral-400 uppercase">Sales Inc.</span>
+                    <input type="checkbox" onchange="toggleBuilderSales(${idx}, this.checked)" class="accent-[#addedc] w-4 h-4 rounded cursor-pointer" ${entry.salesIncrease ? 'checked' : ''}>
+                    <span class="text-[10px] text-neutral-400 uppercase">Sales Inc.</span>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                    <button onclick="moveBuilderItem(${idx}, -1)" class="w-7 h-7 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg flex items-center justify-center text-xs" title="Move Up"><i class="fa-solid fa-arrow-up"></i></button>
+                    <button onclick="moveBuilderItem(${idx}, 1)" class="w-7 h-7 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg flex items-center justify-center text-xs" title="Move Down"><i class="fa-solid fa-arrow-down"></i></button>
+                    <button onclick="removeBuilderItem(${idx})" class="w-7 h-7 bg-red-950 hover:bg-red-900 text-red-400 rounded-lg flex items-center justify-center text-xs" title="Remove"><i class="fa-solid fa-trash"></i></button>
                 </div>
             </div>
         `;
+    });
+
+    container.innerHTML = html;
+}
+
+function addSongToBuilder() {
+    const picker = document.getElementById('builder-song-picker');
+    if (!picker || !picker.value) {
+        showToast('Please select a song to add.');
+        return;
     }
 
-    container.innerHTML = rowsHTML;
+    const songId = picker.value;
+    if (currentBuilderEntries.some(e => e.songId === songId)) {
+        showToast('This song is already in the chart!');
+        return;
+    }
 
-    if (existingEntries.length > 0) {
-        existingEntries.forEach(item => {
-            const selectEl = container.querySelector(`select[data-rank-index="${item.rank}"]`);
-            if (selectEl) selectEl.value = item.songId;
-        });
+    currentBuilderEntries.push({
+        songId,
+        rank: currentBuilderEntries.length + 1,
+        salesIncrease: false
+    });
+
+    picker.value = '';
+    renderBuilderList();
+    showToast('Song added to chart!');
+}
+
+function moveBuilderItem(index, direction) {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= currentBuilderEntries.length) return;
+    const item = currentBuilderEntries.splice(index, 1)[0];
+    currentBuilderEntries.splice(newIndex, 0, item);
+    renderBuilderList();
+}
+
+function removeBuilderItem(index) {
+    currentBuilderEntries.splice(index, 1);
+    renderBuilderList();
+    showToast('Song removed from chart.');
+}
+
+function toggleBuilderSales(index, isChecked) {
+    if (currentBuilderEntries[index]) {
+        currentBuilderEntries[index].salesIncrease = isChecked;
     }
 }
 
@@ -424,30 +531,13 @@ function saveInteractiveChart() {
     if (!db.chartHistory) db.chartHistory = {};
     if (!db.chartHistory[category]) db.chartHistory[category] = {};
 
-    const container = document.getElementById('builder-rows-container');
-    if (!container) return;
-
-    const selects = container.querySelectorAll('.builder-song-select');
-    const chartEntries = [];
-
-    selects.forEach(sel => {
-        const rank = parseInt(sel.getAttribute('data-rank-index'), 10);
-        const songId = sel.value;
-        if (songId) {
-            const salesCheckbox = container.querySelector(`input[data-rank-sales="${rank}"]`);
-            const salesIncrease = salesCheckbox ? salesCheckbox.checked : false;
-
-            chartEntries.push({
-                songId,
-                rank,
-                salesIncrease
-            });
-        }
+    currentBuilderEntries.forEach((entry, idx) => {
+        entry.rank = idx + 1;
     });
 
-    db.chartHistory[category][dateInput] = chartEntries;
+    db.chartHistory[category][dateInput] = JSON.parse(JSON.stringify(currentBuilderEntries));
     saveDB(db);
-    showToast(`Successfully saved ${chartEntries.length} entries for ${category} (${dateInput})!`);
+    showToast(`Successfully saved ${currentBuilderEntries.length} entries for ${category} (${dateInput})!`);
 }
 
 function toggleUploadModeFields() {

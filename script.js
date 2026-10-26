@@ -131,13 +131,11 @@ function saveDB(data) {
 
 const fallbackCoverSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23addedc'/></svg>";
 
-// --- Global Cover Image Helper ---
-function renderSongCover(song) {
+// --- Bulletproof Global Cover Image Helper ---
+function renderSongCover(song, customClass = "w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0") {
     const rawCover = song && (song.cover || song.coverUrl);
-    if (rawCover && typeof rawCover === 'string' && rawCover.trim() !== '' && !rawCover.startsWith('data:image/svg')) {
-        return rawCover.trim();
-    }
-    return fallbackCoverSVG;
+    const imgSrc = (rawCover && typeof rawCover === 'string' && rawCover.trim() !== '' && !rawCover.startsWith('data:image/svg')) ? rawCover.trim() : fallbackCoverSVG;
+    return `<img src='${imgSrc}' class='${customClass}' onerror="this.src='https://placehold.co/100x100/222/fff?text=Song'">`;
 }
 
 function getSongGenres(song) {
@@ -151,11 +149,24 @@ function renderGenreBadges(song) {
     return genres.map(g => `<span class="bg-neutral-800 px-2.5 py-1 rounded-full text-xs inline-block mr-1 mb-1">${g}</span>`).join('');
 }
 
-// Split artists on commas and 'feat.', while preserving band names containing '&'
+// Split artists on commas, semicolons, and 'feat.'
 function parseArtistNames(artistString) {
     if (!artistString) return [];
     const cleaned = artistString.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',');
     return cleaned.split(',').map(a => a.trim()).filter(Boolean);
+}
+
+// Robust Artist Matching Helper (handles '&' vs ';' vs ',')
+function artistsMatch(artistStr1, artistStr2) {
+    if (!artistStr1 || !artistStr2) return false;
+    const a1 = artistStr1.trim().toLowerCase();
+    const a2 = artistStr2.trim().toLowerCase();
+    if (a1 === a2) return true;
+
+    const tokens1 = a1.split(/[,;&]|\band\b|\bfeat\.?/gi).map(s => s.trim()).filter(Boolean);
+    const tokens2 = a2.split(/[,;&]|\band\b|\bfeat\.?/gi).map(s => s.trim()).filter(Boolean);
+
+    return tokens1.some(t1 => tokens2.includes(t1)) || tokens2.some(t2 => tokens1.includes(t2));
 }
 
 function songHasArtist(artistString, targetArtist) {
@@ -338,7 +349,8 @@ function handleCSVUpload(e) {
             const line = lines[i].trim();
             if (!line) continue;
 
-            if (i === 0 && line.toLowerCase().includes('title') || i === 0 && line.toLowerCase().includes('song')) continue;
+            const lowerLine = line.toLowerCase();
+            if (i === 0 && (lowerLine.includes('title') || lowerLine.includes('song') || lowerLine.includes('rank'))) continue;
 
             const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
             if (cols.length < 2) continue;
@@ -391,13 +403,11 @@ function handleCSVUpload(e) {
             artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
             const cleanTitle = title.trim().toLowerCase();
-            const csvArtists = artistNames.map(a => a.toLowerCase());
 
+            // Smart Duplicate Prevention via robust artist matching
             let existingSong = db.songs.find(s => {
                 if (s.title.trim().toLowerCase() !== cleanTitle) return false;
-                if (s.artist.trim().toLowerCase() === artist.trim().toLowerCase()) return true;
-                const dbArtists = parseArtistNames(s.artist).map(a => a.toLowerCase());
-                return csvArtists.some(a => dbArtists.includes(a));
+                return artistsMatch(s.artist, artist);
             });
 
             if (!existingSong) {

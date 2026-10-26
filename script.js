@@ -81,6 +81,12 @@ async function fetchDBAsync() {
     const localData = localStorage.getItem('uk_top_songs_db_v5');
     let localParsed = localData ? JSON.parse(localData) : null;
 
+    // Prioritize localStorage so imported changes aren't overwritten on reload
+    if (localParsed && localParsed.songs && localParsed.songs.length > 0) {
+        globalDB = localParsed;
+        return globalDB;
+    }
+
     try {
         const response = await fetch('db.json?t=' + Date.now());
         if (response.ok) {
@@ -95,12 +101,8 @@ async function fetchDBAsync() {
         console.warn('Could not fetch remote db.json, using local storage.');
     }
 
-    if (localParsed && localParsed.songs && localParsed.songs.length > 0) {
-        globalDB = localParsed;
-    } else {
-        globalDB = defaultData;
-        localStorage.setItem('uk_top_songs_db_v5', JSON.stringify(defaultData));
-    }
+    globalDB = defaultData;
+    localStorage.setItem('uk_top_songs_db_v5', JSON.stringify(defaultData));
     return globalDB;
 }
 

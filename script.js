@@ -158,6 +158,9 @@ function parseArtistNames(artistString) {
     return cleaned.split(',').map(a => a.trim()).filter(Boolean);
 }
 
+// String normalizer to strip punctuation, quotes, spaces, and casing
+const normalizeStr = (str) => (str || '').toString().toLowerCase().replace(/[^a-z0-9]/g, '');
+
 // Robust Artist Matching Helper (handles '&' vs ';' vs ',')
 function artistsMatch(artistStr1, artistStr2) {
     if (!artistStr1 || !artistStr2) return false;
@@ -346,6 +349,7 @@ function handleCSVUpload(e) {
 
         const chartEntries = [];
         let importedCount = 0;
+        let matchedCount = 0;
 
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i].trim();
@@ -404,11 +408,11 @@ function handleCSVUpload(e) {
             const artistNames = parseArtistNames(artist);
             artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
-            const cleanTitle = title.trim().toLowerCase();
+            const normTitle = normalizeStr(title);
 
-            // Smart Duplicate Prevention via robust artist matching
+            // Fully bulletproof duplicate prevention using normalized string matching & artist overlap
             let existingSong = db.songs.find(s => {
-                if (s.title.trim().toLowerCase() !== cleanTitle) return false;
+                if (normalizeStr(s.title) !== normTitle) return false;
                 return artistsMatch(s.artist, artist);
             });
 
@@ -423,12 +427,12 @@ function handleCSVUpload(e) {
                     cover: cover || ''
                 };
                 db.songs.push(existingSong);
+                importedCount++;
             } else {
+                matchedCount++;
                 if (cover && !existingSong.cover) existingSong.cover = cover;
                 if (album && !existingSong.album) existingSong.album = album;
             }
-
-            importedCount++;
 
             if (uploadType === 'chart') {
                 chartEntries.push({
@@ -441,9 +445,9 @@ function handleCSVUpload(e) {
 
         if (uploadType === 'chart') {
             db.chartHistory[chartCategory][chartDate] = chartEntries;
-            showToast(`Successfully imported ${importedCount} songs into ${chartCategory} for ${chartDate}!`);
+            showToast(`Chart updated! Matched ${matchedCount}, added ${importedCount} new.`);
         } else {
-            showToast(`Successfully added ${importedCount} songs to catalog!`);
+            showToast(`Catalog updated! Added ${importedCount} new songs.`);
         }
 
         saveDB(db);

@@ -79,7 +79,6 @@ function getOrAssignArtistCode(artistName, db) {
 
 async function fetchDBAsync() {
     try {
-        // Always attempt fetching the fresh db.json from remote server first (bypassing browser cache)
         const response = await fetch('db.json?t=' + Date.now());
         if (response.ok) {
             const remoteDB = await response.json();
@@ -93,7 +92,6 @@ async function fetchDBAsync() {
         console.warn('Could not fetch remote db.json, attempting fallback to local storage.');
     }
 
-    // Fallback to localStorage if server fetch fails or user is offline
     const localData = localStorage.getItem('uk_top_songs_db_v5');
     if (localData) {
         try {
@@ -177,8 +175,13 @@ function songHasArtist(artistString, targetArtist) {
     return artists.includes(target);
 }
 
+// --- Missing Helpers to Prevent Page Crashes ---
 function getChartDropouts(chartHistoryData, currentChartDate) {
     return [];
+}
+
+function safeLen(arr) {
+    return (arr && Array.isArray(arr)) ? arr.length : 0;
 }
 
 function formatArtists(artistString) {
@@ -373,17 +376,13 @@ function loadBuilderRows() {
     const catObj = chartCategories.find(c => c.id === category);
     const maxRank = catObj ? catObj.maxRank : 25;
 
-    // Load existing chart data if available
     const existingEntries = (db.chartHistory && db.chartHistory[category] && db.chartHistory[category][dateInput]) || [];
-
-    // Sort master songs alphabetically for easy selection dropdown
     const sortedSongs = [...(db.songs || [])].sort((a, b) => a.title.localeCompare(b.title));
     const songOptions = `<option value="">-- Select Song from Catalog --</option>` + sortedSongs.map(s => `<option value="${s.id}">${s.title} - ${s.artist} (${s.code})</option>`).join('');
 
     let rowsHTML = '';
     for (let r = 1; r <= maxRank; r++) {
         const existingItem = existingEntries.find(e => e.rank === r);
-        const selectedSongId = existingItem ? existingItem.songId : '';
         const salesChecked = existingItem && existingItem.salesIncrease ? 'checked' : '';
 
         rowsHTML += `
@@ -404,7 +403,6 @@ function loadBuilderRows() {
 
     container.innerHTML = rowsHTML;
 
-    // Pre-select values if existing entries are found
     if (existingEntries.length > 0) {
         existingEntries.forEach(item => {
             const selectEl = container.querySelector(`select[data-rank-index="${item.rank}"]`);

@@ -81,7 +81,6 @@ async function fetchDBAsync() {
     const localData = localStorage.getItem('uk_top_songs_db_v5');
     let localParsed = localData ? JSON.parse(localData) : null;
 
-    // Prioritize localStorage so imported changes aren't overwritten on reload
     if (localParsed && localParsed.songs && localParsed.songs.length > 0) {
         globalDB = localParsed;
         return globalDB;
@@ -133,7 +132,6 @@ function saveDB(data) {
 
 const fallbackCoverSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23addedc'/></svg>";
 
-// --- Bulletproof Global Cover Image Helper ---
 function renderSongCover(song, customClass = "w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0") {
     const rawCover = song && (song.cover || song.coverUrl);
     const imgSrc = (rawCover && typeof rawCover === 'string' && rawCover.trim() !== '' && !rawCover.startsWith('data:image/svg')) ? rawCover.trim() : fallbackCoverSVG;
@@ -151,17 +149,14 @@ function renderGenreBadges(song) {
     return genres.map(g => `<span class="bg-neutral-800 px-2.5 py-1 rounded-full text-xs inline-block mr-1 mb-1">${g}</span>`).join('');
 }
 
-// Split artists on commas, semicolons, and 'feat.'
 function parseArtistNames(artistString) {
     if (!artistString) return [];
     const cleaned = artistString.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',');
     return cleaned.split(',').map(a => a.trim()).filter(Boolean);
 }
 
-// String normalizer to strip punctuation, quotes, spaces, and casing
 const normalizeStr = (str) => (str || '').toString().toLowerCase().replace(/[^a-z0-9]/g, '');
 
-// Robust Artist Matching Helper (handles '&' vs ';' vs ',')
 function artistsMatch(artistStr1, artistStr2) {
     if (!artistStr1 || !artistStr2) return false;
     const a1 = artistStr1.trim().toLowerCase();
@@ -257,15 +252,22 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-// --- CSV UPLOAD TAB UI & HANDLER ---
+// --- ADMIN UPLOAD & CHART BUILDER TAB UI ---
 function renderAdminUploadTab() {
-    const chartOptions = chartCategories.map(c => `<option value="${c.id}">${c.title}</option>`).join('');
+    const chartOptions = chartCategories.map(c => `<option value="${c.id}">${c.title} (${c.maxRank} max)</option>`).join('');
     const today = new Date();
     const defaultDateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
 
     return `
-        <div class="space-y-6 max-w-xl">
-            <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
+        <div class="space-y-8 max-w-4xl">
+            <!-- Mode Switcher Tabs -->
+            <div class="flex gap-2 border-b border-neutral-800 pb-4">
+                <button onclick="switchAdminToolMode('csv')" id="tool-mode-csv-btn" class="bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold uppercase transition-all">CSV Importer</button>
+                <button onclick="switchAdminToolMode('builder')" id="tool-mode-builder-btn" class="bg-neutral-800 text-neutral-400 px-5 py-2 rounded-xl text-xs font-bold uppercase transition-all hover:text-white">In-Site Chart Builder</button>
+            </div>
+
+            <!-- CSV Importer Section -->
+            <div id="tool-csv-section" class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
                 <h3 class="text-xl font-bold uppercase">CSV Importer</h3>
                 <p class="text-xs text-neutral-400">
                     <strong>Catalog Mode:</strong> <code class="text-[#addedc]">Title, Artist, Genres, Cover URL, Album</code>.<br>
@@ -302,8 +304,147 @@ function renderAdminUploadTab() {
 
                 <button onclick="handleCSVUpload(event)" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Import CSV</button>
             </div>
+
+            <!-- In-Site Chart Builder Section -->
+            <div id="tool-builder-section" class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-6 hidden">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold uppercase">In-Site Chart Builder</h3>
+                        <p class="text-xs text-neutral-400">Build or update weekly charts directly from your master catalog without needing CSVs.</p>
+                    </div>
+                    <button onclick="saveInteractiveChart()" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Save Chart</button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-black/40 p-4 rounded-xl border border-neutral-800">
+                    <div>
+                        <label class="block text-xs uppercase text-neutral-400 mb-1">Select Chart Category</label>
+                        <select id="builder-chart-category" onchange="loadBuilderRows()" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
+                            ${chartOptions}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-neutral-400 mb-1">Chart Date (DD/MM/YYYY)</label>
+                        <input type="text" id="builder-chart-date" value="${defaultDateStr}" onchange="loadBuilderRows()" placeholder="DD/MM/YYYY" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none font-mono">
+                    </div>
+                </div>
+
+                <div id="builder-rows-container" class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                    <!-- Dynamically populated chart rows -->
+                </div>
+
+                <button onclick="saveInteractiveChart()" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Save Chart</button>
+            </div>
         </div>
     `;
+}
+
+function switchAdminToolMode(mode) {
+    const csvBtn = document.getElementById('tool-mode-csv-btn');
+    const builderBtn = document.getElementById('tool-mode-builder-btn');
+    const csvSection = document.getElementById('tool-csv-section');
+    const builderSection = document.getElementById('tool-builder-section');
+
+    if (mode === 'csv') {
+        csvBtn.className = 'bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold uppercase transition-all';
+        builderBtn.className = 'bg-neutral-800 text-neutral-400 px-5 py-2 rounded-xl text-xs font-bold uppercase transition-all hover:text-white';
+        csvSection.classList.remove('hidden');
+        builderSection.classList.add('hidden');
+    } else {
+        builderBtn.className = 'bg-[#addedc] text-black px-5 py-2 rounded-xl text-xs font-bold uppercase transition-all';
+        csvBtn.className = 'bg-neutral-800 text-neutral-400 px-5 py-2 rounded-xl text-xs font-bold uppercase transition-all hover:text-white';
+        builderSection.classList.remove('hidden');
+        csvSection.classList.add('hidden');
+        loadBuilderRows();
+    }
+}
+
+function loadBuilderRows() {
+    const container = document.getElementById('builder-rows-container');
+    if (!container) return;
+
+    const db = getDB();
+    const category = document.getElementById('builder-chart-category')?.value || 'top-songs';
+    const dateInput = document.getElementById('builder-chart-date')?.value.trim();
+    const catObj = chartCategories.find(c => c.id === category);
+    const maxRank = catObj ? catObj.maxRank : 25;
+
+    // Load existing chart data if available
+    const existingEntries = (db.chartHistory && db.chartHistory[category] && db.chartHistory[category][dateInput]) || [];
+
+    // Sort master songs alphabetically for easy selection dropdown
+    const sortedSongs = [...(db.songs || [])].sort((a, b) => a.title.localeCompare(b.title));
+    const songOptions = `<option value="">-- Select Song from Catalog --</option>` + sortedSongs.map(s => `<option value="${s.id}">${s.title} - ${s.artist} (${s.code})</option>`).join('');
+
+    let rowsHTML = '';
+    for (let r = 1; r <= maxRank; r++) {
+        const existingItem = existingEntries.find(e => e.rank === r);
+        const selectedSongId = existingItem ? existingItem.songId : '';
+        const salesChecked = existingItem && existingItem.salesIncrease ? 'checked' : '';
+
+        rowsHTML += `
+            <div class="flex items-center gap-3 bg-black/60 border border-neutral-800 p-3 rounded-xl">
+                <div class="w-10 text-center font-bold text-sm text-[#addedc]">#${r}</div>
+                <div class="flex-1">
+                    <select data-rank-index="${r}" class="builder-song-select w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none">
+                        ${songOptions}
+                    </select>
+                </div>
+                <div class="flex items-center space-x-2 shrink-0 px-2">
+                    <input type="checkbox" data-rank-sales="${r}" class="builder-sales-checkbox accent-[#addedc] w-4 h-4 rounded cursor-pointer" ${salesChecked}>
+                    <span class="text-xs text-neutral-400 uppercase">Sales Inc.</span>
+                </div>
+            </div>
+        `;
+    }
+
+    container.innerHTML = rowsHTML;
+
+    // Pre-select values if existing entries are found
+    if (existingEntries.length > 0) {
+        existingEntries.forEach(item => {
+            const selectEl = container.querySelector(`select[data-rank-index="${item.rank}"]`);
+            if (selectEl) selectEl.value = item.songId;
+        });
+    }
+}
+
+function saveInteractiveChart() {
+    const db = getDB();
+    const category = document.getElementById('builder-chart-category')?.value || 'top-songs';
+    const dateInput = document.getElementById('builder-chart-date')?.value.trim();
+
+    if (!dateInput) {
+        showToast('Please specify a chart date.');
+        return;
+    }
+
+    if (!db.chartHistory) db.chartHistory = {};
+    if (!db.chartHistory[category]) db.chartHistory[category] = {};
+
+    const container = document.getElementById('builder-rows-container');
+    if (!container) return;
+
+    const selects = container.querySelectorAll('.builder-song-select');
+    const chartEntries = [];
+
+    selects.forEach(sel => {
+        const rank = parseInt(sel.getAttribute('data-rank-index'), 10);
+        const songId = sel.value;
+        if (songId) {
+            const salesCheckbox = container.querySelector(`input[data-rank-sales="${rank}"]`);
+            const salesIncrease = salesCheckbox ? salesCheckbox.checked : false;
+
+            chartEntries.push({
+                songId,
+                rank,
+                salesIncrease
+            });
+        }
+    });
+
+    db.chartHistory[category][dateInput] = chartEntries;
+    saveDB(db);
+    showToast(`Successfully saved ${chartEntries.length} entries for ${category} (${dateInput})!`);
 }
 
 function toggleUploadModeFields() {
@@ -410,7 +551,6 @@ function handleCSVUpload(e) {
 
             const normTitle = normalizeStr(title);
 
-            // Fully bulletproof duplicate prevention using normalized string matching & artist overlap
             let existingSong = db.songs.find(s => {
                 if (normalizeStr(s.title) !== normTitle) return false;
                 return artistsMatch(s.artist, artist);

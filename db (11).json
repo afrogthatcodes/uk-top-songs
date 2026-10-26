@@ -10,36 +10,6 @@
   ],
   "songs": [
     {
-      "id": "1",
-      "code": "REIN-01",
-      "title": "Rein Me In",
-      "artist": "Sam Fender & Olivia Dean",
-      "genres": [
-        "Indie/Rock"
-      ],
-      "cover": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23addedc\"/></svg>"
-    },
-    {
-      "id": "2",
-      "code": "MAN-02",
-      "title": "Man I Need",
-      "artist": "Olivia Dean",
-      "genres": [
-        "Rnb/Funk"
-      ],
-      "cover": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23addedc\"/></svg>"
-    },
-    {
-      "id": "3",
-      "code": "GREAT-03",
-      "title": "Great Expectation",
-      "artist": "SIENNA SPIRO",
-      "genres": [
-        "Pop"
-      ],
-      "cover": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23addedc\"/></svg>"
-    },
-    {
       "id": "4",
       "code": "CHOOS-04",
       "title": "Choosin' Texas",
@@ -3809,6 +3779,17 @@
         "Pop"
       ],
       "cover": "https://cdn.sonemic.net/i/600/w/0200c1c0e3e068b51be6a96be5a1ef4d/12618807/taylor-swift-the-tortured-poets-department-Cover-Art.jpg"
+    },
+    {
+      "id": "1792975305887",
+      "code": "UKTS-342",
+      "title": "Man I Need",
+      "artist": "Olivia Dean",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": ""
     }
   ],
   "chartHistory": {
@@ -3838,6 +3819,383 @@
           "songId": "5",
           "rank": 5,
           "salesIncrease": true
+        }
+      ],
+      "02/01/2026": [
+        {
+          "songId": "1792975305887",
+          "rank": 1,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123911",
+          "rank": 2,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123930",
+          "rank": 3,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123931",
+          "rank": 4,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123932",
+          "rank": 5,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123972",
+          "rank": 6,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792622556063",
+          "rank": 7,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792622556056",
+          "rank": 8,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123980",
+          "rank": 9,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123983",
+          "rank": 10,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792622556055",
+          "rank": 11,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123984",
+          "rank": 12,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123985",
+          "rank": 13,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123986",
+          "rank": 14,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123987",
+          "rank": 15,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123988",
+          "rank": 16,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123993",
+          "rank": 17,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123994",
+          "rank": 18,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123995",
+          "rank": 19,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123996",
+          "rank": 20,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124003",
+          "rank": 21,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124005",
+          "rank": 22,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124006",
+          "rank": 23,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124007",
+          "rank": 24,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124008",
+          "rank": 25,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124009",
+          "rank": 26,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556066",
+          "rank": 27,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124010",
+          "rank": 28,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124011",
+          "rank": 29,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124012",
+          "rank": 30,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124014",
+          "rank": 31,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124015",
+          "rank": 32,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556054",
+          "rank": 33,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556065",
+          "rank": 34,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124017",
+          "rank": 35,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556053",
+          "rank": 36,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124018",
+          "rank": 37,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124019",
+          "rank": 38,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124020",
+          "rank": 39,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124021",
+          "rank": 40,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124028",
+          "rank": 41,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124063",
+          "rank": 42,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124071",
+          "rank": 43,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556064",
+          "rank": 44,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124072",
+          "rank": 45,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124073",
+          "rank": 46,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124088",
+          "rank": 47,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124089",
+          "rank": 48,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124090",
+          "rank": 49,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124091",
+          "rank": 50,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124092",
+          "rank": 51,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124093",
+          "rank": 52,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556068",
+          "rank": 53,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124094",
+          "rank": 54,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124095",
+          "rank": 55,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556059",
+          "rank": 56,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124097",
+          "rank": 57,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124098",
+          "rank": 58,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124099",
+          "rank": 59,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124103",
+          "rank": 60,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556057",
+          "rank": 61,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124104",
+          "rank": 62,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124185",
+          "rank": 63,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124105",
+          "rank": 64,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124106",
+          "rank": 65,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124112",
+          "rank": 66,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124113",
+          "rank": 67,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124114",
+          "rank": 68,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124115",
+          "rank": 69,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124118",
+          "rank": 70,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124124",
+          "rank": 71,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124142",
+          "rank": 72,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124143",
+          "rank": 73,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124145",
+          "rank": 74,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124146",
+          "rank": 75,
+          "salesIncrease": false
         }
       ]
     }
@@ -3995,9 +4353,8 @@
     "Trigga": "UKTA-141",
     "Takura": "UKTA-142",
     "Stormzy": "UKTA-143",
-    "I Knew You": "UKTA-144",
-    "Post Malone": "UKTA-145",
-    "London": "UKTA-146",
-    "Florence + The Machine": "UKTA-147"
+    "Post Malone": "UKTA-144",
+    "Florence + The Machine": "UKTA-145",
+    "She & Him": "UKTA-146"
   }
 }

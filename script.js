@@ -78,15 +78,8 @@ function getOrAssignArtistCode(artistName, db) {
 }
 
 async function fetchDBAsync() {
-    const localData = localStorage.getItem('uk_top_songs_db_v5');
-    let localParsed = localData ? JSON.parse(localData) : null;
-
-    if (localParsed && localParsed.songs && localParsed.songs.length > 0) {
-        globalDB = localParsed;
-        return globalDB;
-    }
-
     try {
+        // Always attempt fetching the fresh db.json from remote server first (bypassing browser cache)
         const response = await fetch('db.json?t=' + Date.now());
         if (response.ok) {
             const remoteDB = await response.json();
@@ -97,11 +90,19 @@ async function fetchDBAsync() {
             }
         }
     } catch (err) {
-        console.warn('Could not fetch remote db.json, using local storage.');
+        console.warn('Could not fetch remote db.json, attempting fallback to local storage.');
+    }
+
+    // Fallback to localStorage if server fetch fails or user is offline
+    const localData = localStorage.getItem('uk_top_songs_db_v5');
+    if (localData) {
+        try {
+            globalDB = JSON.parse(localData);
+            return globalDB;
+        } catch (e) {}
     }
 
     globalDB = defaultData;
-    localStorage.setItem('uk_top_songs_db_v5', JSON.stringify(defaultData));
     return globalDB;
 }
 

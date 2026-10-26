@@ -177,6 +177,10 @@ function songHasArtist(artistString, targetArtist) {
     return artists.includes(target);
 }
 
+function getChartDropouts(chartHistoryData, currentChartDate) {
+    return [];
+}
+
 function formatArtists(artistString) {
     if (!artistString) return '';
     const makeLink = (name) => `<a href="artist.html?name=${encodeURIComponent(name)}" class="hover:text-white transition-colors">${name}</a>`;

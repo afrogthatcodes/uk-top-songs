@@ -213,9 +213,22 @@ function getArtistTracksSortedByPeak(artistName, db) {
     });
 }
 
-// --- Missing Helpers to Prevent Page Crashes ---
-function getChartDropouts(chartHistoryData, currentChartDate) {
-    return [];
+// --- Dropout & Safety Helpers ---
+function getChartDropouts(chartId, currentDateStr) {
+    const db = getDB();
+    const historyObj = db.chartHistory[chartId] || {};
+    const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
+    const currentIndex = dates.indexOf(currentDateStr);
+
+    if (currentIndex <= 0) return { dropouts: [] };
+
+    const prevDate = dates[currentIndex - 1];
+    const prevEntries = historyObj[prevDate] || [];
+    const currentEntries = historyObj[currentDateStr] || [];
+    const currentSongIds = new Set(currentEntries.map(e => e.songId));
+
+    const dropouts = prevEntries.filter(e => !currentSongIds.has(e.songId));
+    return { dropouts };
 }
 
 function safeLen(arr) {

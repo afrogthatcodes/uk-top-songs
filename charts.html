@@ -22,7 +22,7 @@
         
         .chart-table-header {
             display: grid;
-            grid-template-columns: 60px 1fr 50px 50px 60px 50px 50px;
+            grid-template-columns: 60px 1fr 60px 50px 60px 50px 50px;
             font-weight: 700;
             font-size: 12px;
             color: var(--text-muted);
@@ -41,7 +41,7 @@
             border-radius: 10px;
             margin-bottom: 8px;
             display: grid;
-            grid-template-columns: 60px 1fr 50px 50px 60px 50px 50px;
+            grid-template-columns: 60px 1fr 60px 50px 60px 50px 50px;
             align-items: center;
             padding: 10px 16px;
             border: 1px solid var(--border-color);
@@ -79,16 +79,19 @@
             padding-left: 8px;
         }
 
-        .sales-star {
-            font-size: 18px;
-            color: var(--accent-gold);
+        .sales-star, .peak-icon {
+            font-size: 16px;
             cursor: pointer;
             user-select: none;
             position: relative;
             text-align: center;
+            display: inline-block;
         }
 
-        .sales-star:hover .tooltip {
+        .sales-star { color: var(--accent-gold); }
+        .peak-icon { color: var(--accent-blue); }
+
+        .sales-star:hover .tooltip, .peak-icon:hover .tooltip {
             visibility: visible;
             opacity: 1;
         }
@@ -266,6 +269,7 @@
                             let peakVal = entry.rank;
                             let weeksCount = 0;
                             let rankHistory = [];
+                            let previousPeak = 999;
 
                             for (let i = 0; i <= currentDatesIndex && i < dates.length; i++) {
                                 const match = db.chartHistory[currentChart.id][dates[i]].find(e => e.songId === entry.songId);
@@ -275,6 +279,15 @@
                                     if (match.rank < peakVal) peakVal = match.rank;
                                 }
                             }
+
+                            for (let i = 0; i < currentDatesIndex; i++) {
+                                const pastMatch = db.chartHistory[currentChart.id][dates[i]]?.find(e => e.songId === entry.songId);
+                                if (pastMatch && pastMatch.rank < previousPeak) {
+                                    previousPeak = pastMatch.rank;
+                                }
+                            }
+
+                            const isNewPeak = entry.rank < previousPeak;
                             const bestPeakCount = rankHistory.filter(r => r === peakVal).length;
                             const peakDisplay = (peakVal === 1) ? `1×${bestPeakCount}` : `${peakVal}`;
 
@@ -305,6 +318,9 @@
                                 trendHTML = '<span class="text-purple-400 text-[10px] font-black uppercase tracking-wider">RE</span>';
                             }
 
+                            const salesIconHTML = entry.salesIncrease ? `<span class="sales-star">★<span class="tooltip">Song increased in sales this week</span></span>` : '';
+                            const peakIconHTML = isNewPeak ? `<span class="peak-icon">👑<span class="tooltip">New Peak Position!</span></span>` : '';
+
                             return `
                                 <div class="chart-row">
                                     <div class="rank-col">
@@ -318,7 +334,7 @@
                                             <p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p>
                                         </div>
                                     </div>
-                                    <div class="text-center">${entry.salesIncrease ? `<span class="sales-star">★<span class="tooltip">Song increased in sales this week</span></span>` : ''}</div>
+                                    <div class="text-center flex items-center justify-center gap-1">${salesIconHTML}${peakIconHTML}</div>
                                     <div class="text-center text-xs font-bold text-neutral-300">${lwVal}</div>
                                     <div class="text-center text-xs font-bold text-white">${peakDisplay}</div>
                                     <div class="text-center text-xs font-bold text-neutral-300">${weeksCount}</div>

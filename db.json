@@ -3800,7 +3800,7 @@
       "genres": [
         "Pop"
       ],
-      "cover": ""
+      "cover": "https://cdn.sonemic.net/i/600/w/91ebf2f788595079e8c38011f8db27d4/1830370/prince-and-the-revolution-purple-rain-god-Cover-Art.jpg"
     },
     {
       "id": "1793497130772",
@@ -3965,7 +3965,7 @@
       "genres": [
         "Pop"
       ],
-      "cover": ""
+      "cover": "https://cdn.sonemic.net/i/600/w/9a842ddac4d9d4ae0c48e91e672e9447/14312227/harry-styles-kiss-all-the-time-disco-occasionally-Cover-Art.jpg"
     },
     {
       "id": "1793507030141",
@@ -3998,7 +3998,7 @@
       "genres": [
         "Pop"
       ],
-      "cover": ""
+      "cover": "https://cdn.sonemic.net/i/600/w/1ede8bc8e83c093b3122f0ae6ea6acba/11432066/harry-styles-harrys-house-Cover-Art.jpg"
     },
     {
       "id": "1793507030179",
@@ -4020,7 +4020,7 @@
       "genres": [
         "Pop"
       ],
-      "cover": ""
+      "cover": "https://cdn.sonemic.net/i/600/w/e12fef467a5cdc741dab3de40e2a76c6/6485036/harry-styles-sign-of-the-times-Cover-Art.jpg"
     },
     {
       "id": "1793507030198",
@@ -4031,7 +4031,7 @@
       "genres": [
         "Pop"
       ],
-      "cover": ""
+      "cover": "https://cdn.sonemic.net/i/600/w/baa7e9a59881343e18e509f7db87c559/7205841/dominic-fike-dont-forget-about-me-demos-Cover-Art.jpg"
     }
   ],
   "chartHistory": {
@@ -4440,7 +4440,7 @@
           "salesIncrease": false
         }
       ],
-      "09/01/2026": [
+      "09/02/2026": [
         {
           "songId": "1792975305887",
           "rank": 1,
@@ -5947,7 +5947,8 @@
           "rank": 75,
           "salesIncrease": false
         }
-      ]
+      ],
+      "09/01/2026": []
     }
   },
   "news": [

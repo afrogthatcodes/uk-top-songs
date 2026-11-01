@@ -49,6 +49,17 @@ const defaultData = {
 let globalDB = null;
 let currentBuilderEntries = [];
 
+// Clean inline SVG default cover art
+const fallbackCoverSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231a1a1a'/><text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' fill='%23888888' font-family='sans-serif' font-size='12' font-weight='bold'>UKTS</text></svg>";
+
+function renderSongCover(song, customClass = "w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0") {
+    const rawCover = song && (song.cover || song.coverUrl);
+    const hasValidCover = rawCover && typeof rawCover === 'string' && rawCover.trim() !== '';
+    const imgSrc = hasValidCover ? rawCover.trim() : fallbackCoverSVG;
+    
+    return `<img src="${imgSrc}" class="${customClass}" onerror="this.onerror=null; this.src='${fallbackCoverSVG}';">`;
+}
+
 // --- Code Generators ---
 function getNextSongCode(db) {
     let maxNum = 0;
@@ -128,14 +139,6 @@ function saveDB(data) {
     downloadAnchor.click();
     downloadAnchor.remove();
     showToast('Database saved & db.json downloaded for GitHub!');
-}
-
-const fallbackCoverSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23addedc'/></svg>";
-
-function renderSongCover(song, customClass = "w-10 h-10 rounded-lg object-cover bg-neutral-800 shrink-0") {
-    const rawCover = song && (song.cover || song.coverUrl);
-    const imgSrc = (rawCover && typeof rawCover === 'string' && rawCover.trim() !== '' && !rawCover.startsWith('data:image/svg')) ? rawCover.trim() : fallbackCoverSVG;
-    return `<img src='${imgSrc}' class='${customClass}' onerror="this.src='https://placehold.co/100x100/222/fff?text=Song'">`;
 }
 
 function getSongGenres(song) {

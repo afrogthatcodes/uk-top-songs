@@ -160,7 +160,7 @@
         const chartId = urlParams.get('chart');
         const selectedDateParam = urlParams.get('date');
         const container = document.getElementById('charts-main');
-        let positionChartInstance = null;
+        // Note: positionChartInstance is declared in script.js, do not re-declare with 'let' here!
 
         function handleDropdownChange(type, value) {
             if (type === 'main') {
@@ -336,7 +336,7 @@
                                     <div class="text-center text-xs font-bold text-white">${peakDisplay}</div>
                                     <div class="text-center text-xs font-bold text-neutral-300">${weeksCount}</div>
                                     <div class="text-right flex justify-center">
-                                        <button onclick="openHistoryModal('${currentChart.id}', '${entry.songId}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
+                                        <button onclick="openHistoryModal('${currentChart.id}', '${currentChart.title}', '${entry.songId}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
                                             <i class="fa-solid fa-info text-xs"></i>
                                         </button>
                                     </div>
@@ -385,7 +385,7 @@
                                         <div class="text-center text-xs font-bold text-white">${peakDisplay}</div>
                                         <div class="text-center text-xs font-bold text-neutral-300">${weeksCount}</div>
                                         <div class="text-right flex justify-center">
-                                            <button onclick="openHistoryModal('${currentChart.id}', '${d.songId}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
+                                            <button onclick="openHistoryModal('${currentChart.id}', '${currentChart.title}', '${d.songId}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
                                                 <i class="fa-solid fa-info text-xs"></i>
                                             </button>
                                         </div>
@@ -426,27 +426,32 @@
             window.location.href = `charts.html?chart=${chartId}&date=${encodeURIComponent(closest)}`;
         }
 
-        function openHistoryModal(category, songId, songTitle) {
+        function openHistoryModal(categoryId, categoryTitle, songId, songTitle) {
             const modal = document.getElementById('history-modal');
             const titleEl = document.getElementById('history-modal-title');
             const canvas = document.getElementById('positionHistoryChart');
 
             if (!modal || !canvas) return;
 
-            titleEl.textContent = `${songTitle} - Position History`;
+            titleEl.textContent = `${songTitle} — ${categoryTitle} History`;
             modal.classList.remove('hidden');
 
-            const historyObj = db.chartHistory[category] || {};
+            const historyObj = db.chartHistory[categoryId] || {};
             const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
 
             const labels = [];
             const dataPoints = [];
+            const mappedDates = [];
 
             dates.forEach(d => {
                 const entry = (historyObj[d] || []).find(e => e.songId === songId);
+                labels.push(d);
+                mappedDates.push(d);
+                
                 if (entry) {
-                    labels.push(d);
                     dataPoints.push(entry.rank);
+                } else {
+                    dataPoints.push(null); // Inserts gap so lines don't connect across missing weeks
                 }
             });
 
@@ -467,13 +472,24 @@
                         borderWidth: 3,
                         fill: true,
                         tension: 0.3,
-                        pointRadius: 5,
-                        pointBackgroundColor: '#38bdf8'
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: '#38bdf8',
+                        spanGaps: false
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    onClick: (event, elements) => {
+                        if (elements.length > 0) {
+                            const clickedIndex = elements[0].index;
+                            const targetDate = mappedDates[clickedIndex];
+                            if (targetDate) {
+                                window.location.href = `charts.html?chart=${categoryId}&date=${encodeURIComponent(targetDate)}`;
+                            }
+                        }
+                    },
                     scales: {
                         y: {
                             reverse: true,
@@ -488,7 +504,15 @@
                         }
                     },
                     plugins: {
-                        legend: { display: false }
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    if (context.raw === null) return ' Out of Chart';
+                                    return ` Rank: ${context.raw} (Click to view chart)`;
+                                }
+                            }
+                        }
                     }
                 }
             });

@@ -82,6 +82,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const artistName = decodeURIComponent(urlParams.get('name') || '');
         const container = document.getElementById('artist-main');
+        let positionChartInstance = null;
 
         function renderArtistPageFull() {
             const artistSongs = db.songs.filter(s => songHasArtist(s.artist, artistName));
@@ -279,6 +280,79 @@
             showToast('Artist updated successfully!');
             closeArtistModal();
             window.location.href = `artist.html?name=${encodeURIComponent(newName)}`;
+        }
+
+        function openHistoryModal(category, songId, songTitle) {
+            const modal = document.getElementById('history-modal');
+            const titleEl = document.getElementById('history-modal-title');
+            const canvas = document.getElementById('positionHistoryChart');
+
+            if (!modal || !canvas) return;
+
+            titleEl.textContent = `${songTitle} - Position History`;
+            modal.classList.remove('hidden');
+
+            const historyObj = db.chartHistory[category] || {};
+            const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
+
+            const labels = [];
+            const dataPoints = [];
+
+            dates.forEach(d => {
+                const entry = (historyObj[d] || []).find(e => e.songId === songId);
+                if (entry) {
+                    labels.push(d);
+                    dataPoints.push(entry.rank);
+                }
+            });
+
+            if (positionChartInstance) {
+                positionChartInstance.destroy();
+            }
+
+            const ctx = canvas.getContext('2d');
+            positionChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Chart Position',
+                        data: dataPoints,
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#38bdf8'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            reverse: true,
+                            min: 1,
+                            max: 75,
+                            ticks: { color: '#a3a3a3', stepSize: 10 },
+                            grid: { color: '#262626' }
+                        },
+                        x: {
+                            ticks: { color: '#a3a3a3' },
+                            grid: { color: '#262626' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function closeHistoryModal() {
+            const modal = document.getElementById('history-modal');
+            if (modal) modal.classList.add('hidden');
         }
 
         renderArtistPageFull();

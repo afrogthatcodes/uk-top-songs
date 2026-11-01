@@ -49,6 +49,9 @@
         </div>
     </div>
 
+    <!-- ADMIN MODAL CONTAINER -->
+    <div id="admin-modal-container"></div>
+
     <footer class="bg-black border-t border-neutral-900 pt-16 pb-12 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-xs">Thank you for visiting :)</div>
     </footer>
@@ -59,13 +62,22 @@
         const urlParams = new URLSearchParams(window.location.search);
         const artistName = urlParams.get('name') || 'Artist';
         const container = document.getElementById('artist-main');
-        // Note: positionChartInstance is managed globally in script.js
+        const isAdmin = sessionStorage.getItem('ukts_admin_auth') === 'true';
 
         // Get tracks sorted by peak position using helper from script.js
         const artistTracks = getArtistTracksSortedByPeak(artistName, db);
 
+        const adminBanner = isAdmin ? `
+            <div class="bg-neutral-900 border border-neutral-800 p-4 rounded-2xl flex justify-between items-center shadow-lg mb-6">
+                <span class="text-xs font-bold text-[#addedc] uppercase"><i class="fa-solid fa-shield-halved mr-2"></i> Admin Mode Active — Artist Management Controls Enabled</span>
+                <a href="admin.html" class="bg-[#addedc] text-black px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all hover:opacity-90">Manage Songs Catalog</a>
+            </div>
+        ` : '';
+
         let html = `
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+                ${adminBanner}
+
                 <div class="flex items-center gap-6 bg-neutral-900 border border-neutral-800 p-8 rounded-3xl">
                     <div>
                         <h1 class="text-3xl sm:text-4xl font-black uppercase tracking-tight text-white">${artistName}</h1>
@@ -85,28 +97,46 @@
                     </div>
 
                     <div class="space-y-2">
-                        ${artistTracks.length === 0 ? `<div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No tracks found for this artist.</div>` : artistTracks.map(song => `
-                            <div class="bg-neutral-900 border border-neutral-800 rounded-xl p-4 grid grid-cols-[60px_1fr_60px_60px_60px] items-center gap-4 hover:border-sky-400 transition-colors">
-                                <div class="shrink-0">${renderSongCover(song)}</div>
-                                <div class="min-w-0">
-                                    <h3 class="font-bold text-sm truncate text-white">${song.title}</h3>
-                                    <p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p>
+                        ${artistTracks.length === 0 ? `<div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No tracks found for this artist.</div>` : artistTracks.map(song => {
+                            const adminControls = isAdmin ? `
+                                <div class="flex items-center gap-1 bg-black/60 px-2 py-1 rounded-lg border border-neutral-800 ml-2">
+                                    <button onclick="openSongModal('${song.id}')" class="text-neutral-400 hover:text-white px-1 text-xs" title="Edit Song Details"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button onclick="removeArtistSongDirectly('${song.id}')" class="text-red-400 hover:text-red-300 px-1 text-xs" title="Delete Song"><i class="fa-solid fa-trash"></i></button>
                                 </div>
-                                <div class="text-right font-black text-white text-sm">${song.peak}</div>
-                                <div class="text-center text-xs font-bold text-neutral-300">${song.weeks}</div>
-                                <div class="text-right flex justify-end">
-                                    <button onclick="openHistoryModal('top-songs', 'Top Songs', '${song.id}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
-                                        <i class="fa-solid fa-info text-xs"></i>
-                                    </button>
+                            ` : '';
+
+                            return `
+                                <div class="bg-neutral-900 border border-neutral-800 rounded-xl p-4 grid grid-cols-[60px_1fr_60px_60px_60px] items-center gap-4 hover:border-sky-400 transition-colors">
+                                    <div class="shrink-0">${renderSongCover(song)}</div>
+                                    <div class="min-w-0">
+                                        <h3 class="font-bold text-sm truncate text-white">${song.title}</h3>
+                                        <p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p>
+                                    </div>
+                                    <div class="text-right font-black text-white text-sm">${song.peak}</div>
+                                    <div class="text-center text-xs font-bold text-neutral-300">${song.weeks}</div>
+                                    <div class="text-right flex justify-end items-center">
+                                        <button onclick="openHistoryModal('top-songs', 'Top Songs', '${song.id}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
+                                            <i class="fa-solid fa-info text-xs"></i>
+                                        </button>
+                                        ${adminControls}
+                                    </div>
                                 </div>
-                            </div>
-                        `).join('')}
+                            `;
+                        }).join('')}
                     </div>
                 </div>
             </div>
         `;
 
         container.innerHTML = html;
+
+        function removeArtistSongDirectly(songId) {
+            if (!confirm('Are you sure you want to delete this song from the catalog?')) return;
+            const dbData = getDB();
+            dbData.songs = dbData.songs.filter(s => s.id !== songId);
+            saveDB(dbData);
+            window.location.reload();
+        }
     </script>
 </body>
 </html>

@@ -160,7 +160,7 @@
         const chartId = urlParams.get('chart');
         const selectedDateParam = urlParams.get('date');
         const container = document.getElementById('charts-main');
-        const isAdmin = sessionStorage.getItem('ukts_admin_auth') === 'true';
+        // Note: positionChartInstance is declared in script.js, do not re-declare with 'let' here!
 
         function handleDropdownChange(type, value) {
             if (type === 'main') {
@@ -216,17 +216,8 @@
             const dateRangeText = `${startDateObj.getDate()} ${monthsNames[startDateObj.getMonth()]} ${startDateObj.getFullYear()} – ${endDateObj.getDate()} ${monthsNames[endDateObj.getMonth()]} ${endDateObj.getFullYear()}`;
             const isoDateStr = `${yStr}-${mStr}-${dStr}`;
 
-            const adminBanner = isAdmin ? `
-                <div class="bg-neutral-900 border border-neutral-800 p-4 rounded-2xl flex justify-between items-center shadow-lg">
-                    <span class="text-xs font-bold text-[#addedc] uppercase"><i class="fa-solid fa-shield-halved mr-2"></i> Admin Mode Active — Live Quick Controls Enabled</span>
-                    <a href="admin.html" class="bg-[#addedc] text-black px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all hover:opacity-90">Open Full Builder</a>
-                </div>
-            ` : '';
-
             let tableHTML = `
                 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-                    ${adminBanner}
-
                     <div class="flex justify-center">
                         <div onclick="document.getElementById('native-date-picker').showPicker ? document.getElementById('native-date-picker').showPicker() : document.getElementById('native-date-picker').focus()" class="bg-neutral-900 border border-neutral-800 hover:border-neutral-600 cursor-pointer rounded-full px-5 py-2 w-52 justify-between flex items-center shadow-xl relative">
                             <button type="button" onclick="event.stopPropagation(); navigateChartDate('${currentChart.id}', -1, '${latestDate}')" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-chevron-left text-xs"></i></button>
@@ -274,7 +265,7 @@
                     <div class="chart-table-header"><div></div><div></div><div></div><div>LW</div><div>PEAK</div><div>WEEKS</div><div>INFO</div></div>
 
                     <div class="space-y-2">
-                        ${currentEntries.length === 0 ? `<div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No chart entries found for this date (${latestDate}).</div>` : currentEntries.map((entry, idx) => {
+                        ${currentEntries.length === 0 ? `<div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No chart entries found for this date (${latestDate}).</div>` : currentEntries.map(entry => {
                             const song = db.songs.find(s => s.id === entry.songId) || { title: 'Unknown', artist: 'Unknown', cover: '' };
                             let lwVal = '-';
                             let peakVal = entry.rank;
@@ -327,14 +318,6 @@
                             const salesIconHTML = entry.salesIncrease ? `<span class="sales-icon">★<span class="tooltip">Song increased in sales this week</span></span>` : '';
                             const peakIconHTML = isNewPeak ? `<span class="peak-icon"><i class="fa-solid fa-arrow-trend-up"></i><span class="tooltip">song reached a new peak this week</span></span>` : '';
 
-                            const adminControls = isAdmin ? `
-                                <div class="flex items-center gap-1 bg-black/60 px-2 py-1 rounded-lg border border-neutral-800 ml-2">
-                                    <button onclick="moveChartEntryDirectly('${currentChart.id}', '${latestDate}', ${idx}, -1)" class="text-neutral-400 hover:text-white px-1 text-xs" title="Move Up"><i class="fa-solid fa-arrow-up"></i></button>
-                                    <button onclick="moveChartEntryDirectly('${currentChart.id}', '${latestDate}', ${idx}, 1)" class="text-neutral-400 hover:text-white px-1 text-xs" title="Move Down"><i class="fa-solid fa-arrow-down"></i></button>
-                                    <button onclick="removeChartEntryDirectly('${currentChart.id}', '${latestDate}', '${entry.songId}')" class="text-red-400 hover:text-red-300 px-1 text-xs" title="Remove"><i class="fa-solid fa-trash"></i></button>
-                                </div>
-                            ` : '';
-
                             return `
                                 <div class="chart-row">
                                     <div class="rank-col">
@@ -352,11 +335,10 @@
                                     <div class="text-center text-xs font-bold text-neutral-300">${lwVal}</div>
                                     <div class="text-center text-xs font-bold text-white">${peakDisplay}</div>
                                     <div class="text-center text-xs font-bold text-neutral-300">${weeksCount}</div>
-                                    <div class="text-right flex justify-center items-center">
+                                    <div class="text-right flex justify-center">
                                         <button onclick="openHistoryModal('${currentChart.id}', '${currentChart.title}', '${entry.songId}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
                                             <i class="fa-solid fa-info text-xs"></i>
                                         </button>
-                                        ${adminControls}
                                     </div>
                                 </div>
                             `;
@@ -444,35 +426,101 @@
             window.location.href = `charts.html?chart=${chartId}&date=${encodeURIComponent(closest)}`;
         }
 
-        function moveChartEntryDirectly(chartId, dateStr, index, direction) {
-            const db = getDB();
-            const entries = db.chartHistory[chartId]?.[dateStr];
-            if (!entries) return;
+        function openHistoryModal(categoryId, categoryTitle, songId, songTitle) {
+            const modal = document.getElementById('history-modal');
+            const titleEl = document.getElementById('history-modal-title');
+            const canvas = document.getElementById('positionHistoryChart');
 
-            const newIndex = index + direction;
-            if (newIndex < 0 || newIndex >= entries.length) return;
+            if (!modal || !canvas) return;
 
-            const temp = entries[index];
-            entries[index] = entries[newIndex];
-            entries[newIndex] = temp;
+            titleEl.textContent = `${songTitle} — ${categoryTitle} History`;
+            modal.classList.remove('hidden');
 
-            entries.forEach((e, idx) => { e.rank = idx + 1; });
+            const historyObj = db.chartHistory[categoryId] || {};
+            const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
 
-            saveDB(db);
-            window.location.reload();
+            const labels = [];
+            const dataPoints = [];
+            const mappedDates = [];
+
+            dates.forEach(d => {
+                const entry = (historyObj[d] || []).find(e => e.songId === songId);
+                labels.push(d);
+                mappedDates.push(d);
+                
+                if (entry) {
+                    dataPoints.push(entry.rank);
+                } else {
+                    dataPoints.push(null); // Inserts gap so lines don't connect across missing weeks
+                }
+            });
+
+            if (positionChartInstance) {
+                positionChartInstance.destroy();
+            }
+
+            const ctx = canvas.getContext('2d');
+            positionChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Chart Position',
+                        data: dataPoints,
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: '#38bdf8',
+                        spanGaps: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: (event, elements) => {
+                        if (elements.length > 0) {
+                            const clickedIndex = elements[0].index;
+                            const targetDate = mappedDates[clickedIndex];
+                            if (targetDate) {
+                                window.location.href = `charts.html?chart=${categoryId}&date=${encodeURIComponent(targetDate)}`;
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            reverse: true,
+                            min: 1,
+                            max: 75,
+                            ticks: { color: '#a3a3a3', stepSize: 10 },
+                            grid: { color: '#262626' }
+                        },
+                        x: {
+                            ticks: { color: '#a3a3a3' },
+                            grid: { color: '#262626' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    if (context.raw === null) return ' Out of Chart';
+                                    return ` Rank: ${context.raw} (Click to view chart)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         }
 
-        function removeChartEntryDirectly(chartId, dateStr, songId) {
-            if (!confirm('Remove this song from the chart?')) return;
-            const db = getDB();
-            let entries = db.chartHistory[chartId]?.[dateStr];
-            if (!entries) return;
-
-            db.chartHistory[chartId][dateStr] = entries.filter(e => e.songId !== songId);
-            db.chartHistory[chartId][dateStr].forEach((e, idx) => { e.rank = idx + 1; });
-
-            saveDB(db);
-            window.location.reload();
+        function closeHistoryModal() {
+            const modal = document.getElementById('history-modal');
+            if (modal) modal.classList.add('hidden');
         }
     </script>
 </body>

@@ -146,6 +146,11 @@ function getSongGenres(song) {
     return ['Pop'];
 }
 
+function renderGenreBadges(song) {
+    const genres = getSongGenres(song);
+    return genres.map(g => `<span class="bg-neutral-800 px-2.5 py-1 rounded-full text-xs inline-block mr-1 mb-1 text-neutral-300">${g}</span>`).join('');
+}
+
 function parseArtistNames(artistString) {
     if (!artistString) return [];
     const cleaned = artistString.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',');

@@ -48,6 +48,7 @@ const defaultData = {
 
 let globalDB = null;
 let currentBuilderEntries = [];
+let positionChartInstance = null;
 
 // Reliable default cover image
 const fallbackCoverSVG = "https://placehold.co/100x100/1a1a1a/888888?text=UKTS";
@@ -268,6 +269,104 @@ function showToast(msg) {
     toast.textContent = msg;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
+}
+
+// --- Position History Modal with Gap Handling & Click-to-Navigate ---
+function openHistoryModal(categoryId, categoryTitle, songId, songTitle) {
+    const modal = document.getElementById('history-modal');
+    const titleEl = document.getElementById('history-modal-title');
+    const canvas = document.getElementById('positionHistoryChart');
+
+    if (!modal || !canvas) return;
+
+    titleEl.textContent = `${songTitle} — ${categoryTitle} History`;
+    modal.classList.remove('hidden');
+
+    const historyObj = db.chartHistory[categoryId] || {};
+    const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
+
+    const labels = [];
+    const dataPoints = [];
+    const mappedDates = []; 
+
+    dates.forEach(d => {
+        const entry = (historyObj[d] || []).find(e => e.songId === songId);
+        labels.push(d);
+        mappedDates.push(d);
+        
+        if (entry) {
+            dataPoints.push(entry.rank); // Song charted this week
+        } else {
+            dataPoints.push(null);       // Song fell out, breaks the line cleanly
+        }
+    });
+
+    if (positionChartInstance) {
+        positionChartInstance.destroy();
+    }
+
+    const ctx = canvas.getContext('2d');
+    positionChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Chart Position',
+                data: dataPoints,
+                borderColor: '#38bdf8',
+                backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.3,
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                pointBackgroundColor: '#38bdf8',
+                spanGaps: false // Ensure lines do not connect across null gaps
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            onClick: (event, elements) => {
+                if (elements.length > 0) {
+                    const clickedIndex = elements[0].index;
+                    const targetDate = mappedDates[clickedIndex];
+                    if (targetDate) {
+                        window.location.href = `charts.html?chart=${categoryId}&date=${encodeURIComponent(targetDate)}`;
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    reverse: true,
+                    min: 1,
+                    max: 75,
+                    ticks: { color: '#a3a3a3', stepSize: 10 },
+                    grid: { color: '#262626' }
+                },
+                x: {
+                    ticks: { color: '#a3a3a3' },
+                    grid: { color: '#262626' }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            if (context.raw === null) return ' Out of Chart';
+                            return ` Rank: ${context.raw} (Click to view chart)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function closeHistoryModal() {
+    const modal = document.getElementById('history-modal');
+    if (modal) modal.classList.add('hidden');
 }
 
 // --- Admin Authentication Helpers ---

@@ -82,7 +82,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         const artistName = decodeURIComponent(urlParams.get('name') || '');
         const container = document.getElementById('artist-main');
-        let positionChartInstance = null;
 
         function renderArtistPageFull() {
             const artistSongs = db.songs.filter(s => songHasArtist(s.artist, artistName));

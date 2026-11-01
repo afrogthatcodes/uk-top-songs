@@ -375,6 +375,23 @@ function closeHistoryModal() {
     if (modal) modal.classList.add('hidden');
 }
 
+// --- Admin Authentication Modal Helpers ---
+function promptAdminLogin() {
+    const modal = document.getElementById('admin-login-modal');
+    if (modal) {
+        const passInput = document.getElementById('admin-pass-input');
+        if (passInput) passInput.value = '';
+        const err = document.getElementById('admin-login-error');
+        if (err) err.classList.add('hidden');
+        modal.classList.remove('hidden');
+    }
+}
+
+function closeAdminLoginModal() {
+    const modal = document.getElementById('admin-login-modal');
+    if (modal) modal.classList.add('hidden');
+}
+
 window.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
         e.preventDefault();

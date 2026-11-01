@@ -271,7 +271,7 @@ function showToast(msg) {
     setTimeout(() => toast.remove(), 3000);
 }
 
-// --- Position History Modal with Gap Handling & Click-to-Navigate ---
+// --- Position History Modal with Trimmed Trailing Weeks & Click-to-Navigate ---
 function openHistoryModal(categoryId, categoryTitle, songId, songTitle) {
     const modal = document.getElementById('history-modal');
     const titleEl = document.getElementById('history-modal-title');
@@ -285,11 +285,26 @@ function openHistoryModal(categoryId, categoryTitle, songId, songTitle) {
     const historyObj = db.chartHistory[categoryId] || {};
     const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
 
+    let firstIndex = -1;
+    let lastIndex = -1;
+
+    dates.forEach((d, idx) => {
+        const entry = (historyObj[d] || []).find(e => e.songId === songId);
+        if (entry) {
+            if (firstIndex === -1) firstIndex = idx;
+            lastIndex = idx;
+        }
+    });
+
+    if (firstIndex === -1) return;
+
+    const relevantDates = dates.slice(firstIndex, lastIndex + 1);
+
     const labels = [];
     const dataPoints = [];
     const mappedDates = []; 
 
-    dates.forEach(d => {
+    relevantDates.forEach(d => {
         const entry = (historyObj[d] || []).find(e => e.songId === songId);
         labels.push(d);
         mappedDates.push(d);

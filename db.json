@@ -5978,7 +5978,7 @@
         {
           "songId": "1792887123931",
           "rank": 4,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1792887123930",
@@ -5988,7 +5988,7 @@
         {
           "songId": "1792887123911",
           "rank": 6,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887123972",

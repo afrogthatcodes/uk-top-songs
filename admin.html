@@ -388,6 +388,7 @@
             const chartOptions = chartCategories.map(c => `<option value="${c.id}">${c.title} (${c.maxRank} max)</option>`).join('');
             const today = new Date();
             const defaultDateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+            const defaultIsoStr = today.toISOString().split('T')[0];
 
             return `
                 <div class="space-y-8 max-w-4xl">
@@ -423,7 +424,12 @@
                                 </div>
                                 <div>
                                     <label class="block text-xs uppercase text-neutral-400 mb-1">Chart Date (DD/MM/YYYY)</label>
-                                    <input type="text" id="csv-chart-date" value="${defaultDateStr}" placeholder="DD/MM/YYYY" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none font-mono">
+                                    <div onclick="const p = document.getElementById('csv-native-picker'); if(p.showPicker) p.showPicker(); else p.focus();" class="bg-black border border-neutral-700 hover:border-neutral-500 cursor-pointer rounded-xl px-4 py-2.5 flex items-center justify-between text-xs font-mono text-sky-400 relative">
+                                        <span id="csv-date-display">${defaultDateStr}</span>
+                                        <i class="fa-regular fa-calendar"></i>
+                                        <input type="date" id="csv-native-picker" value="${defaultIsoStr}" onchange="handleCSVDatePick(this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
+                                    </div>
+                                    <input type="hidden" id="csv-chart-date" value="${defaultDateStr}">
                                 </div>
                             </div>
                         </div>
@@ -458,7 +464,7 @@
                                 <div onclick="const p = document.getElementById('builder-native-picker'); if(p.showPicker) p.showPicker(); else p.focus();" class="bg-black border border-neutral-700 hover:border-neutral-500 cursor-pointer rounded-xl px-4 py-2.5 flex items-center justify-between text-xs font-mono text-sky-400 relative">
                                     <span id="builder-date-display">${defaultDateStr}</span>
                                     <i class="fa-regular fa-calendar"></i>
-                                    <input type="date" id="builder-native-picker" value="${today.toISOString().split('T')[0]}" onchange="handleBuilderDatePick(this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
+                                    <input type="date" id="builder-native-picker" value="${defaultIsoStr}" onchange="handleBuilderDatePick(this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
                                 </div>
                                 <input type="hidden" id="builder-chart-date" value="${defaultDateStr}">
                             </div>
@@ -472,6 +478,16 @@
                     </div>
                 </div>
             `;
+        }
+
+        function handleCSVDatePick(isoVal) {
+            if (!isoVal) return;
+            const [y, m, d] = isoVal.split('-');
+            const formatted = `${d}/${m}/${y}`;
+            const display = document.getElementById('csv-date-display');
+            const hiddenInput = document.getElementById('csv-chart-date');
+            if (display) display.textContent = formatted;
+            if (hiddenInput) hiddenInput.value = formatted;
         }
 
         function handleBuilderDatePick(isoVal) {
@@ -637,7 +653,6 @@
                     const line = lines[i].trim();
                     if (!line) continue;
 
-                    // Safely skip header if it contains title or song
                     const lowerLine = line.toLowerCase();
                     if (i === 0 && (lowerLine.includes('title') || lowerLine.includes('song'))) continue;
 

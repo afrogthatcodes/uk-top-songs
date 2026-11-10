@@ -478,6 +478,117 @@
             }
         }
 
+        function handleCSVUpload(e) {
+            const fileInput = document.getElementById('csv-file-input');
+            const uploadType = document.getElementById('csv-upload-type')?.value || 'catalog';
+            const chartCategory = document.getElementById('csv-chart-category')?.value;
+            const chartDate = document.getElementById('csv-chart-date')?.value.trim();
+
+            if (!fileInput || !fileInput.files[0]) {
+                showToast('Please select a CSV file first.');
+                return;
+            }
+
+            if (uploadType === 'chart' && !chartDate) {
+                showToast('Please specify a chart date (DD/MM/YYYY).');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const text = event.target.result;
+                const lines = text.split(/\r\n|\n/);
+                const db = getDB();
+
+                if (uploadType === 'chart') {
+                    if (!db.chartHistory) db.chartHistory = {};
+                    if (!db.chartHistory[chartCategory]) db.chartHistory[chartCategory] = {};
+                }
+
+                const chartEntries = [];
+                let importedCount = 0;
+
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+
+                    if (i === 0 && line.toLowerCase().includes('title')) continue;
+
+                    const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+                    if (cols.length < 2) continue;
+
+                    const title = cols[0] || '';
+                    const artist = cols[1] || '';
+                    const genresRaw = cols[2] || 'Pop';
+                    const cover = cols[3] || '';
+                    const album = cols[4] || '';
+
+                    const genres = genresRaw.split(';').map(g => g.trim()).filter(Boolean);
+                    if (genres.length === 0) genres.push('Pop');
+
+                    const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
+                    artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
+
+                    let existingSong = db.songs.find(s => 
+                        s.title.toLowerCase() === title.toLowerCase() && 
+                        s.artist.toLowerCase() === artist.toLowerCase()
+                    );
+
+                    if (!existingSong) {
+                        existingSong = {
+                            id: (Date.now() + i).toString(),
+                            code: getNextSongCode(db),
+                            title,
+                            artist,
+                            album,
+                            genres,
+                            cover: cover || fallbackCoverSVG
+                        };
+                        db.songs.push(existingSong);
+                    }
+
+                    importedCount++;
+
+                    if (uploadType === 'chart') {
+                        chartEntries.push({
+                            songId: existingSong.id,
+                            rank: chartEntries.length + 1,
+                            salesIncrease: false
+                        });
+                    }
+                }
+
+                if (uploadType === 'chart') {
+                    db.chartHistory[chartCategory][chartDate] = chartEntries;
+                    showToast(`Successfully imported ${importedCount} songs into ${chartCategory} for ${chartDate}!`);
+                } else {
+                    showToast(`Successfully added ${importedCount} songs to catalog!`);
+                }
+
+                saveDB(db);
+                switchAdminTab('songs');
+            };
+
+            reader.readAsText(file);
+        }
+
+        function deleteSong(songId) {
+            if (!confirm('Are you sure you want to delete this song from the catalog?')) return;
+            const db = getDB();
+            db.songs = db.songs.filter(s => s.id !== songId);
+            saveDB(db);
+            switchAdminTab('songs');
+        }
+
+        function adminLogout() {
+            sessionStorage.removeItem('ukts_admin_auth');
+            isAdminLoggedIn = false;
+            checkAuthAndInit();
+            showToast('Logged out successfully');
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             checkAuthAndInit();
         });

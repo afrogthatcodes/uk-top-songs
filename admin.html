@@ -267,11 +267,118 @@
             switchAdminTab('artists');
         }
 
-        // --- CHARTS & NEWS TABS ---
+        // --- CHARTS TAB ---
         function renderAdminChartsTab(dbInstance, query = '') {
-            return `<div class="p-8 text-center text-neutral-500 bg-neutral-900 rounded-2xl border border-neutral-800">Chart History management view.</div>`;
+            const chartOptions = chartCategories.map(c => `<option value="${c.id}">${c.title}</option>`).join('');
+            const selectedCategory = document.getElementById('admin-charts-select-cat')?.value || 'top-songs';
+            
+            const historyObj = (dbInstance.chartHistory && dbInstance.chartHistory[selectedCategory]) || {};
+            const dates = Object.keys(historyObj).sort((a,b) => new Date(b.split('/').reverse().join('-')) - new Date(a.split('/').reverse().join('-')));
+            
+            const selectedDate = document.getElementById('admin-charts-select-date')?.value || dates[0] || '';
+            const entries = historyObj[selectedDate] || [];
+
+            let isoDate = '';
+            if (selectedDate) {
+                const [d, m, y] = selectedDate.split('/');
+                isoDate = `${y}-${m}-${d}`;
+            }
+
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-neutral-900 border border-neutral-800 p-6 rounded-2xl">
+                        <div>
+                            <h3 class="text-xl font-bold uppercase">Chart History Manager</h3>
+                            <p class="text-xs text-neutral-400">View, navigate, or delete entire weekly charts.</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                            <select id="admin-charts-select-cat" onchange="switchAdminTab('charts')" class="bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
+                                ${chartCategories.map(c => `<option value="${c.id}" ${c.id === selectedCategory ? 'selected' : ''}>${c.title}</option>`).join('')}
+                            </select>
+                            
+                            <!-- Calendar Date Picker Component -->
+                            <div onclick="const picker = document.getElementById('admin-native-date-picker'); if(picker.showPicker) picker.showPicker(); else picker.focus();" class="bg-black border border-neutral-700 hover:border-neutral-500 cursor-pointer rounded-xl px-4 py-2.5 flex items-center gap-2 text-xs font-mono text-sky-400 relative">
+                                <span id="admin-charts-date-display">${selectedDate || 'Select Date'}</span>
+                                <i class="fa-regular fa-calendar"></i>
+                                <input type="date" id="admin-native-date-picker" value="${isoDate}" onchange="handleAdminDatePick('${selectedCategory}', this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
+                            </div>
+                            <input type="hidden" id="admin-charts-select-date" value="${selectedDate}">
+                        </div>
+                    </div>
+
+                    ${selectedDate ? `
+                        <div class="flex justify-between items-center bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl">
+                            <div>
+                                <span class="text-xs font-bold text-neutral-400 uppercase">Active Chart Date: <strong class="text-white">${selectedDate}</strong></span>
+                                <span class="text-xs text-neutral-500 ml-4">(${entries.length} entries)</span>
+                            </div>
+                            <button onclick="deleteEntireChart('${selectedCategory}', '${selectedDate}')" class="bg-red-950 hover:bg-red-900 text-red-400 px-4 py-2 rounded-xl text-xs font-bold uppercase flex items-center gap-2 transition-all">
+                                <i class="fa-solid fa-trash"></i> Delete Entire Chart (${selectedDate})
+                            </button>
+                        </div>
+
+                        <div class="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
+                            <div class="grid grid-cols-[80px_1fr_100px] font-bold text-xs text-neutral-400 px-6 py-3 border-b border-neutral-800 bg-black/40">
+                                <div>RANK</div>
+                                <div>SONG & ARTIST</div>
+                                <div class="text-right">SALES INC.</div>
+                            </div>
+                            <div class="divide-y divide-neutral-800/60 max-h-[500px] overflow-y-auto">
+                                ${entries.length === 0 ? `<div class="p-8 text-center text-neutral-500">No entries found for this date.</div>` : entries.map(entry => {
+                                    const song = dbInstance.songs.find(s => s.id === entry.songId) || { title: 'Unknown', artist: 'Unknown' };
+                                    return `
+                                        <div class="grid grid-cols-[80px_1fr_100px] items-center px-6 py-3 hover:bg-neutral-800/30">
+                                            <div class="font-bold text-[#addedc]">#${entry.rank}</div>
+                                            <div class="min-w-0 pr-4">
+                                                <p class="font-bold text-xs text-white truncate">${song.title}</p>
+                                                <p class="text-[10px] text-neutral-400 truncate">${song.artist}</p>
+                                            </div>
+                                            <div class="text-right text-xs">${entry.salesIncrease ? '<span class="text-amber-400 font-bold">★ Yes</span>' : '<span class="text-neutral-500">No</span>'}</div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    ` : `<div class="p-12 text-center text-neutral-500 bg-neutral-900 rounded-2xl border border-neutral-800">No chart history dates available for this category.</div>`}
+                </div>
+            `;
         }
 
+        function handleAdminDatePick(categoryId, isoValue) {
+            if (!isoValue) return;
+            const [y, m, d] = isoValue.split('-');
+            const formattedDate = `${d}/${m}/${y}`;
+            
+            const db = getDB();
+            if (!db.chartHistory) db.chartHistory = {};
+            if (!db.chartHistory[categoryId]) db.chartHistory[categoryId] = {};
+            
+            if (!db.chartHistory[categoryId][formattedDate]) {
+                db.chartHistory[categoryId][formattedDate] = [];
+                saveDB(db);
+            }
+
+            setTimeout(() => {
+                const hiddenInput = document.getElementById('admin-charts-select-date');
+                const displaySpan = document.getElementById('admin-charts-date-display');
+                if (hiddenInput) hiddenInput.value = formattedDate;
+                if (displaySpan) displaySpan.textContent = formattedDate;
+                switchAdminTab('charts');
+            }, 50);
+        }
+
+        function deleteEntireChart(categoryId, dateStr) {
+            if (!confirm(`Are you sure you want to completely delete the chart for ${dateStr}?`)) return;
+            const db = getDB();
+            if (db.chartHistory && db.chartHistory[categoryId]) {
+                delete db.chartHistory[categoryId][dateStr];
+                saveDB(db);
+                showToast(`Deleted chart for ${dateStr}`);
+                switchAdminTab('charts');
+            }
+        }
+
+        // --- NEWS TAB ---
         function renderAdminNewsTab(dbInstance, query = '') {
             return `<div class="p-8 text-center text-neutral-500 bg-neutral-900 rounded-2xl border border-neutral-800">News Article management view.</div>`;
         }
@@ -348,7 +455,12 @@
                             </div>
                             <div>
                                 <label class="block text-xs uppercase text-neutral-400 mb-1">Chart Date (DD/MM/YYYY)</label>
-                                <input type="text" id="builder-chart-date" value="${defaultDateStr}" onchange="loadBuilderRows()" placeholder="DD/MM/YYYY" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none font-mono">
+                                <div onclick="const p = document.getElementById('builder-native-picker'); if(p.showPicker) p.showPicker(); else p.focus();" class="bg-black border border-neutral-700 hover:border-neutral-500 cursor-pointer rounded-xl px-4 py-2.5 flex items-center justify-between text-xs font-mono text-sky-400 relative">
+                                    <span id="builder-date-display">${defaultDateStr}</span>
+                                    <i class="fa-regular fa-calendar"></i>
+                                    <input type="date" id="builder-native-picker" value="${today.toISOString().split('T')[0]}" onchange="handleBuilderDatePick(this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
+                                </div>
+                                <input type="hidden" id="builder-chart-date" value="${defaultDateStr}">
                             </div>
                         </div>
 
@@ -360,6 +472,17 @@
                     </div>
                 </div>
             `;
+        }
+
+        function handleBuilderDatePick(isoVal) {
+            if (!isoVal) return;
+            const [y, m, d] = isoVal.split('-');
+            const formatted = `${d}/${m}/${y}`;
+            const display = document.getElementById('builder-date-display');
+            const hiddenInput = document.getElementById('builder-chart-date');
+            if (display) display.textContent = formatted;
+            if (hiddenInput) hiddenInput.value = formatted;
+            loadBuilderRows();
         }
 
         function switchAdminToolMode(mode) {
@@ -514,16 +637,33 @@
                     const line = lines[i].trim();
                     if (!line) continue;
 
-                    if (i === 0 && line.toLowerCase().includes('title')) continue;
+                    // Safely skip header if it contains title or song
+                    const lowerLine = line.toLowerCase();
+                    if (i === 0 && (lowerLine.includes('title') || lowerLine.includes('song'))) continue;
 
                     const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
                     if (cols.length < 2) continue;
 
-                    const title = cols[0] || '';
-                    const artist = cols[1] || '';
-                    const genresRaw = cols[2] || 'Pop';
-                    const cover = cols[3] || '';
-                    const album = cols[4] || '';
+                    let title = '';
+                    let artist = '';
+                    let genresRaw = 'Pop';
+                    let cover = '';
+                    let album = '';
+                    let salesInc = false;
+
+                    if (uploadType === 'chart') {
+                        title = cols[1] || cols[0] || '';
+                        artist = cols[2] || cols[1] || '';
+                        salesInc = (cols[3] || '').toLowerCase() === 'true' || (cols[3] || '').toLowerCase() === '1';
+                    } else {
+                        title = cols[0] || '';
+                        artist = cols[1] || '';
+                        genresRaw = cols[2] || 'Pop';
+                        cover = cols[3] || '';
+                        album = cols[4] || '';
+                    }
+
+                    if (!title || !artist) continue;
 
                     const genres = genresRaw.split(';').map(g => g.trim()).filter(Boolean);
                     if (genres.length === 0) genres.push('Pop');
@@ -555,7 +695,7 @@
                         chartEntries.push({
                             songId: existingSong.id,
                             rank: chartEntries.length + 1,
-                            salesIncrease: false
+                            salesIncrease: salesInc
                         });
                     }
                 }

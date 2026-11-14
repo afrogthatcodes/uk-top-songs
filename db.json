@@ -4153,6 +4153,94 @@
         "Pop"
       ],
       "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794695345400",
+      "code": "UKTS-376",
+      "title": "Drive Safe",
+      "artist": "Myles Smith; Niall Horan",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794695345407",
+      "code": "UKTS-377",
+      "title": "EoO",
+      "artist": "Bad Bunny",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794695345421",
+      "code": "UKTS-378",
+      "title": "Two Six",
+      "artist": "J. Cole",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794695345425",
+      "code": "UKTS-379",
+      "title": "VOY A LLeVARTE PA PR",
+      "artist": "Bad Bunny",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794695345432",
+      "code": "UKTS-380",
+      "title": "SAFETY",
+      "artist": "J. Cole",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794695345435",
+      "code": "UKTS-381",
+      "title": "Bunce Road Blues",
+      "artist": "J. Cole feat. Future; Tems",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794695345437",
+      "code": "UKTS-382",
+      "title": "Poor Thang",
+      "artist": "J. Cole",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794695345439",
+      "code": "UKTS-383",
+      "title": "White Keys",
+      "artist": "Dominic Fike",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
     }
   ],
   "chartHistory": {
@@ -6445,6 +6533,383 @@
           "rank": 75,
           "salesIncrease": false
         }
+      ],
+      "13/02/2026": [
+        {
+          "songId": "1792975305887",
+          "rank": 1,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123987",
+          "rank": 2,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123932",
+          "rank": 3,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123930",
+          "rank": 4,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556085",
+          "rank": 5,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792622556056",
+          "rank": 6,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123972",
+          "rank": 7,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123931",
+          "rank": 8,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123980",
+          "rank": 9,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556063",
+          "rank": 10,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123985",
+          "rank": 11,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123911",
+          "rank": 12,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556055",
+          "rank": 13,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123950",
+          "rank": 14,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124092",
+          "rank": 15,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123993",
+          "rank": 16,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1793507030122",
+          "rank": 17,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123984",
+          "rank": 18,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1794337668685",
+          "rank": 19,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123991",
+          "rank": 20,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556088",
+          "rank": 21,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123988",
+          "rank": 22,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123983",
+          "rank": 23,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556066",
+          "rank": 24,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556087",
+          "rank": 25,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556053",
+          "rank": 26,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556054",
+          "rank": 27,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792622556059",
+          "rank": 28,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123979",
+          "rank": 29,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792622556064",
+          "rank": 30,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794337668719",
+          "rank": 31,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887124015",
+          "rank": 32,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556065",
+          "rank": 33,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887124097",
+          "rank": 34,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1794695345400",
+          "rank": 35,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1793497130754",
+          "rank": 36,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124027",
+          "rank": 37,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1793507030198",
+          "rank": 38,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887124018",
+          "rank": 39,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123996",
+          "rank": 40,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556084",
+          "rank": 41,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794695345407",
+          "rank": 42,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123995",
+          "rank": 43,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124105",
+          "rank": 44,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124106",
+          "rank": 45,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1793497130816",
+          "rank": 46,
+          "salesIncrease": false
+        },
+        {
+          "songId": "4",
+          "rank": 47,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887124095",
+          "rank": 48,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124166",
+          "rank": 49,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556068",
+          "rank": 50,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794337668748",
+          "rank": 51,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887124099",
+          "rank": 52,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887124014",
+          "rank": 53,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124006",
+          "rank": 54,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794695345421",
+          "rank": 55,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124072",
+          "rank": 56,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1793498590949",
+          "rank": 57,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887124113",
+          "rank": 58,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1794695345425",
+          "rank": 59,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124017",
+          "rank": 60,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124093",
+          "rank": 61,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124091",
+          "rank": 62,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887124104",
+          "rank": 63,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124103",
+          "rank": 64,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1793498590953",
+          "rank": 65,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794695345432",
+          "rank": 66,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124118",
+          "rank": 67,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1794337668728",
+          "rank": 68,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794695345435",
+          "rank": 69,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794337668734",
+          "rank": 70,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794695345437",
+          "rank": 71,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124152",
+          "rank": 72,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1794695345439",
+          "rank": 73,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794337668753",
+          "rank": 74,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1793498590929",
+          "rank": 75,
+          "salesIncrease": false
+        }
       ]
     }
   },
@@ -6632,6 +7097,10 @@
     "Rema": "UKTA-172",
     "Bella Kay": "UKTA-173",
     "Mazzy Star": "UKTA-174",
-    "Rihanna": "UKTA-175"
+    "Rihanna": "UKTA-175",
+    "Myles Smith": "UKTA-176",
+    "Niall Horan": "UKTA-177",
+    "J. Cole": "UKTA-178",
+    "Future": "UKTA-179"
   }
 }

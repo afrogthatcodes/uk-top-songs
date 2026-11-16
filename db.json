@@ -4241,6 +4241,61 @@
         "Pop"
       ],
       "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794848412743",
+      "code": "UKTS-384",
+      "title": "Victory Lap",
+      "artist": "Fred again..; Plaqueboymax; Skepta",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794848412746",
+      "code": "UKTS-385",
+      "title": "Headlines",
+      "artist": "Drake",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794848412747",
+      "code": "UKTS-386",
+      "title": "Rottweiler",
+      "artist": "EsDeeKid",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794848412748",
+      "code": "UKTS-387",
+      "title": "Cali Man",
+      "artist": "EsDeeKid; Rico Ace",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794848412750",
+      "code": "UKTS-388",
+      "title": "Hit 'Em Up",
+      "artist": "2pac",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
     }
   ],
   "chartHistory": {
@@ -6911,6 +6966,60 @@
           "salesIncrease": false
         }
       ]
+    },
+    "top-rap": {
+      "02/01/2026": [
+        {
+          "songId": "1792887123995",
+          "rank": 1,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124006",
+          "rank": 2,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124014",
+          "rank": 3,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794848412743",
+          "rank": 4,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124089",
+          "rank": 5,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124094",
+          "rank": 6,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794848412746",
+          "rank": 7,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794848412747",
+          "rank": 8,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794848412748",
+          "rank": 9,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794848412750",
+          "rank": 10,
+          "salesIncrease": false
+        }
+      ]
     }
   },
   "news": [
@@ -7101,6 +7210,9 @@
     "Myles Smith": "UKTA-176",
     "Niall Horan": "UKTA-177",
     "J. Cole": "UKTA-178",
-    "Future": "UKTA-179"
+    "Future": "UKTA-179",
+    "Plaqueboymax": "UKTA-180",
+    "Drake": "UKTA-181",
+    "2pac": "UKTA-182"
   }
 }

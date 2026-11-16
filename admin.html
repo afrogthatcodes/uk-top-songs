@@ -723,7 +723,13 @@
                 }
 
                 saveDB(db);
-                switchAdminTab('songs');
+                
+                // Stay on the CSV Importer page with the selected chart/date preserved for batch uploading
+                fileInput.value = '';
+                const songsTabBtn = document.getElementById('tab-btn-songs');
+                if (songsTabBtn) {
+                    songsTabBtn.textContent = `Songs (${db.songs.length})`;
+                }
             };
 
             reader.readAsText(file);

@@ -278,10 +278,6 @@ function openHistoryModal(categoryId, categoryTitle, songId, songTitle) {
     modal.classList.remove('hidden');
 
     const db = getDB();
-    const catObj = chartCategories.find(c => c.id === categoryId);
-    const maxRank = catObj ? catObj.maxRank : 75;
-    const stepSize = maxRank <= 10 ? 1 : (maxRank <= 25 ? 5 : 10);
-
     const historyObj = db.chartHistory[categoryId] || {};
     const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
 
@@ -355,8 +351,8 @@ function openHistoryModal(categoryId, categoryTitle, songId, songTitle) {
                 y: {
                     reverse: true,
                     min: 1,
-                    max: maxRank,
-                    ticks: { color: '#a3a3a3', stepSize: stepSize },
+                    max: 75,
+                    ticks: { color: '#a3a3a3', stepSize: 10 },
                     grid: { color: '#262626' }
                 },
                 x: {

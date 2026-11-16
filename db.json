@@ -4296,6 +4296,28 @@
         "Pop"
       ],
       "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794850104667",
+      "code": "UKTS-389",
+      "title": "Rather Be",
+      "artist": "The Kid LAROI feat. Lithe",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1794850114193",
+      "code": "UKTS-390",
+      "title": "679.0",
+      "artist": "Fetty Wap feat. Monty",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
     }
   ],
   "chartHistory": {
@@ -7019,6 +7041,110 @@
           "rank": 10,
           "salesIncrease": false
         }
+      ],
+      "16/01/2026": [
+        {
+          "songId": "1792887123995",
+          "rank": 1,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124014",
+          "rank": 2,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124006",
+          "rank": 3,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124089",
+          "rank": 4,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794848412743",
+          "rank": 5,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1793497130816",
+          "rank": 6,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124094",
+          "rank": 7,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794848412746",
+          "rank": 8,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794848412747",
+          "rank": 9,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794850104667",
+          "rank": 10,
+          "salesIncrease": false
+        }
+      ],
+      "23/01/2026": [
+        {
+          "songId": "1792887124014",
+          "rank": 1,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123995",
+          "rank": 2,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124006",
+          "rank": 3,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124089",
+          "rank": 4,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794848412743",
+          "rank": 5,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1793497130816",
+          "rank": 6,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1793505647188",
+          "rank": 7,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1793505647200",
+          "rank": 8,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794850114193",
+          "rank": 9,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1793505647207",
+          "rank": 10,
+          "salesIncrease": false
+        }
       ]
     }
   },
@@ -7213,6 +7339,9 @@
     "Future": "UKTA-179",
     "Plaqueboymax": "UKTA-180",
     "Drake": "UKTA-181",
-    "2pac": "UKTA-182"
+    "2pac": "UKTA-182",
+    "Lithe": "UKTA-183",
+    "Fetty Wap": "UKTA-184",
+    "Monty": "UKTA-185"
   }
 }

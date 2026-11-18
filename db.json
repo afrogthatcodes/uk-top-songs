@@ -17,7 +17,8 @@
       "genres": [
         "Folk/Country"
       ],
-      "cover": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect width=\"100\" height=\"100\" fill=\"%23addedc\"/></svg>"
+      "cover": "https://cdn.sonemic.net/i/600/w/ca86a624011d73697f2a46c311244ae4/13857256/ella-langley-choosin-texas-Cover-Art.jpg",
+      "album": "Single"
     },
     {
       "id": "5",
@@ -3840,11 +3841,11 @@
       "code": "UKTS-347",
       "title": "What You Saying",
       "artist": "Lil Uzi Vert",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": ""
+      "cover": "https://cdn.sonemic.net/i/600/w/cc2c568d8a7b9e0b73de763a52b9971d/14082359/lil-uzi-vert-what-you-saying-Cover-Art.jpg"
     },
     {
       "id": "1793498590929",
@@ -4060,11 +4061,11 @@
       "code": "UKTS-367",
       "title": "The Great Divide",
       "artist": "Noah Kahan",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/f56ee8becc903096af421e999264f6cf/14228052/noah-kahan-the-great-divide-Cover-Art.jpg"
     },
     {
       "id": "1794337668719",
@@ -4082,77 +4083,77 @@
       "code": "UKTS-369",
       "title": "Body",
       "artist": "Don Toliver",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/d85fb3e538903d5c36a7628e391a943b/14410432/don-toliver-octane-Cover-Art.jpg"
     },
     {
       "id": "1794337668734",
       "code": "UKTS-370",
       "title": "Secondhand",
       "artist": "Don Toliver feat. Rema",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/d85fb3e538903d5c36a7628e391a943b/14410432/don-toliver-octane-Cover-Art.jpg"
     },
     {
       "id": "1794337668736",
       "code": "UKTS-371",
       "title": "E85",
       "artist": "Don Toliver",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/d85fb3e538903d5c36a7628e391a943b/14410432/don-toliver-octane-Cover-Art.jpg"
     },
     {
       "id": "1794337668738",
       "code": "UKTS-372",
       "title": "ATM",
       "artist": "Don Toliver",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/d85fb3e538903d5c36a7628e391a943b/14410432/don-toliver-octane-Cover-Art.jpg"
     },
     {
       "id": "1794337668748",
       "code": "UKTS-373",
       "title": "iloveitiloveitiloveit",
       "artist": "Bella Kay",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/18d23ee4737d532729872d8c118c7319/14175518/bella-kay-iloveitiloveitiloveit-Cover-Art.png"
     },
     {
       "id": "1794337668751",
       "code": "UKTS-374",
       "title": "Fade Into You",
       "artist": "Mazzy Star",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/b7712af5d2f59a4e10b6f3e62339625c/12185137/mazzy-star-fade-into-you-Cover-Art.jpg"
     },
     {
       "id": "1794337668753",
       "code": "UKTS-375",
       "title": "Love on the Brain",
       "artist": "Rihanna",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/7fe83d7d407dd2918082090cf5a845c8/8626915/rihanna-love-on-the-brain-Cover-Art.jpg"
     },
     {
       "id": "1794695345400",
@@ -4170,11 +4171,11 @@
       "code": "UKTS-377",
       "title": "EoO",
       "artist": "Bad Bunny",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/78539c15edcd36b9b00e9ec841fb7ca3/12891718/bad-bunny-debi-tirar-mas-fotos-Cover-Art.jpg"
     },
     {
       "id": "1794695345421",
@@ -4192,11 +4193,11 @@
       "code": "UKTS-379",
       "title": "VOY A LLeVARTE PA PR",
       "artist": "Bad Bunny",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/78539c15edcd36b9b00e9ec841fb7ca3/12891718/bad-bunny-debi-tirar-mas-fotos-Cover-Art.jpg"
     },
     {
       "id": "1794695345432",
@@ -4236,11 +4237,11 @@
       "code": "UKTS-383",
       "title": "White Keys",
       "artist": "Dominic Fike",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/3cde2d39e360bd2ab9882bfb3a61f6ed/13956578/dominic-fike-white-keys-Cover-Art.jpg"
     },
     {
       "id": "1794848412743",
@@ -4269,22 +4270,22 @@
       "code": "UKTS-386",
       "title": "Rottweiler",
       "artist": "EsDeeKid",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/1f6370cd0a27285460d68b0360b5885f/13452143/esdeekid-rebel-Cover-Art.jpg"
     },
     {
       "id": "1794848412748",
       "code": "UKTS-387",
       "title": "Cali Man",
       "artist": "EsDeeKid; Rico Ace",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+      "cover": "https://cdn.sonemic.net/i/600/w/1f6370cd0a27285460d68b0360b5885f/13452143/esdeekid-rebel-Cover-Art.jpg"
     },
     {
       "id": "1794848412750",
@@ -4311,9 +4312,9 @@
     {
       "id": "1794850114193",
       "code": "UKTS-390",
-      "title": "679.0",
+      "title": "679",
       "artist": "Fetty Wap feat. Monty",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],

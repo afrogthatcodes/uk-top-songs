@@ -7545,7 +7545,7 @@
         {
           "songId": "1792887123932",
           "rank": 3,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887123930",
@@ -7555,7 +7555,7 @@
         {
           "songId": "1792622556063",
           "rank": 5,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887123972",
@@ -7565,7 +7565,7 @@
         {
           "songId": "1792887123911",
           "rank": 7,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887123931",
@@ -7575,7 +7575,7 @@
         {
           "songId": "1792887124092",
           "rank": 9,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1794337668748",
@@ -7590,12 +7590,12 @@
         {
           "songId": "1792887123985",
           "rank": 12,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887123950",
           "rank": 13,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887123980",
@@ -7635,12 +7635,12 @@
         {
           "songId": "1795010051211",
           "rank": 21,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1792887123988",
           "rank": 22,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887123983",
@@ -7675,7 +7675,7 @@
         {
           "songId": "1792622556059",
           "rank": 29,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1792887123979",
@@ -7700,12 +7700,12 @@
         {
           "songId": "1795010051222",
           "rank": 34,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1792887124015",
           "rank": 35,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792622556088",
@@ -7715,12 +7715,12 @@
         {
           "songId": "1792887124097",
           "rank": 37,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1792622556084",
           "rank": 38,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1793498590949",
@@ -7735,17 +7735,17 @@
         {
           "songId": "1792622556068",
           "rank": 41,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1792887124106",
           "rank": 42,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "4",
           "rank": 43,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1794695345400",
@@ -7755,7 +7755,7 @@
         {
           "songId": "1792887124105",
           "rank": 45,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1792887123996",
@@ -7770,12 +7770,12 @@
         {
           "songId": "1792887124004",
           "rank": 48,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1794695345439",
           "rank": 49,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1792887124099",
@@ -7790,7 +7790,7 @@
         {
           "songId": "1793498590953",
           "rank": 52,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887124017",
@@ -7825,7 +7825,7 @@
         {
           "songId": "1792887124093",
           "rank": 59,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1795010386145",
@@ -7835,7 +7835,7 @@
         {
           "songId": "1794337668736",
           "rank": 61,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792622556087",
@@ -7865,7 +7865,7 @@
         {
           "songId": "1792887124152",
           "rank": 67,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887124072",
@@ -8585,5 +8585,6 @@
     "Sons": "UKTA-193",
     "Gracie Abrams": "UKTA-194",
     "December 10": "UKTA-195"
-  }
+  },
+  "artists": {}
 }

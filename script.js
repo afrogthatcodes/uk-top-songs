@@ -10,7 +10,7 @@ const chartCategories = [
     { id: 'top-dance', title: 'Top Dance/Electronic Songs', subtitle: 'Genre Chart', maxRank: 25 },
     { id: 'top-folk-country', title: 'Top Folk/Country Songs', subtitle: 'Genre Chart', maxRank: 25 },
     { id: 'top-indie-rock', title: 'Top Indie/Rock Songs', subtitle: 'Genre Chart', maxRank: 25 },
-    { id: 'top-rap', title: 'Top Rap Songs', subtitle: 'Genre Chart', maxRank: 25 },
+    { id: 'top-rap', title: 'Top Rap Songs', subtitle: 'Genre Chart', maxRank: 10 },
     { id: 'top-rnb', title: 'Top R&B Songs', subtitle: 'Genre Chart', maxRank: 25 }
 ];
 
@@ -165,8 +165,8 @@ function artistsMatch(artistStr1, artistStr2) {
     const a2 = artistStr2.trim().toLowerCase();
     if (a1 === a2) return true;
 
-    const tokens1 = a1.split(/[,;&]|\band\b|\bfeat\.?/gi).map(s => s.trim()).filter(Boolean);
-    const tokens2 = a2.split(/[,;&]|\band\b|\bfeat\.?/gi).map(s => s.trim()).filter(Boolean);
+    const tokens1 = a1.split(/[,;]|\band\b|\bfeat\.?/gi).map(s => s.trim()).filter(Boolean);
+    const tokens2 = a2.split(/[,;]|\band\b|\bfeat\.?/gi).map(s => s.trim()).filter(Boolean);
 
     return tokens1.some(t1 => tokens2.includes(t1)) || tokens2.some(t2 => tokens1.includes(t2));
 }
@@ -278,6 +278,10 @@ function openHistoryModal(categoryId, categoryTitle, songId, songTitle) {
     modal.classList.remove('hidden');
 
     const db = getDB();
+    const catObj = chartCategories.find(c => c.id === categoryId);
+    const maxRank = catObj ? catObj.maxRank : 75;
+    const stepSize = maxRank <= 10 ? 1 : (maxRank <= 25 ? 5 : 10);
+
     const historyObj = db.chartHistory[categoryId] || {};
     const dates = Object.keys(historyObj).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
 
@@ -351,8 +355,8 @@ function openHistoryModal(categoryId, categoryTitle, songId, songTitle) {
                 y: {
                     reverse: true,
                     min: 1,
-                    max: 75,
-                    ticks: { color: '#a3a3a3', stepSize: 10 },
+                    max: maxRank,
+                    ticks: { color: '#a3a3a3', stepSize: stepSize },
                     grid: { color: '#262626' }
                 },
                 x: {

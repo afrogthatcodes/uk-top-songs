@@ -171,6 +171,100 @@
             `;
         }
 
+        // --- SONG EDIT / ADD MODAL ---
+        function openSongModal(songId = null) {
+            const db = getDB();
+            const song = songId ? db.songs.find(s => s.id === songId) : null;
+            const isEdit = !!song;
+
+            const modalHTML = `
+                <div id="song-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-lg w-full p-6 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-bold uppercase">${isEdit ? 'Edit Song' : 'Add New Song'}</h3>
+                            <button onclick="closeSongModal()"><i class="fa-solid fa-xmark text-xl text-neutral-400 hover:text-white"></i></button>
+                        </div>
+                        <form onsubmit="handleSongSubmit(event, '${songId || ''}')" class="space-y-3">
+                            <div>
+                                <label class="block text-xs uppercase text-neutral-400 mb-1">Song Title</label>
+                                <input type="text" id="song-modal-title" value="${song ? song.title : ''}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white focus:outline-none focus:border-[#addedc]">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase text-neutral-400 mb-1">Artist(s)</label>
+                                <input type="text" id="song-modal-artist" value="${song ? song.artist : ''}" required placeholder="Artist 1 & Artist 2" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white focus:outline-none focus:border-[#addedc]">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase text-neutral-400 mb-1">Genres (comma or semicolon separated)</label>
+                                <input type="text" id="song-modal-genres" value="${song ? (Array.isArray(song.genres) ? song.genres.join(', ') : song.genres) : 'Pop'}" required class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white focus:outline-none focus:border-[#addedc]">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase text-neutral-400 mb-1">Album Name</label>
+                                <input type="text" id="song-modal-album" value="${song ? (song.album || '') : ''}" placeholder="Single / Album Name" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white focus:outline-none focus:border-[#addedc]">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase text-neutral-400 mb-1">Cover Image URL (Optional)</label>
+                                <input type="url" id="song-modal-cover" value="${song ? (song.cover || '') : ''}" placeholder="https://example.com/cover.jpg" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-sm text-white focus:outline-none focus:border-[#addedc]">
+                            </div>
+                            <div class="flex justify-end gap-2 pt-3">
+                                <button type="button" onclick="closeSongModal()" class="bg-neutral-800 hover:bg-neutral-700 px-4 py-2.5 rounded-xl text-xs font-bold uppercase">Cancel</button>
+                                <button type="submit" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">${isEdit ? 'Save Changes' : 'Add Song'}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            document.getElementById('admin-modal-container').innerHTML = modalHTML;
+        }
+
+        function closeSongModal() {
+            document.getElementById('admin-modal-container').innerHTML = '';
+        }
+
+        function handleSongSubmit(e, songId) {
+            e.preventDefault();
+            const db = getDB();
+
+            const title = document.getElementById('song-modal-title').value.trim();
+            const artist = document.getElementById('song-modal-artist').value.trim();
+            const genresRaw = document.getElementById('song-modal-genres').value.trim();
+            const album = document.getElementById('song-modal-album').value.trim() || 'Single';
+            const cover = document.getElementById('song-modal-cover').value.trim();
+
+            const genres = genresRaw.split(/[,;]/).map(g => g.trim()).filter(Boolean);
+            if (genres.length === 0) genres.push('Pop');
+
+            const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
+            artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
+
+            if (songId) {
+                const song = db.songs.find(s => s.id === songId);
+                if (song) {
+                    song.title = title;
+                    song.artist = artist;
+                    song.genres = genres;
+                    song.album = album;
+                    song.cover = cover;
+                }
+                showToast('Song updated successfully!');
+            } else {
+                const newSong = {
+                    id: Date.now().toString(),
+                    code: getNextSongCode(db),
+                    title,
+                    artist,
+                    genres,
+                    album,
+                    cover: cover || fallbackCoverSVG
+                };
+                db.songs.push(newSong);
+                showToast('Song added successfully!');
+            }
+
+            saveDB(db);
+            closeSongModal();
+            switchAdminTab('songs', currentSearchQuery);
+        }
+
         // --- ARTISTS TAB ---
         function renderAdminArtistsTab(dbInstance, query = '') {
             const q = query.trim().toLowerCase();

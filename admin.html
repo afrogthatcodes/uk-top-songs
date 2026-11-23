@@ -486,7 +486,6 @@ function renderAdminHighlightsTab(dbInstance) {
     if (!dbInstance.highlights) dbInstance.highlights = {};
     if (!dbInstance.highlights[selectedCat]) dbInstance.highlights[selectedCat] = {};
     
-    // Default to at least 3 slots if none exist yet
     let highlights = dbInstance.highlights[selectedCat][selectedDate];
     if (!highlights || !Array.isArray(highlights)) {
         highlights = [
@@ -508,7 +507,7 @@ function renderAdminHighlightsTab(dbInstance) {
             <div class="flex flex-col gap-4 bg-neutral-900 border border-neutral-800 p-6 rounded-2xl">
                 <div>
                     <h3 class="text-xl font-bold uppercase">Chart Highlights Manager</h3>
-                    <p class="text-xs text-neutral-400">Choose a chart category and week date, then add as many custom sidebar highlights as you like.</p>
+                    <p class="text-xs text-neutral-400">Choose a chart category and week date, then add, rearrange, or customize your sidebar highlights.</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
@@ -547,8 +546,14 @@ function renderAdminHighlightsTab(dbInstance) {
                             return `
                                 <div class="highlight-slot-row bg-black/50 border border-neutral-800 p-4 rounded-xl space-y-3 relative group">
                                     <div class="flex justify-between items-center">
-                                        <span class="text-xs font-black uppercase text-[#addedc]">Slot #${idx + 1}</span>
-                                        <button type="button" onclick="this.closest('.highlight-slot-row').remove()" class="text-red-400 hover:text-red-300 text-xs font-bold px-2 py-1 rounded bg-red-950/40"><i class="fa-solid fa-trash"></i> Remove</button>
+                                        <div class="flex items-center gap-2">
+                                            <span class="slot-number-label text-xs font-black uppercase text-[#addedc]">Slot #${idx + 1}</span>
+                                            <div class="flex items-center gap-1 ml-2 bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800">
+                                                <button type="button" onclick="moveHighlightRow(this, -1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Up"><i class="fa-solid fa-arrow-up"></i></button>
+                                                <button type="button" onclick="moveHighlightRow(this, 1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Down"><i class="fa-solid fa-arrow-down"></i></button>
+                                            </div>
+                                        </div>
+                                        <button type="button" onclick="this.closest('.highlight-slot-row').remove(); updateSlotNumbers();" class="text-red-400 hover:text-red-300 text-xs font-bold px-2 py-1 rounded bg-red-950/40"><i class="fa-solid fa-trash"></i> Remove</button>
                                     </div>
                                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                         <div>
@@ -556,7 +561,7 @@ function renderAdminHighlightsTab(dbInstance) {
                                             <input type="text" class="highlight-tag-input w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]" value="${item.tag || 'Bullet'}" placeholder="e.g. Biggest Climb">
                                         </div>
                                         <div class="sm:col-span-2">
-                                            <label class="block text-[10px] uppercase text-neutral-400 mb-1">Select Song (Type to filter or select)</label>
+                                            <label class="block text-[10px] uppercase text-neutral-400 mb-1">Select Song</label>
                                             <select class="highlight-song-select w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]">
                                                 ${songOptions}
                                             </select>
@@ -574,6 +579,32 @@ function renderAdminHighlightsTab(dbInstance) {
     `;
 }
 
+function moveHighlightRow(btn, direction) {
+    const row = btn.closest('.highlight-slot-row');
+    if (!row) return;
+    
+    if (direction === -1) {
+        const prev = row.previousElementSibling;
+        if (prev) {
+            row.parentNode.insertBefore(row, prev);
+        }
+    } else if (direction === 1) {
+        const next = row.nextElementSibling;
+        if (next) {
+            row.parentNode.insertBefore(next, row);
+        }
+    }
+    updateSlotNumbers();
+}
+
+function updateSlotNumbers() {
+    const rows = document.querySelectorAll('.highlight-slot-row');
+    rows.forEach((row, idx) => {
+        const label = row.querySelector('.slot-number-label');
+        if (label) label.textContent = `Slot #${idx + 1}`;
+    });
+}
+
 function addHighlightRow() {
     const container = document.getElementById('highlights-slots-container');
     if (!container) return;
@@ -583,13 +614,18 @@ function addHighlightRow() {
         `<option value="${s.id}">${s.title} - ${s.artist} (${s.code})</option>`
     ).join('');
 
-    const newIdx = container.children.length + 1;
     const div = document.createElement('div');
     div.className = 'highlight-slot-row bg-black/50 border border-neutral-800 p-4 rounded-xl space-y-3 relative group';
     div.innerHTML = `
         <div class="flex justify-between items-center">
-            <span class="text-xs font-black uppercase text-[#addedc]">Slot #${newIdx}</span>
-            <button type="button" onclick="this.closest('.highlight-slot-row').remove()" class="text-red-400 hover:text-red-300 text-xs font-bold px-2 py-1 rounded bg-red-950/40"><i class="fa-solid fa-trash"></i> Remove</button>
+            <div class="flex items-center gap-2">
+                <span class="slot-number-label text-xs font-black uppercase text-[#addedc]">Slot #1</span>
+                <div class="flex items-center gap-1 ml-2 bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800">
+                    <button type="button" onclick="moveHighlightRow(this, -1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Up"><i class="fa-solid fa-arrow-up"></i></button>
+                    <button type="button" onclick="moveHighlightRow(this, 1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Down"><i class="fa-solid fa-arrow-down"></i></button>
+                </div>
+            </div>
+            <button type="button" onclick="this.closest('.highlight-slot-row').remove(); updateSlotNumbers();" class="text-red-400 hover:text-red-300 text-xs font-bold px-2 py-1 rounded bg-red-950/40"><i class="fa-solid fa-trash"></i> Remove</button>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
@@ -605,47 +641,7 @@ function addHighlightRow() {
         </div>
     `;
     container.appendChild(div);
-}
-
-function handleHighlightsDatePick(isoVal) {
-    if (!isoVal) return;
-    const [y, m, d] = isoVal.split('-');
-    const formatted = `${d}/${m}/${y}`;
-    const hiddenInput = document.getElementById('admin-highlights-date-select');
-    const displaySpan = document.getElementById('admin-highlights-date-display');
-    if (hiddenInput) hiddenInput.value = formatted;
-    if (displaySpan) displaySpan.textContent = formatted;
-    switchAdminTab('highlights');
-}
-
-function saveAdminHighlights(e) {
-    e.preventDefault();
-    const db = getDB();
-    const selectedCat = document.getElementById('admin-highlights-cat-select')?.value || 'top-songs';
-    const selectedDate = document.getElementById('admin-highlights-date-select')?.value;
-
-    if (!selectedDate) {
-        showToast('Please select a date.');
-        return;
-    }
-
-    const rows = document.querySelectorAll('.highlight-slot-row');
-    const highlights = [];
-
-    rows.forEach(row => {
-        const tag = row.querySelector('.highlight-tag-input').value.trim() || 'Bullet';
-        const songId = row.querySelector('.highlight-song-select').value;
-        if (songId) {
-            highlights.push({ tag, songId });
-        }
-    });
-
-    if (!db.highlights) db.highlights = {};
-    if (!db.highlights[selectedCat]) db.highlights[selectedCat] = {};
-
-    db.highlights[selectedCat][selectedDate] = highlights;
-    saveDB(db);
-    showToast(`Successfully saved ${highlights.length} highlights for ${selectedCat} (${selectedDate})!`);
+    updateSlotNumbers();
 }
 
         // --- NEWS TAB ---
@@ -1025,5 +1021,6 @@ function saveAdminHighlights(e) {
     </script>
 </body>
 </html>
+
 
 

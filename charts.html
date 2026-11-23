@@ -461,7 +461,7 @@
                     // Format artist names as clickable links pointing directly to their artist page
                     const artistNames = song.artist.replace(/;/g, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
                     const formattedArtistsHTML = artistNames.map(aName => 
-                        `<a href="artists.html?artist=${encodeURIComponent(aName)}" class="text-[#addedc] hover:underline font-medium">${aName}</a>`
+                        `<a href="artist.html?artist=${encodeURIComponent(aName)}" class="text-[#addedc] hover:underline font-medium">${aName}</a>`
                     ).join(', ');
 
                     return `
@@ -541,6 +541,7 @@
     </script>
 </body>
 </html>
+
 
 
 

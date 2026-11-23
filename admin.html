@@ -48,6 +48,8 @@
     <script>
         let currentActiveTab = 'songs';
         let currentSearchQuery = '';
+        let currentHighlightsCategory = 'top-songs';
+        let currentHighlightsDate = '';
 
         async function checkAuthAndInit() {
             if (typeof fetchDBAsync === 'function') {
@@ -475,180 +477,222 @@
         }
 
         // --- HIGHLIGHTS TAB ---
-function renderAdminHighlightsTab(dbInstance) {
-    const selectedCat = document.getElementById('admin-highlights-cat-select')?.value || 'top-songs';
-    
-    const historyObj = (dbInstance.chartHistory && dbInstance.chartHistory[selectedCat]) || {};
-    const dates = Object.keys(historyObj).sort((a,b) => new Date(b.split('/').reverse().join('-')) - new Date(a.split('/').reverse().join('-')));
-    
-    const selectedDate = document.getElementById('admin-highlights-date-select')?.value || dates[0] || '';
+        function renderAdminHighlightsTab(dbInstance) {
+            const selectedCat = document.getElementById('admin-highlights-cat-select')?.value || 'top-songs';
+            
+            const historyObj = (dbInstance.chartHistory && dbInstance.chartHistory[selectedCat]) || {};
+            const dates = Object.keys(historyObj).sort((a,b) => new Date(b.split('/').reverse().join('-')) - new Date(a.split('/').reverse().join('-')));
+            
+            if (!currentHighlightsDate || !dates.includes(currentHighlightsDate)) {
+                currentHighlightsDate = dates[0] || '';
+            }
+            const selectedDate = currentHighlightsDate;
 
-    if (!dbInstance.highlights) dbInstance.highlights = {};
-    if (!dbInstance.highlights[selectedCat]) dbInstance.highlights[selectedCat] = {};
-    
-    let highlights = dbInstance.highlights[selectedCat][selectedDate];
-    if (!highlights || !Array.isArray(highlights)) {
-        highlights = [
-            { tag: 'Biggest Climb', songId: '' },
-            { tag: 'Debut', songId: '' },
-            { tag: 'Re-Entry', songId: '' }
-        ];
-    }
-    const sortedSongs = [...(dbInstance.songs || [])].sort((a, b) => a.title.localeCompare(b.title));
+            if (!dbInstance.highlights) dbInstance.highlights = {};
+            if (!dbInstance.highlights[selectedCat]) dbInstance.highlights[selectedCat] = {};
+            
+            let highlights = dbInstance.highlights[selectedCat][selectedDate];
+            if (!highlights || !Array.isArray(highlights)) {
+                highlights = [
+                    { tag: 'Biggest Climb', songId: '' },
+                    { tag: 'Debut', songId: '' },
+                    { tag: 'Re-Entry', songId: '' }
+                ];
+            }
+            const sortedSongs = [...(dbInstance.songs || [])].sort((a, b) => a.title.localeCompare(b.title));
 
-    let isoDate = '';
-    if (selectedDate) {
-        const [d, m, y] = selectedDate.split('/');
-        isoDate = `${y}-${m}-${d}`;
-    }
+            let isoDate = '';
+            if (selectedDate) {
+                const [d, m, y] = selectedDate.split('/');
+                isoDate = `${y}-${m}-${d}`;
+            }
 
-    return `
-        <div class="space-y-6 max-w-3xl">
-            <div class="flex flex-col gap-4 bg-neutral-900 border border-neutral-800 p-6 rounded-2xl">
-                <div>
-                    <h3 class="text-xl font-bold uppercase">Chart Highlights Manager</h3>
-                    <p class="text-xs text-neutral-400">Choose a chart category and week date, then add, rearrange, or customize your sidebar highlights.</p>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-[10px] uppercase text-neutral-400 mb-1">Chart Category</label>
-                        <select id="admin-highlights-cat-select" onchange="switchAdminTab('highlights')" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
-                            ${chartCategories.map(c => `<option value="${c.id}" ${c.id === selectedCat ? 'selected' : ''}>${c.title}</option>`).join('')}
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] uppercase text-neutral-400 mb-1">Chart Week Date</label>
-                        <div onclick="const p = document.getElementById('admin-highlights-native-picker'); if(p.showPicker) p.showPicker(); else p.focus();" class="bg-black border border-neutral-700 hover:border-neutral-500 cursor-pointer rounded-xl px-4 py-2.5 flex items-center justify-between text-xs font-mono text-sky-400 relative">
-                            <span id="admin-highlights-date-display">${selectedDate || 'Select Date'}</span>
-                            <i class="fa-regular fa-calendar"></i>
-                            <input type="date" id="admin-highlights-native-picker" value="${isoDate}" onchange="handleHighlightsDatePick(this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
+            return `
+                <div class="space-y-6 max-w-3xl">
+                    <div class="flex flex-col gap-4 bg-neutral-900 border border-neutral-800 p-6 rounded-2xl">
+                        <div>
+                            <h3 class="text-xl font-bold uppercase">Chart Highlights Manager</h3>
+                            <p class="text-xs text-neutral-400">Choose a chart category and week date, then add, rearrange, or customize your sidebar highlights.</p>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] uppercase text-neutral-400 mb-1">Chart Category</label>
+                                <select id="admin-highlights-cat-select" onchange="handleHighlightsCategoryChange(this.value)" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
+                                    ${chartCategories.map(c => `<option value="${c.id}" ${c.id === selectedCat ? 'selected' : ''}>${c.title}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase text-neutral-400 mb-1">Chart Week Date</label>
+                                <div onclick="const p = document.getElementById('admin-highlights-native-picker'); if(p.showPicker) p.showPicker(); else p.focus();" class="bg-black border border-neutral-700 hover:border-neutral-500 cursor-pointer rounded-xl px-4 py-2.5 flex items-center justify-between text-xs font-mono text-sky-400 relative">
+                                    <span id="admin-highlights-date-display">${selectedDate || 'Select Date'}</span>
+                                    <i class="fa-regular fa-calendar"></i>
+                                    <input type="date" id="admin-highlights-native-picker" value="${isoDate}" onchange="handleHighlightsDatePick(this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            function handleHighlightsDatePick(isoVal) {
-    if (!isoVal) return;
-    const [y, m, d] = isoVal.split('-');
-    currentHighlightsDate = `${d}/${m}/${y}`;
-    switchAdminTab('highlights');
-}
+                    ${selectedDate ? `
+                        <form onsubmit="saveAdminHighlights(event)" class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-5">
+                            <div class="flex justify-between items-center border-b border-neutral-800 pb-4">
+                                <h4 class="text-xs font-bold uppercase text-neutral-300">Configure Highlights (${highlights.length})</h4>
+                                <button type="button" onclick="addHighlightRow()" class="bg-neutral-800 hover:bg-neutral-700 text-[#addedc] px-3 py-1.5 rounded-lg text-xs font-bold uppercase flex items-center gap-1.5 transition-all">
+                                    <i class="fa-solid fa-plus"></i> Add Highlight Slot
+                                </button>
+                            </div>
 
-            ${selectedDate ? `
-                <form onsubmit="saveAdminHighlights(event)" class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-5">
-                    <div class="flex justify-between items-center border-b border-neutral-800 pb-4">
-                        <h4 class="text-xs font-bold uppercase text-neutral-300">Configure Highlights (${highlights.length})</h4>
-                        <button type="button" onclick="addHighlightRow()" class="bg-neutral-800 hover:bg-neutral-700 text-[#addedc] px-3 py-1.5 rounded-lg text-xs font-bold uppercase flex items-center gap-1.5 transition-all">
-                            <i class="fa-solid fa-plus"></i> Add Highlight Slot
-                        </button>
-                    </div>
+                            <div id="highlights-slots-container" class="space-y-4">
+                                ${highlights.map((item, idx) => {
+                                    const songOptions = `<option value="">-- None / Hide Slot --</option>` + sortedSongs.map(s => 
+                                        `<option value="${s.id}" ${s.id === item.songId ? 'selected' : ''}>${s.title} - ${s.artist} (${s.code})</option>`
+                                    ).join('');
 
-                    <div id="highlights-slots-container" class="space-y-4">
-                        ${highlights.map((item, idx) => {
-                            const songOptions = `<option value="">-- None / Hide Slot --</option>` + sortedSongs.map(s => 
-                                `<option value="${s.id}" ${s.id === item.songId ? 'selected' : ''}>${s.title} - ${s.artist} (${s.code})</option>`
-                            ).join('');
-
-                            return `
-                                <div class="highlight-slot-row bg-black/50 border border-neutral-800 p-4 rounded-xl space-y-3 relative group">
-                                    <div class="flex justify-between items-center">
-                                        <div class="flex items-center gap-2">
-                                            <span class="slot-number-label text-xs font-black uppercase text-[#addedc]">Slot #${idx + 1}</span>
-                                            <div class="flex items-center gap-1 ml-2 bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800">
-                                                <button type="button" onclick="moveHighlightRow(this, -1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Up"><i class="fa-solid fa-arrow-up"></i></button>
-                                                <button type="button" onclick="moveHighlightRow(this, 1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Down"><i class="fa-solid fa-arrow-down"></i></button>
+                                    return `
+                                        <div class="highlight-slot-row bg-black/50 border border-neutral-800 p-4 rounded-xl space-y-3 relative group">
+                                            <div class="flex justify-between items-center">
+                                                <div class="flex items-center gap-2">
+                                                    <span class="slot-number-label text-xs font-black uppercase text-[#addedc]">Slot #${idx + 1}</span>
+                                                    <div class="flex items-center gap-1 ml-2 bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800">
+                                                        <button type="button" onclick="moveHighlightRow(this, -1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Up"><i class="fa-solid fa-arrow-up"></i></button>
+                                                        <button type="button" onclick="moveHighlightRow(this, 1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Down"><i class="fa-solid fa-arrow-down"></i></button>
+                                                    </div>
+                                                </div>
+                                                <button type="button" onclick="this.closest('.highlight-slot-row').remove(); updateSlotNumbers();" class="text-red-400 hover:text-red-300 text-xs font-bold px-2 py-1 rounded bg-red-950/40"><i class="fa-solid fa-trash"></i> Remove</button>
+                                            </div>
+                                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                                <div>
+                                                    <label class="block text-[10px] uppercase text-neutral-400 mb-1">Badge Label</label>
+                                                    <input type="text" class="highlight-tag-input w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]" value="${item.tag || 'Bullet'}" placeholder="e.g. Biggest Climb">
+                                                </div>
+                                                <div class="sm:col-span-2">
+                                                    <label class="block text-[10px] uppercase text-neutral-400 mb-1">Select Song</label>
+                                                    <select class="highlight-song-select w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]">
+                                                        ${songOptions}
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                        <button type="button" onclick="this.closest('.highlight-slot-row').remove(); updateSlotNumbers();" class="text-red-400 hover:text-red-300 text-xs font-bold px-2 py-1 rounded bg-red-950/40"><i class="fa-solid fa-trash"></i> Remove</button>
-                                    </div>
-                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                        <div>
-                                            <label class="block text-[10px] uppercase text-neutral-400 mb-1">Badge Label</label>
-                                            <input type="text" class="highlight-tag-input w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]" value="${item.tag || 'Bullet'}" placeholder="e.g. Biggest Climb">
-                                        </div>
-                                        <div class="sm:col-span-2">
-                                            <label class="block text-[10px] uppercase text-neutral-400 mb-1">Select Song</label>
-                                            <select class="highlight-song-select w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]">
-                                                ${songOptions}
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
+                                    `;
+                                }).join('')}
+                            </div>
 
-                    <button type="submit" class="w-full bg-[#addedc] text-black py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all hover:opacity-90">Save All Highlights</button>
-                </form>
-            ` : `<div class="p-8 text-center text-neutral-500 bg-neutral-900 rounded-2xl border border-neutral-800">Please select a valid chart date.</div>`}
-        </div>
-    `;
-}
-
-function moveHighlightRow(btn, direction) {
-    const row = btn.closest('.highlight-slot-row');
-    if (!row) return;
-    
-    if (direction === -1) {
-        const prev = row.previousElementSibling;
-        if (prev) {
-            row.parentNode.insertBefore(row, prev);
-        }
-    } else if (direction === 1) {
-        const next = row.nextElementSibling;
-        if (next) {
-            row.parentNode.insertBefore(next, row);
-        }
-    }
-    updateSlotNumbers();
-}
-
-function updateSlotNumbers() {
-    const rows = document.querySelectorAll('.highlight-slot-row');
-    rows.forEach((row, idx) => {
-        const label = row.querySelector('.slot-number-label');
-        if (label) label.textContent = `Slot #${idx + 1}`;
-    });
-}
-
-function addHighlightRow() {
-    const container = document.getElementById('highlights-slots-container');
-    if (!container) return;
-    const db = getDB();
-    const sortedSongs = [...(db.songs || [])].sort((a, b) => a.title.localeCompare(b.title));
-    const songOptions = `<option value="">-- None / Hide Slot --</option>` + sortedSongs.map(s => 
-        `<option value="${s.id}">${s.title} - ${s.artist} (${s.code})</option>`
-    ).join('');
-
-    const div = document.createElement('div');
-    div.className = 'highlight-slot-row bg-black/50 border border-neutral-800 p-4 rounded-xl space-y-3 relative group';
-    div.innerHTML = `
-        <div class="flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <span class="slot-number-label text-xs font-black uppercase text-[#addedc]">Slot #1</span>
-                <div class="flex items-center gap-1 ml-2 bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800">
-                    <button type="button" onclick="moveHighlightRow(this, -1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Up"><i class="fa-solid fa-arrow-up"></i></button>
-                    <button type="button" onclick="moveHighlightRow(this, 1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Down"><i class="fa-solid fa-arrow-down"></i></button>
+                            <button type="submit" class="w-full bg-[#addedc] text-black py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all hover:opacity-90">Save All Highlights</button>
+                        </form>
+                    ` : `<div class="p-8 text-center text-neutral-500 bg-neutral-900 rounded-2xl border border-neutral-800">Please select a valid chart date.</div>`}
                 </div>
-            </div>
-            <button type="button" onclick="this.closest('.highlight-slot-row').remove(); updateSlotNumbers();" class="text-red-400 hover:text-red-300 text-xs font-bold px-2 py-1 rounded bg-red-950/40"><i class="fa-solid fa-trash"></i> Remove</button>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div>
-                <label class="block text-[10px] uppercase text-neutral-400 mb-1">Badge Label</label>
-                <input type="text" class="highlight-tag-input w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]" value="Bullet" placeholder="e.g. Biggest Climb">
-            </div>
-            <div class="sm:col-span-2">
-                <label class="block text-[10px] uppercase text-neutral-400 mb-1">Select Song</label>
-                <select class="highlight-song-select w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]">
-                    ${songOptions}
-                </select>
-            </div>
-        </div>
-    `;
-    container.appendChild(div);
-    updateSlotNumbers();
-}
+            `;
+        }
+
+        function handleHighlightsCategoryChange(catId) {
+            currentHighlightsCategory = catId;
+            const db = getDB();
+            const historyObj = (db.chartHistory && db.chartHistory[catId]) || {};
+            const dates = Object.keys(historyObj).sort((a,b) => new Date(b.split('/').reverse().join('-')) - new Date(a.split('/').reverse().join('-')));
+            currentHighlightsDate = dates[0] || '';
+            switchAdminTab('highlights');
+        }
+
+        function handleHighlightsDatePick(isoVal) {
+            if (!isoVal) return;
+            const [y, m, d] = isoVal.split('-');
+            currentHighlightsDate = `${d}/${m}/${y}`;
+            switchAdminTab('highlights');
+        }
+
+        function moveHighlightRow(btn, direction) {
+            const row = btn.closest('.highlight-slot-row');
+            if (!row) return;
+            
+            if (direction === -1) {
+                const prev = row.previousElementSibling;
+                if (prev) {
+                    row.parentNode.insertBefore(row, prev);
+                }
+            } else if (direction === 1) {
+                const next = row.nextElementSibling;
+                if (next) {
+                    row.parentNode.insertBefore(next, row);
+                }
+            }
+            updateSlotNumbers();
+        }
+
+        function updateSlotNumbers() {
+            const rows = document.querySelectorAll('.highlight-slot-row');
+            rows.forEach((row, idx) => {
+                const label = row.querySelector('.slot-number-label');
+                if (label) label.textContent = `Slot #${idx + 1}`;
+            });
+        }
+
+        function addHighlightRow() {
+            const container = document.getElementById('highlights-slots-container');
+            if (!container) return;
+            const db = getDB();
+            const sortedSongs = [...(db.songs || [])].sort((a, b) => a.title.localeCompare(b.title));
+            const songOptions = `<option value="">-- None / Hide Slot --</option>` + sortedSongs.map(s => 
+                `<option value="${s.id}">${s.title} - ${s.artist} (${s.code})</option>`
+            ).join('');
+
+            const div = document.createElement('div');
+            div.className = 'highlight-slot-row bg-black/50 border border-neutral-800 p-4 rounded-xl space-y-3 relative group';
+            div.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <span class="slot-number-label text-xs font-black uppercase text-[#addedc]">Slot #1</span>
+                        <div class="flex items-center gap-1 ml-2 bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800">
+                            <button type="button" onclick="moveHighlightRow(this, -1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Up"><i class="fa-solid fa-arrow-up"></i></button>
+                            <button type="button" onclick="moveHighlightRow(this, 1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Down"><i class="fa-solid fa-arrow-down"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" onclick="this.closest('.highlight-slot-row').remove(); updateSlotNumbers();" class="text-red-400 hover:text-red-300 text-xs font-bold px-2 py-1 rounded bg-red-950/40"><i class="fa-solid fa-trash"></i> Remove</button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-[10px] uppercase text-neutral-400 mb-1">Badge Label</label>
+                        <input type="text" class="highlight-tag-input w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]" value="Bullet" placeholder="e.g. Biggest Climb">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[10px] uppercase text-neutral-400 mb-1">Select Song</label>
+                        <select class="highlight-song-select w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]">
+                            ${songOptions}
+                        </select>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+            updateSlotNumbers();
+        }
+
+        function saveAdminHighlights(e) {
+            e.preventDefault();
+            const db = getDB();
+            const selectedCat = currentHighlightsCategory;
+            const selectedDate = currentHighlightsDate;
+
+            if (!selectedDate) {
+                showToast('Please select a date.');
+                return;
+            }
+
+            const rows = document.querySelectorAll('.highlight-slot-row');
+            const highlights = [];
+
+            rows.forEach(row => {
+                const tag = row.querySelector('.highlight-tag-input').value.trim() || 'Bullet';
+                const songId = row.querySelector('.highlight-song-select').value;
+                if (songId) {
+                    highlights.push({ tag, songId });
+                }
+            });
+
+            if (!db.highlights) db.highlights = {};
+            if (!db.highlights[selectedCat]) db.highlights[selectedCat] = {};
+
+            db.highlights[selectedCat][selectedDate] = highlights;
+            saveDB(db);
+            showToast(`Successfully saved ${highlights.length} highlights for ${selectedCat} (${selectedDate})!`);
+        }
 
         // --- NEWS TAB ---
         function renderAdminNewsTab(dbInstance, query = '') {
@@ -1027,7 +1071,3 @@ function addHighlightRow() {
     </script>
 </body>
 </html>
-
-
-
-

@@ -9014,10 +9014,6 @@
     "top-songs": {
       "02/01/2026": [
         {
-          "tag": "Biggest Climb",
-          "songId": "1792622556055"
-        },
-        {
           "tag": "Debut",
           "songId": "1792887124090"
         },
@@ -9028,6 +9024,10 @@
         {
           "tag": "New Peak",
           "songId": "1792887123996"
+        },
+        {
+          "tag": "Biggest Climb",
+          "songId": "1792622556055"
         },
         {
           "tag": "Biggest Sales Inc.",

@@ -238,7 +238,7 @@
             const artistImg = db.artists && db.artists[artistName] ? db.artists[artistName].trim() : '';
             const monthsShort = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
-            // Get Top 5 Songs for the sidebar preview box
+            // Get Top 5 Songs for the sidebar preview box matching reference format
             const topSongsHistory = db.chartHistory['top-songs'] || {};
             const topSongDates = Object.keys(topSongsHistory).sort((a,b) => new Date(b.split('/').reverse().join('-')) - new Date(a.split('/').reverse().join('-')));
             const latestTopSongsDate = topSongDates[0] || '';
@@ -255,11 +255,11 @@
                             if (!song) return '';
                             return `
                                 <div class="flex items-center gap-3 group">
-                                    <span class="text-xs font-black text-[#addedc] w-4">#${entry.rank}</span>
+                                    <span class="text-sm font-black text-[#addedc] w-5">${entry.rank}</span>
                                     ${renderSongCover(song, "w-12 h-12 rounded-xl object-cover bg-neutral-800 shrink-0 border border-neutral-800")}
                                     <div class="min-w-0">
-                                        <h4 class="font-bold text-xs text-white truncate group-hover:text-[#addedc] transition-colors">${song.title}</h4>
-                                        <p class="text-[10px] text-neutral-400 truncate mt-0.5">${song.artist}</p>
+                                        <h4 class="font-black text-xs text-white uppercase tracking-wide truncate group-hover:text-[#addedc] transition-colors">${song.title}</h4>
+                                        <div class="text-[11px] text-neutral-400 truncate mt-0.5">${formatArtists(song.artist)}</div>
                                     </div>
                                 </div>
                             `;

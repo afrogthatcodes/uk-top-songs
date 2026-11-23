@@ -225,150 +225,149 @@
                 </div>
             ` : '';
 
-            let tableHTML = `
-                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-                    ${adminBanner}
+            let mainChartInnerHTML = `
+                ${adminBanner}
 
-                    <div class="flex justify-center">
-                        <div onclick="document.getElementById('native-date-picker').showPicker ? document.getElementById('native-date-picker').showPicker() : document.getElementById('native-date-picker').focus()" class="bg-neutral-900 border border-neutral-800 hover:border-neutral-600 cursor-pointer rounded-full px-5 py-2 w-52 justify-between flex items-center shadow-xl relative">
-                            <button type="button" onclick="event.stopPropagation(); navigateChartDate('${currentChart.id}', -1, '${latestDate}')" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-chevron-left text-xs"></i></button>
-                            <div class="flex items-center gap-2 text-sky-400 font-bold text-xs"><span>${latestDate}</span><i class="fa-regular fa-calendar text-xs"></i></div>
-                            <button type="button" onclick="event.stopPropagation(); navigateChartDate('${currentChart.id}', 1, '${latestDate}')" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-chevron-right text-xs"></i></button>
-                            <input type="date" id="native-date-picker" value="${isoDateStr}" onchange="handleDateInputPick('${currentChart.id}', this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
-                        </div>
+                <div class="flex justify-center">
+                    <div onclick="document.getElementById('native-date-picker').showPicker ? document.getElementById('native-date-picker').showPicker() : document.getElementById('native-date-picker').focus()" class="bg-neutral-900 border border-neutral-800 hover:border-neutral-600 cursor-pointer rounded-full px-5 py-2 w-52 justify-between flex items-center shadow-xl relative">
+                        <button type="button" onclick="event.stopPropagation(); navigateChartDate('${currentChart.id}', -1, '${latestDate}')" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                        <div class="flex items-center gap-2 text-sky-400 font-bold text-xs"><span>${latestDate}</span><i class="fa-regular fa-calendar text-xs"></i></div>
+                        <button type="button" onclick="event.stopPropagation(); navigateChartDate('${currentChart.id}', 1, '${latestDate}')" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                        <input type="date" id="native-date-picker" value="${isoDateStr}" onchange="handleDateInputPick('${currentChart.id}', this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
                     </div>
+                </div>
 
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-neutral-900/60 border border-neutral-800/80 p-5 rounded-2xl backdrop-blur-md">
-                        <div>
-                            <h1 class="text-xl md:text-2xl font-extrabold text-white tracking-tight">${currentChart.title}</h1>
-                            <p class="text-xs text-neutral-400 mt-0.5">${dateRangeText}</p>
-                        </div>
-                        <div class="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto">
-                            <div class="relative w-full sm:w-44">
-                                <select id="main-charts-select" onchange="handleDropdownChange('main', this.value)" class="w-full bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2 rounded-xl focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
-                                    <option value="" disabled selected>Main Charts</option>
-                                    <option value="top-songs">Top Songs</option>
-                                    <option value="top-albums">Top Albums</option>
-                                    <option value="top-artists">Top Artists</option>
-                                    <option value="greatest-hits">Greatest Hits</option>
-                                </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400">
-                                    <i class="fa-solid fa-chevron-down text-xs"></i>
-                                </div>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-neutral-900/60 border border-neutral-800/80 p-5 rounded-2xl backdrop-blur-md">
+                    <div>
+                        <h1 class="text-xl md:text-2xl font-extrabold text-white tracking-tight">${currentChart.title}</h1>
+                        <p class="text-xs text-neutral-400 mt-0.5">${dateRangeText}</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto">
+                        <div class="relative w-full sm:w-44">
+                            <select id="main-charts-select" onchange="handleDropdownChange('main', this.value)" class="w-full bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2 rounded-xl focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
+                                <option value="" disabled selected>Main Charts</option>
+                                <option value="top-songs">Top Songs</option>
+                                <option value="top-albums">Top Albums</option>
+                                <option value="top-artists">Top Artists</option>
+                                <option value="greatest-hits">Greatest Hits</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
                             </div>
-                            <div class="relative w-full sm:w-48">
-                                <select id="genre-charts-select" onchange="handleDropdownChange('genre', this.value)" class="w-full bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2 rounded-xl focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
-                                    <option value="" disabled selected>Genre Charts</option>
-                                    <option value="top-afrobeats">Afrobeats Songs</option>
-                                    <option value="top-dance">Dance/Electronic Songs</option>
-                                    <option value="top-folk-country">Folk/Country Songs</option>
-                                    <option value="top-indie-rock">Indie/Rock Songs</option>
-                                    <option value="top-rap">Rap Songs</option>
-                                    <option value="top-rnb">Rnb/Funk Songs</option>
-                                </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400">
-                                    <i class="fa-solid fa-chevron-down text-xs"></i>
-                                </div>
+                        </div>
+                        <div class="relative w-full sm:w-48">
+                            <select id="genre-charts-select" onchange="handleDropdownChange('genre', this.value)" class="w-full bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2 rounded-xl focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
+                                <option value="" disabled selected>Genre Charts</option>
+                                <option value="top-afrobeats">Afrobeats Songs</option>
+                                <option value="top-dance">Dance/Electronic Songs</option>
+                                <option value="top-folk-country">Folk/Country Songs</option>
+                                <option value="top-indie-rock">Indie/Rock Songs</option>
+                                <option value="top-rap">Rap Songs</option>
+                                <option value="top-rnb">Rnb/Funk Songs</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="chart-table-header"><div></div><div></div><div></div><div>LW</div><div>PEAK</div><div>WEEKS</div><div>INFO</div></div>
+                <div class="chart-table-header"><div></div><div></div><div></div><div>LW</div><div>PEAK</div><div>WEEKS</div><div>INFO</div></div>
 
-                    <div class="space-y-2">
-                        ${currentEntries.length === 0 ? `<div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No chart entries found for this date (${latestDate}).</div>` : currentEntries.map((entry, idx) => {
-                            const song = db.songs.find(s => s.id === entry.songId) || { title: 'Unknown', artist: 'Unknown', cover: '' };
-                            let lwVal = '-';
-                            let peakVal = entry.rank;
-                            let weeksCount = 0;
-                            let rankHistory = [];
-                            let previousPeak = 999;
+                <div class="space-y-2">
+                    ${currentEntries.length === 0 ? `<div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-12 text-center text-neutral-500">No chart entries found for this date (${latestDate}).</div>` : currentEntries.map((entry, idx) => {
+                        const song = db.songs.find(s => s.id === entry.songId) || { title: 'Unknown', artist: 'Unknown', cover: '' };
+                        let lwVal = '-';
+                        let peakVal = entry.rank;
+                        let weeksCount = 0;
+                        let rankHistory = [];
+                        let previousPeak = 999;
 
-                            for (let i = 0; i <= currentDatesIndex && i < dates.length; i++) {
-                                const match = db.chartHistory[currentChart.id][dates[i]].find(e => e.songId === entry.songId);
-                                if (match) {
-                                    weeksCount++;
-                                    rankHistory.push(match.rank);
-                                    if (match.rank < peakVal) peakVal = match.rank;
+                        for (let i = 0; i <= currentDatesIndex && i < dates.length; i++) {
+                            const match = db.chartHistory[currentChart.id][dates[i]].find(e => e.songId === entry.songId);
+                            if (match) {
+                                weeksCount++;
+                                rankHistory.push(match.rank);
+                                if (match.rank < peakVal) peakVal = match.rank;
+                            }
+                        }
+
+                        let hasEverChartedBefore = false;
+                        for (let i = 0; i < currentDatesIndex; i++) {
+                            const pastMatch = db.chartHistory[currentChart.id][dates[i]]?.find(e => e.songId === entry.songId);
+                            if (pastMatch) {
+                                hasEverChartedBefore = true;
+                                if (pastMatch.rank < previousPeak) {
+                                    previousPeak = pastMatch.rank;
                                 }
                             }
+                        }
 
-                            let hasEverChartedBefore = false;
-                            for (let i = 0; i < currentDatesIndex; i++) {
-                                const pastMatch = db.chartHistory[currentChart.id][dates[i]]?.find(e => e.songId === entry.songId);
-                                if (pastMatch) {
-                                    hasEverChartedBefore = true;
-                                    if (pastMatch.rank < previousPeak) {
-                                        previousPeak = pastMatch.rank;
-                                    }
-                                }
-                            }
+                        const isNewPeak = hasEverChartedBefore && (entry.rank < previousPeak);
+                        const bestPeakCount = rankHistory.filter(r => r === peakVal).length;
+                        const peakDisplay = (peakVal === 1) ? `1×${bestPeakCount}` : `${peakVal}`;
 
-                            const isNewPeak = hasEverChartedBefore && (entry.rank < previousPeak);
-                            const bestPeakCount = rankHistory.filter(r => r === peakVal).length;
-                            const peakDisplay = (peakVal === 1) ? `1×${bestPeakCount}` : `${peakVal}`;
-
-                            let trendHTML = '';
-                            if (!hasEverChartedBefore) {
-                                trendHTML = '<span class="text-amber-400 text-[10px] font-black uppercase tracking-wider">NEW</span>';
-                            } else if (prevDate) {
-                                const prevMap = (historyObj[prevDate] || []).reduce((acc, cur) => { acc[cur.songId] = cur.rank; return acc; }, {});
-                                if (prevMap[entry.songId] !== undefined) {
-                                    lwVal = prevMap[entry.songId];
-                                    const diff = lwVal - entry.rank;
-                                    if (diff > 0) trendHTML = `<span class="text-emerald-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-up text-[9px]"></i> ${diff}</span>`;
-                                    else if (diff < 0) trendHTML = `<span class="text-red-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-down text-[9px]"></i> ${Math.abs(diff)}</span>`;
-                                    else trendHTML = '<span class="text-neutral-500 font-bold">-</span>';
-                                } else {
-                                    trendHTML = '<span class="text-purple-400 text-[10px] font-black uppercase tracking-wider">RE</span>';
-                                }
+                        let trendHTML = '';
+                        if (!hasEverChartedBefore) {
+                            trendHTML = '<span class="text-amber-400 text-[10px] font-black uppercase tracking-wider">NEW</span>';
+                        } else if (prevDate) {
+                            const prevMap = (historyObj[prevDate] || []).reduce((acc, cur) => { acc[cur.songId] = cur.rank; return acc; }, {});
+                            if (prevMap[entry.songId] !== undefined) {
+                                lwVal = prevMap[entry.songId];
+                                const diff = lwVal - entry.rank;
+                                if (diff > 0) trendHTML = `<span class="text-emerald-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-up text-[9px]"></i> ${diff}</span>`;
+                                else if (diff < 0) trendHTML = `<span class="text-red-500 text-[10px] font-bold flex items-center justify-center gap-0.5"><i class="fa-solid fa-arrow-down text-[9px]"></i> ${Math.abs(diff)}</span>`;
+                                else trendHTML = '<span class="text-neutral-500 font-bold">-</span>';
                             } else {
                                 trendHTML = '<span class="text-purple-400 text-[10px] font-black uppercase tracking-wider">RE</span>';
                             }
+                        } else {
+                            trendHTML = '<span class="text-purple-400 text-[10px] font-black uppercase tracking-wider">RE</span>';
+                        }
 
-                            const salesIconHTML = entry.salesIncrease ? `<span class="sales-icon">★<span class="tooltip">Song increased in sales this week</span></span>` : '';
-                            const peakIconHTML = isNewPeak ? `<span class="peak-icon"><i class="fa-solid fa-arrow-trend-up"></i><span class="tooltip">Song reached a new peak this week</span></span>` : '';
+                        const salesIconHTML = entry.salesIncrease ? `<span class="sales-icon">★<span class="tooltip">Song increased in sales this week</span></span>` : '';
+                        const peakIconHTML = isNewPeak ? `<span class="peak-icon"><i class="fa-solid fa-arrow-trend-up"></i><span class="tooltip">Song reached a new peak this week</span></span>` : '';
 
-                            const adminControls = isAdmin ? `
-                                <div class="flex items-center gap-1 bg-black/60 px-2 py-1 rounded-lg border border-neutral-800 ml-2">
-                                    <button onclick="moveChartEntryDirectly('${currentChart.id}', '${latestDate}', ${idx}, -1)" class="text-neutral-400 hover:text-white px-1 text-xs" title="Move Up"><i class="fa-solid fa-arrow-up"></i></button>
-                                    <button onclick="moveChartEntryDirectly('${currentChart.id}', '${latestDate}', ${idx}, 1)" class="text-neutral-400 hover:text-white px-1 text-xs" title="Move Down"><i class="fa-solid fa-arrow-down"></i></button>
-                                    <button onclick="removeChartEntryDirectly('${currentChart.id}', '${latestDate}', '${entry.songId}')" class="text-red-400 hover:text-red-300 px-1 text-xs" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                        const adminControls = isAdmin ? `
+                            <div class="flex items-center gap-1 bg-black/60 px-2 py-1 rounded-lg border border-neutral-800 ml-2">
+                                <button onclick="moveChartEntryDirectly('${currentChart.id}', '${latestDate}', ${idx}, -1)" class="text-neutral-400 hover:text-white px-1 text-xs" title="Move Up"><i class="fa-solid fa-arrow-up"></i></button>
+                                <button onclick="moveChartEntryDirectly('${currentChart.id}', '${latestDate}', ${idx}, 1)" class="text-neutral-400 hover:text-white px-1 text-xs" title="Move Down"><i class="fa-solid fa-arrow-down"></i></button>
+                                <button onclick="removeChartEntryDirectly('${currentChart.id}', '${latestDate}', '${entry.songId}')" class="text-red-400 hover:text-red-300 px-1 text-xs" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        ` : '';
+
+                        return `
+                            <div class="chart-row">
+                                <div class="rank-col">
+                                    <span class="text-xl font-black text-white block">${entry.rank}</span>
+                                    <span>${trendHTML}</span>
                                 </div>
-                            ` : '';
-
-                            return `
-                                <div class="chart-row">
-                                    <div class="rank-col">
-                                        <span class="text-xl font-black text-white block">${entry.rank}</span>
-                                        <span>${trendHTML}</span>
-                                    </div>
-                                    <div class="song-info-col min-w-0">
-                                        ${renderSongCover(song)}
-                                        <div class="min-w-0">
-                                            <h2 class="font-bold text-sm truncate text-white">${song.title}</h2>
-                                            <p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p>
-                                        </div>
-                                    </div>
-                                    <div class="text-right flex items-center justify-end gap-1.5 pr-2">${salesIconHTML}${peakIconHTML}</div>
-                                    <div class="text-center text-xs font-bold text-neutral-300">${lwVal}</div>
-                                    <div class="text-center text-xs font-bold text-white">${peakDisplay}</div>
-                                    <div class="text-center text-xs font-bold text-neutral-300">${weeksCount}</div>
-                                    <div class="text-right flex justify-center items-center">
-                                        <button onclick="openHistoryModal('${currentChart.id}', '${currentChart.title}', '${entry.songId}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
-                                            <i class="fa-solid fa-info text-xs"></i>
-                                        </button>
-                                        ${adminControls}
+                                <div class="song-info-col min-w-0">
+                                    ${renderSongCover(song)}
+                                    <div class="min-w-0">
+                                        <h2 class="font-bold text-sm truncate text-white">${song.title}</h2>
+                                        <p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p>
                                     </div>
                                 </div>
-                            `;
-                        }).join('')}
-                    </div>
+                                <div class="text-right flex items-center justify-end gap-1.5 pr-2">${salesIconHTML}${peakIconHTML}</div>
+                                <div class="text-center text-xs font-bold text-neutral-300">${lwVal}</div>
+                                <div class="text-center text-xs font-bold text-white">${peakDisplay}</div>
+                                <div class="text-center text-xs font-bold text-neutral-300">${weeksCount}</div>
+                                <div class="text-right flex justify-center items-center">
+                                    <button onclick="openHistoryModal('${currentChart.id}', '${currentChart.title}', '${entry.songId}', '${song.title.replace(/'/g, "\\'")}')" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-neutral-700 inline-flex items-center justify-center text-neutral-400 hover:text-white transition-colors">
+                                        <i class="fa-solid fa-info text-xs"></i>
+                                    </button>
+                                    ${adminControls}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
             `;
 
             const dropoutData = getChartDropouts(currentChart.id, latestDate);
             if (safeLen(dropoutData.dropouts) > 0) {
-                tableHTML += `
+                mainChartInnerHTML += `
                     <div class="mt-12 space-y-4">
                         <h2 class="text-2xl font-black uppercase tracking-tight text-white text-center">Dropouts</h2>
                         <div class="space-y-2">
@@ -417,8 +416,49 @@
                 `;
             }
 
-            tableHTML += `</div>`;
-            container.innerHTML = tableHTML;
+            // Wrap everything in a 2-column Grid container with the sidebar on the right
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 items-start">
+                    <div class="space-y-6 min-w-0">
+                        ${mainChartInnerHTML}
+                    </div>
+
+                    <aside class="space-y-6 hidden lg:block bg-neutral-900/40 border border-neutral-800/80 p-6 rounded-3xl sticky top-28">
+                        <h3 class="text-base font-black uppercase tracking-wider text-white border-b border-neutral-800 pb-4">
+                            This Weeks Chart Highlights
+                        </h3>
+
+                        <div class="space-y-5">
+                            <div class="flex items-center gap-4 group">
+                                <img src="https://placehold.co/100x100/1a1a1a/888888?text=VI" class="w-16 h-16 rounded-2xl object-cover bg-neutral-800 shrink-0 border border-neutral-800">
+                                <div class="min-w-0">
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block">Bullet</span>
+                                    <h4 class="font-bold text-sm text-white truncate group-hover:text-[#addedc] transition-colors">Flower In A Hurricane</h4>
+                                    <p class="text-xs text-red-400 font-medium truncate mt-0.5">Justice, Tame Impala, SZA...</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 group">
+                                <img src="https://placehold.co/100x100/1a1a1a/888888?text=Eye" class="w-16 h-16 rounded-2xl object-cover bg-neutral-800 shrink-0 border border-neutral-800">
+                                <div class="min-w-0">
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block">Bullet</span>
+                                    <h4 class="font-bold text-sm text-white truncate group-hover:text-[#addedc] transition-colors">Self Aware</h4>
+                                    <p class="text-xs text-red-400 font-medium truncate mt-0.5">Temper City</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 group">
+                                <img src="https://placehold.co/100x100/1a1a1a/888888?text=Baby" class="w-16 h-16 rounded-2xl object-cover bg-neutral-800 shrink-0 border border-neutral-800">
+                                <div class="min-w-0">
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block">Bullet</span>
+                                    <h4 class="font-bold text-sm text-white truncate group-hover:text-[#addedc] transition-colors">Babydoll</h4>
+                                    <p class="text-xs text-red-400 font-medium truncate mt-0.5">Jamie Miller</p>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            `;
         }
 
         function navigateChartDate(chartId, direction, currentDateStr) {

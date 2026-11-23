@@ -165,6 +165,7 @@
         const isAdmin = sessionStorage.getItem('ukts_admin_auth') === 'true';
 
         function handleDropdownChange(type, value) {
+            if (!value) return;
             if (type === 'main') {
                 const genreSelect = document.getElementById('genre-charts-select');
                 if (genreSelect) genreSelect.selectedIndex = 0;
@@ -172,6 +173,18 @@
                 const mainSelect = document.getElementById('main-charts-select');
                 if (mainSelect) mainSelect.selectedIndex = 0;
             }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const currentDate = urlParams.get('date');
+            
+            if (currentDate) {
+                const targetHistory = db.chartHistory[value] || {};
+                if (targetHistory[currentDate]) {
+                    window.location.href = `charts.html?chart=${value}&date=${encodeURIComponent(currentDate)}`;
+                    return;
+                }
+            }
+            
             window.location.href = `charts.html?chart=${value}`;
         }
 
@@ -416,14 +429,94 @@
                 `;
             }
 
-            // Wrap everything in a 2-column Grid container with the sidebar on the right
             container.innerHTML = `
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 items-start">
                     <div class="space-y-6 min-w-0">
                         ${mainChartInnerHTML}
                     </div>
 
-                                grid-template-columns: 60px 1fr 60px 50px 60px 50px 50px;
+                    <aside class="space-y-6 hidden lg:block sticky top-28">
+                        <div class="bg-neutral-900/40 border border-neutral-800/80 p-6 rounded-3xl space-y-6">
+                            <h3 class="text-base font-black uppercase tracking-wider text-white border-b border-neutral-800 pb-4">
+                                This Weeks Chart Highlights
+                            </h3>
+
+                            <div class="space-y-5">
+                                <div class="flex items-center gap-4 group">
+                                    <img src="https://placehold.co/100x100/1a1a1a/888888?text=VI" class="w-16 h-16 rounded-2xl object-cover bg-neutral-800 shrink-0 border border-neutral-800">
+                                    <div class="min-w-0">
+                                        <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block">Bullet</span>
+                                        <h4 class="font-bold text-sm text-white truncate group-hover:text-[#addedc] transition-colors">Flower In A Hurricane</h4>
+                                        <p class="text-xs text-red-400 font-medium truncate mt-0.5">Justice, Tame Impala, SZA...</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-4 group">
+                                    <img src="https://placehold.co/100x100/1a1a1a/888888?text=Eye" class="w-16 h-16 rounded-2xl object-cover bg-neutral-800 shrink-0 border border-neutral-800">
+                                    <div class="min-w-0">
+                                        <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block">Bullet</span>
+                                        <h4 class="font-bold text-sm text-white truncate group-hover:text-[#addedc] transition-colors">Self Aware</h4>
+                                        <p class="text-xs text-red-400 font-medium truncate mt-0.5">Temper City</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-4 group">
+                                    <img src="https://placehold.co/100x100/1a1a1a/888888?text=Baby" class="w-16 h-16 rounded-2xl object-cover bg-neutral-800 shrink-0 border border-neutral-800">
+                                    <div class="min-w-0">
+                                        <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block">Bullet</span>
+                                        <h4 class="font-bold text-sm text-white truncate group-hover:text-[#addedc] transition-colors">Babydoll</h4>
+                                        <p class="text-xs text-red-400 font-medium truncate mt-0.5">Jamie Miller</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mini Top 5 Singles Chart Preview Box -->
+                        <div class="bg-neutral-900/40 border border-neutral-800/80 rounded-3xl overflow-hidden shadow-2xl">
+                            <div class="bg-sky-500 text-black px-5 py-3.5 flex items-center justify-between font-black uppercase text-sm tracking-wider">
+                                <span>Official Singles Chart</span>
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+
+                            <div class="p-4 space-y-3.5 divide-y divide-neutral-800/60">
+                                ${(() => {
+                                    const topSongsHistory = db.chartHistory['top-songs'] || {};
+                                    // Use the currently active date if available in top-songs, else fallback to latest
+                                    const targetTopDate = topSongsHistory[latestDate] ? latestDate : Object.keys(topSongsHistory).sort((a,b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-'))).pop();
+                                    const topEntries = (topSongsHistory[targetTopDate] || []).slice(0, 5);
+
+                                    if (topEntries.length === 0) {
+                                        return `<div class="text-center py-6 text-xs text-neutral-500">No chart data available</div>`;
+                                    }
+
+                                    return topEntries.map(entry => {
+                                        const song = db.songs.find(s => s.id === entry.songId) || { title: 'Unknown', artist: 'Unknown' };
+                                        return `
+                                            <div class="pt-3.5 first:pt-0 flex items-center gap-3">
+                                                <span class="text-lg font-black text-white w-6 text-center">${entry.rank}</span>
+                                                ${renderSongCover(song, "w-11 h-11 rounded-xl object-cover bg-neutral-800 shrink-0 border border-neutral-800")}
+                                                <div class="min-w-0 flex-1">
+                                                    <h4 class="font-bold text-xs text-white truncate uppercase">${song.title}</h4>
+                                                    <p class="text-[11px] text-neutral-400 truncate">${song.artist}</p>
+                                                </div>
+                                            </div>
+                                        `;
+                                    }).join('');
+                                })()}
+                            </div>
+
+                            <div class="p-4 bg-black/40 border-t border-neutral-800/80 text-center space-y-3">
+                                <a href="charts.html?chart=top-songs&date=${encodeURIComponent(latestDate)}" class="block w-full bg-[#addedc] hover:opacity-90 text-black py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all">
+                                    View Top 75
+                                </a>
+                                <div class="text-[11px] font-bold uppercase text-neutral-400">View other charts</div>
+                                <div class="flex gap-2 justify-center">
+                                    <a href="charts.html?chart=top-albums&date=${encodeURIComponent(latestDate)}" class="bg-sky-600 hover:bg-sky-500 text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all">Albums</a>
+                                    <a href="charts.html?chart=top-artists&date=${encodeURIComponent(latestDate)}" class="bg-sky-600 hover:bg-sky-500 text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all">Artists</a>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
                 </div>
             `;
         }
@@ -486,4 +579,3 @@
     </script>
 </body>
 </html>
-

@@ -93,6 +93,7 @@
                         <button onclick="switchAdminTab('songs')" id="tab-btn-songs" class="admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-[#addedc] text-black">Songs (${db.songs.length})</button>
                         <button onclick="switchAdminTab('artists')" id="tab-btn-artists" class="admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-neutral-900 text-neutral-400 hover:text-white">Artists</button>
                         <button onclick="switchAdminTab('charts')" id="tab-btn-charts" class="admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-neutral-900 text-neutral-400 hover:text-white">Chart History</button>
+                        <button onclick="switchAdminTab('highlights')" id="tab-btn-highlights" class="admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-neutral-900 text-neutral-400 hover:text-white">Highlights</button>
                         <button onclick="switchAdminTab('news')" id="tab-btn-news" class="admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-neutral-900 text-neutral-400 hover:text-white">News</button>
                         <button onclick="switchAdminTab('upload')" id="tab-btn-upload" class="admin-tab-btn px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider bg-neutral-900 text-neutral-400 hover:text-white">Upload & Charts</button>
                     </div>
@@ -117,6 +118,7 @@
             if (tab === 'songs') container.innerHTML = renderAdminSongsTab(currentDb, currentSearchQuery);
             if (tab === 'artists') container.innerHTML = renderAdminArtistsTab(currentDb, currentSearchQuery);
             if (tab === 'charts') container.innerHTML = renderAdminChartsTab(currentDb, currentSearchQuery);
+            if (tab === 'highlights') container.innerHTML = renderAdminHighlightsTab(currentDb);
             if (tab === 'news') container.innerHTML = renderAdminNewsTab(currentDb, currentSearchQuery);
             if (tab === 'upload') container.innerHTML = renderAdminUploadTab();
         }
@@ -233,7 +235,7 @@
             const genres = genresRaw.split(/[,;]/).map(g => g.trim()).filter(Boolean);
             if (genres.length === 0) genres.push('Pop');
 
-            const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
+            const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(',').map(a => a.trim()).filter(Boolean);
             artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
             if (songId) {
@@ -273,7 +275,7 @@
             dbInstance.songs.forEach(song => {
                 if (!song.artist) return;
                 const cleaned = song.artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',');
-                cleaned.split(/,|\&/).map(a => a.trim()).forEach(artistName => {
+                cleaned.split(',').map(a => a.trim()).forEach(artistName => {
                     if (!artistName) return;
                     if (!artistMap[artistName]) {
                         artistMap[artistName] = {
@@ -470,6 +472,65 @@
                 showToast(`Deleted chart for ${dateStr}`);
                 switchAdminTab('charts');
             }
+        }
+
+        // --- HIGHLIGHTS TAB ---
+        function renderAdminHighlightsTab(dbInstance) {
+            const highlights = dbInstance.highlights || [
+                { tag: 'Bullet', songId: '' },
+                { tag: 'Bullet', songId: '' },
+                { tag: 'Bullet', songId: '' }
+            ];
+            const sortedSongs = [...(dbInstance.songs || [])].sort((a, b) => a.title.localeCompare(b.title));
+
+            return `
+                <div class="space-y-6 max-w-2xl">
+                    <div>
+                        <h3 class="text-xl font-bold uppercase">This Weeks Chart Highlights</h3>
+                        <p class="text-xs text-neutral-400">Select up to 3 songs and custom badges to display in the sidebar on the Charts page.</p>
+                    </div>
+
+                    <form onsubmit="saveAdminHighlights(event)" class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-5">
+                        ${[0, 1, 2].map(idx => {
+                            const item = highlights[idx] || { tag: 'Bullet', songId: '' };
+                            const songOptions = `<option value="">-- None / Hide Slot --</option>` + sortedSongs.map(s => 
+                                `<option value="${s.id}" ${s.id === item.songId ? 'selected' : ''}>${s.title} - ${s.artist}</option>`
+                            ).join('');
+
+                            return `
+                                <div class="bg-black/50 border border-neutral-800 p-4 rounded-xl space-y-3">
+                                    <span class="text-xs font-black uppercase text-[#addedc]">Highlight Slot #${idx + 1}</span>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                        <div>
+                                            <label class="block text-[10px] uppercase text-neutral-400 mb-1">Badge Label</label>
+                                            <input type="text" id="highlight-tag-${idx}" value="${item.tag}" placeholder="e.g. Bullet, Hot Shot" class="w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]">
+                                        </div>
+                                        <div class="sm:col-span-2">
+                                            <label class="block text-[10px] uppercase text-neutral-400 mb-1">Select Song</label>
+                                            <select id="highlight-song-${idx}" class="w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]">
+                                                ${songOptions}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+
+                        <button type="submit" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Save Highlights</button>
+                    </form>
+                </div>
+            `;
+        }
+
+        function saveAdminHighlights(e) {
+            e.preventDefault();
+            const db = getDB();
+            db.highlights = [0, 1, 2].map(idx => ({
+                tag: document.getElementById(`highlight-tag-${idx}`).value.trim() || 'Bullet',
+                songId: document.getElementById(`highlight-song-${idx}`).value
+            }));
+            saveDB(db);
+            showToast('Chart highlights updated!');
         }
 
         // --- NEWS TAB ---
@@ -777,7 +838,7 @@
                     const genres = genresRaw.split(';').map(g => g.trim()).filter(Boolean);
                     if (genres.length === 0) genres.push('Pop');
 
-                    const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
+                    const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(',').map(a => a.trim()).filter(Boolean);
                     artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
                     let existingSong = db.songs.find(s => 

@@ -235,7 +235,7 @@
             const genres = genresRaw.split(/[,;]/).map(g => g.trim()).filter(Boolean);
             if (genres.length === 0) genres.push('Pop');
 
-            const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(',').map(a => a.trim()).filter(Boolean);
+            const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
             artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
             if (songId) {
@@ -275,7 +275,7 @@
             dbInstance.songs.forEach(song => {
                 if (!song.artist) return;
                 const cleaned = song.artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',');
-                cleaned.split(',').map(a => a.trim()).forEach(artistName => {
+                cleaned.split(/,|\&/).map(a => a.trim()).forEach(artistName => {
                     if (!artistName) return;
                     if (!artistMap[artistName]) {
                         artistMap[artistName] = {
@@ -476,7 +476,10 @@
 
         // --- HIGHLIGHTS TAB ---
         function renderAdminHighlightsTab(dbInstance) {
-            const highlights = dbInstance.highlights || [
+            const selectedCat = document.getElementById('admin-highlights-cat-select')?.value || 'top-songs';
+            
+            if (!dbInstance.highlights) dbInstance.highlights = {};
+            const highlights = dbInstance.highlights[selectedCat] || [
                 { tag: 'Bullet', songId: '' },
                 { tag: 'Bullet', songId: '' },
                 { tag: 'Bullet', songId: '' }
@@ -485,9 +488,14 @@
 
             return `
                 <div class="space-y-6 max-w-2xl">
-                    <div>
-                        <h3 class="text-xl font-bold uppercase">This Weeks Chart Highlights</h3>
-                        <p class="text-xs text-neutral-400">Select up to 3 songs and custom badges to display in the sidebar on the Charts page.</p>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-neutral-900 border border-neutral-800 p-6 rounded-2xl">
+                        <div>
+                            <h3 class="text-xl font-bold uppercase">Chart Highlights Manager</h3>
+                            <p class="text-xs text-neutral-400">Choose a chart category and assign up to 3 custom highlights for its sidebar.</p>
+                        </div>
+                        <select id="admin-highlights-cat-select" onchange="switchAdminTab('highlights')" class="bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
+                            ${chartCategories.map(c => `<option value="${c.id}" ${c.id === selectedCat ? 'selected' : ''}>${c.title}</option>`).join('')}
+                        </select>
                     </div>
 
                     <form onsubmit="saveAdminHighlights(event)" class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-5">
@@ -525,12 +533,16 @@
         function saveAdminHighlights(e) {
             e.preventDefault();
             const db = getDB();
-            db.highlights = [0, 1, 2].map(idx => ({
+            const selectedCat = document.getElementById('admin-highlights-cat-select')?.value || 'top-songs';
+
+            if (!db.highlights) db.highlights = {};
+            db.highlights[selectedCat] = [0, 1, 2].map(idx => ({
                 tag: document.getElementById(`highlight-tag-${idx}`).value.trim() || 'Bullet',
                 songId: document.getElementById(`highlight-song-${idx}`).value
             }));
+
             saveDB(db);
-            showToast('Chart highlights updated!');
+            showToast(`Highlights updated for ${selectedCat}!`);
         }
 
         // --- NEWS TAB ---
@@ -838,7 +850,7 @@
                     const genres = genresRaw.split(';').map(g => g.trim()).filter(Boolean);
                     if (genres.length === 0) genres.push('Pop');
 
-                    const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(',').map(a => a.trim()).filter(Boolean);
+                    const artistNames = artist.replace(/;/g, ',').replace(/\bfeat\.?/gi, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
                     artistNames.forEach(aName => getOrAssignArtistCode(aName, db));
 
                     let existingSong = db.songs.find(s => 
@@ -879,7 +891,6 @@
 
                 saveDB(db);
                 
-                // Stay on the CSV Importer page with the selected chart/date preserved for batch uploading
                 fileInput.value = '';
                 const songsTabBtn = document.getElementById('tab-btn-songs');
                 if (songsTabBtn) {

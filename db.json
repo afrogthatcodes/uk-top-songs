@@ -9033,6 +9033,28 @@
           "tag": "Biggest Sales Increase",
           "songId": "1792622556063"
         }
+      ],
+      "09/01/2026": [
+        {
+          "tag": "New Peak",
+          "songId": "1792887123980"
+        },
+        {
+          "tag": "Re-Entry",
+          "songId": "1793497130754"
+        },
+        {
+          "tag": "Debut",
+          "songId": "1793497130772"
+        },
+        {
+          "tag": "Debut",
+          "songId": "1792887124065"
+        },
+        {
+          "tag": "Biggest Climb",
+          "songId": "1792887124106"
+        }
       ]
     }
   }

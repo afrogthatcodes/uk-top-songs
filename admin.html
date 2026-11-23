@@ -494,9 +494,11 @@
             let highlights = dbInstance.highlights[selectedCat][selectedDate];
             if (!highlights || !Array.isArray(highlights)) {
                 highlights = [
-                    { tag: 'Biggest Climb', songId: '' },
                     { tag: 'Debut', songId: '' },
-                    { tag: 'Re-Entry', songId: '' }
+                    { tag: 'Re-Entry', songId: '' },
+                    { tag: 'New Peak', songId: '' },
+                    { tag: 'Biggest Climb', songId: '' },
+                    { tag: 'Biggest Sales Increase', songId: '' }
                 ];
             }
             const sortedSongs = [...(dbInstance.songs || [])].sort((a, b) => a.title.localeCompare(b.title));
@@ -551,7 +553,7 @@
                                         <div class="highlight-slot-row bg-black/50 border border-neutral-800 p-4 rounded-xl space-y-3 relative group">
                                             <div class="flex justify-between items-center">
                                                 <div class="flex items-center gap-2">
-                                                    <span class="slot-number-label text-xs font-black uppercase text-[#addedc]">Slot #${idx + 1}</span>
+                                                    <span class="slot-number-label text-xs font-black uppercase text-[#addedc]">SLOT #${idx + 1}</span>
                                                     <div class="flex items-center gap-1 ml-2 bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800">
                                                         <button type="button" onclick="moveHighlightRow(this, -1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Up"><i class="fa-solid fa-arrow-up"></i></button>
                                                         <button type="button" onclick="moveHighlightRow(this, 1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Down"><i class="fa-solid fa-arrow-down"></i></button>
@@ -562,7 +564,7 @@
                                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                                 <div>
                                                     <label class="block text-[10px] uppercase text-neutral-400 mb-1">Badge Label</label>
-                                                    <input type="text" class="highlight-tag-input w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]" value="${item.tag || 'Bullet'}" placeholder="e.g. Biggest Climb">
+                                                    <input type="text" class="highlight-tag-input w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]" value="${item.tag || 'Bullet'}" placeholder="e.g. Debut">
                                                 </div>
                                                 <div class="sm:col-span-2">
                                                     <label class="block text-[10px] uppercase text-neutral-400 mb-1">Select Song</label>
@@ -621,7 +623,7 @@
             const rows = document.querySelectorAll('.highlight-slot-row');
             rows.forEach((row, idx) => {
                 const label = row.querySelector('.slot-number-label');
-                if (label) label.textContent = `Slot #${idx + 1}`;
+                if (label) label.textContent = `SLOT #${idx + 1}`;
             });
         }
 
@@ -639,7 +641,7 @@
             div.innerHTML = `
                 <div class="flex justify-between items-center">
                     <div class="flex items-center gap-2">
-                        <span class="slot-number-label text-xs font-black uppercase text-[#addedc]">Slot #1</span>
+                        <span class="slot-number-label text-xs font-black uppercase text-[#addedc]">SLOT #1</span>
                         <div class="flex items-center gap-1 ml-2 bg-neutral-900 px-1.5 py-0.5 rounded border border-neutral-800">
                             <button type="button" onclick="moveHighlightRow(this, -1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Up"><i class="fa-solid fa-arrow-up"></i></button>
                             <button type="button" onclick="moveHighlightRow(this, 1)" class="text-neutral-400 hover:text-white px-1.5 text-[10px]" title="Move Down"><i class="fa-solid fa-arrow-down"></i></button>
@@ -650,7 +652,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                         <label class="block text-[10px] uppercase text-neutral-400 mb-1">Badge Label</label>
-                        <input type="text" class="highlight-tag-input w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]" value="Bullet" placeholder="e.g. Biggest Climb">
+                        <input type="text" class="highlight-tag-input w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]" value="Bullet" placeholder="e.g. Debut">
                     </div>
                     <div class="sm:col-span-2">
                         <label class="block text-[10px] uppercase text-neutral-400 mb-1">Select Song</label>

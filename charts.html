@@ -47,13 +47,13 @@
             height: 65px; 
             border: 1px solid var(--border-color);
             transition: border-color 0.2s;
-            overflow: visible !important; /* <--- Fixed: Allows tooltips to overflow cleanly without clipping */
+            overflow: visible !important;
             position: relative;
             z-index: 1;
         }
 
         .chart-row:hover {
-            z-index: 10; /* Bring hovered row to front */
+            z-index: 10;
         }
 
         .dropout-row {
@@ -250,46 +250,17 @@
             let mainChartInnerHTML = `
                 ${adminBanner}
 
-                <div class="flex justify-center">
-                    <div onclick="document.getElementById('native-date-picker').showPicker ? document.getElementById('native-date-picker').showPicker() : document.getElementById('native-date-picker').focus()" class="bg-neutral-900 border border-neutral-800 hover:border-neutral-600 cursor-pointer rounded-full px-5 py-2 w-52 justify-between flex items-center shadow-xl relative">
-                        <button type="button" onclick="event.stopPropagation(); navigateChartDate('${currentChart.id}', -1, '${latestDate}')" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-chevron-left text-xs"></i></button>
-                        <div class="flex items-center gap-2 text-sky-400 font-bold text-xs"><span>${latestDate}</span><i class="fa-regular fa-calendar text-xs"></i></div>
-                        <button type="button" onclick="event.stopPropagation(); navigateChartDate('${currentChart.id}', 1, '${latestDate}')" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-chevron-right text-xs"></i></button>
-                        <input type="date" id="native-date-picker" value="${isoDateStr}" onchange="handleDateInputPick('${currentChart.id}', this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
-                    </div>
-                </div>
-
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-neutral-900/60 border border-neutral-800/80 p-5 rounded-2xl backdrop-blur-md">
                     <div>
                         <h1 class="text-xl md:text-2xl font-extrabold text-white tracking-tight">${currentChart.title}</h1>
                         <p class="text-xs text-neutral-400 mt-0.5">${dateRangeText}</p>
                     </div>
-                    <div class="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto">
-                        <div class="relative w-full sm:w-44">
-                            <select id="main-charts-select" onchange="handleDropdownChange('main', this.value)" class="w-full bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2 rounded-xl focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
-                                <option value="" disabled selected>Main Charts</option>
-                                <option value="top-songs">Top Songs</option>
-                                <option value="top-albums">Top Albums</option>
-                                <option value="top-artists">Top Artists</option>
-                                <option value="greatest-hits">Greatest Hits</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
-                        </div>
-                        <div class="relative w-full sm:w-48">
-                            <select id="genre-charts-select" onchange="handleDropdownChange('genre', this.value)" class="w-full bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2 rounded-xl focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
-                                <option value="" disabled selected>Genre Charts</option>
-                                <option value="top-afrobeats">Afrobeats Songs</option>
-                                <option value="top-dance">Dance/Electronic Songs</option>
-                                <option value="top-folk-country">Folk/Country Songs</option>
-                                <option value="top-indie-rock">Indie/Rock Songs</option>
-                                <option value="top-rap">Rap Songs</option>
-                                <option value="top-rnb">Rnb/Funk Songs</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
+                    <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+                        <div onclick="document.getElementById('native-date-picker').showPicker ? document.getElementById('native-date-picker').showPicker() : document.getElementById('native-date-picker').focus()" class="bg-neutral-900 border border-neutral-700 hover:border-neutral-500 cursor-pointer rounded-xl px-4 py-2 w-full sm:w-48 justify-between flex items-center shadow-xl relative">
+                            <button type="button" onclick="event.stopPropagation(); navigateChartDate('${currentChart.id}', -1, '${latestDate}')" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                            <div class="flex items-center gap-2 text-sky-400 font-bold text-xs"><span>${latestDate}</span><i class="fa-regular fa-calendar text-xs"></i></div>
+                            <button type="button" onclick="event.stopPropagation(); navigateChartDate('${currentChart.id}', 1, '${latestDate}')" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                            <input type="date" id="native-date-picker" value="${isoDateStr}" onchange="handleDateInputPick('${currentChart.id}', this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
                         </div>
                     </div>
                 </div>
@@ -445,40 +416,80 @@
                     </div>
 
                     <aside class="space-y-6 hidden lg:block sticky top-28">
-    <div class="bg-neutral-900/40 border border-neutral-800/80 p-6 rounded-3xl space-y-6 max-h-[80vh] overflow-y-auto">
-        <h3 class="text-base font-black uppercase tracking-wider text-white border-b border-neutral-800 pb-4">
-            Chart Highlights
-        </h3>
+                        <div class="bg-neutral-900/40 border border-neutral-800/80 p-6 rounded-3xl space-y-6 max-h-[80vh] overflow-y-auto">
+                            <h3 class="text-base font-black uppercase tracking-wider text-white border-b border-neutral-800 pb-4">
+                                Chart Highlights
+                            </h3>
 
-        <div class="space-y-5">
-            ${(() => {
-                const catHighlightsObj = (db.highlights && db.highlights[currentChart.id]) || (db.highlights && db.highlights['top-songs']) || {};
-                const weekHighlights = catHighlightsObj[latestDate] || Object.values(catHighlightsObj).pop() || [];
-                const activeHighlights = weekHighlights.filter(h => h && h.songId);
-                
-                if (activeHighlights.length === 0) {
-                    return `<p class="text-xs text-neutral-500">No highlights set for this week yet.</p>`;
-                }
+                            <div class="space-y-5">
+                                ${(() => {
+                                    const catHighlightsObj = (db.highlights && db.highlights[currentChart.id]) || (db.highlights && db.highlights['top-songs']) || {};
+                                    const weekHighlights = catHighlightsObj[latestDate] || Object.values(catHighlightsObj).pop() || [];
+                                    const activeHighlights = weekHighlights.filter(h => h && h.songId);
+                                    
+                                    if (activeHighlights.length === 0) {
+                                        return `<p class="text-xs text-neutral-500">No highlights set for this week yet.</p>`;
+                                    }
 
-                return activeHighlights.map(item => {
-                    const song = db.songs.find(s => s.id === item.songId);
-                    if (!song) return '';
+                                    return activeHighlights.map(item => {
+                                        const song = db.songs.find(s => s.id === item.songId);
+                                        if (!song) return '';
+                                        
+                                        const artistNames = song.artist.replace(/;/g, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
+                                        const formattedArtistsHTML = artistNames.map(aName => 
+                                            `<a href="artist.html?name=${encodeURIComponent(aName)}" class="text-[#addedc] hover:underline font-medium">${aName}</a>`
+                                        ).join(', ');
 
-                    return `
-                        <div class="flex items-center gap-4 group">
-                            ${renderSongCover(song, "w-16 h-16 rounded-2xl object-cover bg-neutral-800 shrink-0 border border-neutral-800")}
-                            <div class="min-w-0">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block">${item.tag}</span>
-                                <h4 class="font-bold text-sm text-white truncate group-hover:text-[#addedc] transition-colors">${song.title}</h4>
-                                <p class="text-xs text-neutral-400 truncate mt-0.5">${formatArtists(song.artist)}</p>
+                                        return `
+                                            <div class="flex items-center gap-4 group">
+                                                ${renderSongCover(song, "w-16 h-16 rounded-2xl object-cover bg-neutral-800 shrink-0 border border-neutral-800")}
+                                                <div class="min-w-0">
+                                                    <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block">${item.tag}</span>
+                                                    <h4 class="font-bold text-sm text-white truncate group-hover:text-[#addedc] transition-colors">${song.title}</h4>
+                                                    <p class="text-xs text-neutral-400 truncate mt-0.5">${formatArtists(song.artist)}</p>
+                                                </div>
+                                            </div>
+                                        `;
+                                    }).join('');
+                                })()}
                             </div>
                         </div>
-                    `;
-                }).join('');
-            })()}
-        </div>
-    </div>
-</aside>
+
+                        <!-- VIEW MORE BOX -->
+                        <div class="bg-neutral-900/40 border border-neutral-800/80 p-6 rounded-3xl space-y-4">
+                            <h3 class="text-base font-black uppercase tracking-wider text-white border-b border-neutral-800 pb-3">
+                                View More
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="relative w-full">
+                                    <select id="main-charts-select" onchange="handleDropdownChange('main', this.value)" class="w-full bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2.5 rounded-xl focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
+                                        <option value="" disabled selected>Main Charts</option>
+                                        <option value="top-songs">Top Songs</option>
+                                        <option value="top-albums">Top Albums</option>
+                                        <option value="top-artists">Top Artists</option>
+                                        <option value="greatest-hits">Greatest Hits</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400">
+                                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                                    </div>
+                                </div>
+                                <div class="relative w-full">
+                                    <select id="genre-charts-select" onchange="handleDropdownChange('genre', this.value)" class="w-full bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-2.5 rounded-xl focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
+                                        <option value="" disabled selected>Genre Charts</option>
+                                        <option value="top-afrobeats">Afrobeats Songs</option>
+                                        <option value="top-dance">Dance/Electronic Songs</option>
+                                        <option value="top-folk-country">Folk/Country Songs</option>
+                                        <option value="top-indie-rock">Indie/Rock Songs</option>
+                                        <option value="top-rap">Rap Songs</option>
+                                        <option value="top-rnb">Rnb/Funk Songs</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400">
+                                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
                 </div>
             `;
         }
@@ -541,5 +552,3 @@
     </script>
 </body>
 </html>
-
-

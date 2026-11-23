@@ -3918,33 +3918,33 @@
       "code": "UKTS-354",
       "title": "HELICOPTER",
       "artist": "A$AP Rocky",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": ""
+      "cover": "https://cdn.sonemic.net/i/600/w/0367e21675b8a2de12e102f2ca1a535b/14162206/a_ap-rocky-helicopter-Cover-Art.jpg"
     },
     {
       "id": "1793505647200",
       "code": "UKTS-355",
       "title": "STAY HERE 4 LIFE",
       "artist": "A$AP Rocky feat. Brent Faiyaz",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": ""
+      "cover": "https://cdn.sonemic.net/i/600/w/4f9dae403a2653c84b9393d8df9f0165/14172231/a_ap-rocky-dont-be-dumb-Cover-Art.jpg"
     },
     {
       "id": "1793505647207",
       "code": "UKTS-356",
       "title": "STOLE YA FLOW",
       "artist": "A$AP Rocky",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": ""
+      "cover": "https://cdn.sonemic.net/i/600/w/4f9dae403a2653c84b9393d8df9f0165/14172231/a_ap-rocky-dont-be-dumb-Cover-Art.jpg"
     },
     {
       "id": "1793505647211",
@@ -3973,11 +3973,11 @@
       "code": "UKTS-359",
       "title": "Opening Night",
       "artist": "Arctic Monkeys",
-      "album": "",
+      "album": "Single",
       "genres": [
         "Pop"
       ],
-      "cover": ""
+      "cover": "https://cdn.sonemic.net/i/600/w/14298e02b476b9faa26692513698c655/14195629/arctic-monkeys-opening-night-Cover-Art.png"
     },
     {
       "id": "1793507030168",
@@ -9098,28 +9098,6 @@
         {
           "tag": "Debut",
           "songId": "1793505647188"
-        }
-      ],
-      "30/01/2026": [
-        {
-          "tag": "Debut",
-          "songId": "1793507030122"
-        },
-        {
-          "tag": "Debut",
-          "songId": "1793507030141"
-        },
-        {
-          "tag": "New Peak",
-          "songId": "1792622556053"
-        },
-        {
-          "tag": "Re-Entry",
-          "songId": "1792887124063"
-        },
-        {
-          "tag": "Biggest Climb",
-          "songId": "1793497130816"
         }
       ]
     }

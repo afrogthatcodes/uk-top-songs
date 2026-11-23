@@ -9014,12 +9014,12 @@
     "top-songs": {
       "02/01/2026": [
         {
-          "tag": "Biggest Climb",
-          "songId": "1792622556055"
-        },
-        {
           "tag": "Re-Entry",
           "songId": "1792887123980"
+        },
+        {
+          "tag": "Biggest Climb",
+          "songId": "1792622556055"
         },
         {
           "tag": "New Peak",
@@ -9054,6 +9054,28 @@
         {
           "tag": "Biggest Climb",
           "songId": "1792887124106"
+        }
+      ],
+      "16/01/2026": [
+        {
+          "tag": "New Peak",
+          "songId": "1792887123932"
+        },
+        {
+          "tag": "Debut",
+          "songId": "1792887123950"
+        },
+        {
+          "tag": "New Peak",
+          "songId": "1792887123993"
+        },
+        {
+          "tag": "Biggest Climb",
+          "songId": "1792887123979"
+        },
+        {
+          "tag": "Climb",
+          "songId": "1792887124092"
         }
       ]
     }

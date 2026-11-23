@@ -463,11 +463,6 @@
                 return activeHighlights.map(item => {
                     const song = db.songs.find(s => s.id === item.songId);
                     if (!song) return '';
-                    
-                    const artistNames = song.artist.replace(/;/g, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
-                    const formattedArtistsHTML = artistNames.map(aName => 
-                        `<a href="artist.html?name=${encodeURIComponent(aName)}" class="text-[#addedc] hover:underline font-medium">${aName}</a>`
-                    ).join(', ');
 
                     return `
                         <div class="flex items-center gap-4 group">
@@ -475,7 +470,7 @@
                             <div class="min-w-0">
                                 <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block">${item.tag}</span>
                                 <h4 class="font-bold text-sm text-white truncate group-hover:text-[#addedc] transition-colors">${song.title}</h4>
-                                <p class="text-xs truncate mt-0.5">${formattedArtistsHTML}</p>
+                                <p class="text-xs truncate mt-0.5">${formatArtists(song.artist)}</p>
                             </div>
                         </div>
                     `;
@@ -546,3 +541,4 @@
     </script>
 </body>
 </html>
+

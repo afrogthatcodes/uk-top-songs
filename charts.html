@@ -438,7 +438,7 @@
                     <aside class="space-y-6 hidden lg:block sticky top-28">
     <div class="bg-neutral-900/40 border border-neutral-800/80 p-6 rounded-3xl space-y-6 max-h-[80vh] overflow-y-auto">
         <h3 class="text-base font-black uppercase tracking-wider text-white border-b border-neutral-800 pb-4">
-            This Weeks Chart Highlights
+            Chart Highlights
         </h3>
 
         <div class="space-y-5">
@@ -455,10 +455,10 @@
                     const song = db.songs.find(s => s.id === item.songId);
                     if (!song) return '';
                     
-                    // Format artist names as clickable links in pale blue (#addedc)
+                    // Format artist names as clickable links pointing directly to their artist page
                     const artistNames = song.artist.replace(/;/g, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
                     const formattedArtistsHTML = artistNames.map(aName => 
-                        `<a href="artists.html?search=${encodeURIComponent(aName)}" class="text-[#addedc] hover:underline font-medium">${aName}</a>`
+                        `<a href="artists.html?artist=${encodeURIComponent(aName)}" class="text-[#addedc] hover:underline font-medium">${aName}</a>`
                     ).join(', ');
 
                     return `
@@ -538,5 +538,6 @@
     </script>
 </body>
 </html>
+
 
 

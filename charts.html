@@ -43,9 +43,11 @@
             display: grid;
             grid-template-columns: 60px 1fr 60px 50px 60px 50px 50px;
             align-items: center;
-            padding: 10px 16px;
+            padding: 0 16px;
+            height: 72px; /* <--- Fixes every row to exactly 72px */
             border: 1px solid var(--border-color);
             transition: border-color 0.2s;
+            overflow: hidden; /* <--- Prevents any content overflow */
         }
 
         .dropout-row {
@@ -56,6 +58,7 @@
             grid-template-columns: 60px 1fr 60px 60px 50px;
             align-items: center;
             padding: 12px 16px;
+            height: 72px; /* <--- Fixes every row to exactly 72px */
             border: 1px solid var(--border-color);
             transition: border-color 0.2s;
         }
@@ -538,6 +541,7 @@
     </script>
 </body>
 </html>
+
 
 
 

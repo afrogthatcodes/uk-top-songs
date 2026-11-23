@@ -9009,5 +9009,23 @@
     "Madonna": "UKTA-196",
     "BLACKPINK": "UKTA-197"
   },
-  "artists": {}
+  "artists": {},
+  "highlights": {
+    "top-songs": {
+      "02/01/2026": [
+        {
+          "tag": "Biggest Climb",
+          "songId": "1792622556055"
+        },
+        {
+          "tag": "Debut",
+          "songId": "1792887124090"
+        },
+        {
+          "tag": "Re-Entry",
+          "songId": "1792887123980"
+        }
+      ]
+    }
+  }
 }

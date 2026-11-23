@@ -436,7 +436,7 @@
                     </div>
 
                     <aside class="space-y-6 hidden lg:block sticky top-28">
-    <div class="bg-neutral-900/40 border border-neutral-800/80 p-6 rounded-3xl space-y-6">
+    <div class="bg-neutral-900/40 border border-neutral-800/80 p-6 rounded-3xl space-y-6 max-h-[80vh] overflow-y-auto">
         <h3 class="text-base font-black uppercase tracking-wider text-white border-b border-neutral-800 pb-4">
             This Weeks Chart Highlights
         </h3>
@@ -444,7 +444,6 @@
         <div class="space-y-5">
             ${(() => {
                 const catHighlightsObj = (db.highlights && db.highlights[currentChart.id]) || (db.highlights && db.highlights['top-songs']) || {};
-                // Fallback to active date highlights, or the most recent available week's highlights
                 const weekHighlights = catHighlightsObj[latestDate] || Object.values(catHighlightsObj).pop() || [];
                 const activeHighlights = weekHighlights.filter(h => h && h.songId);
                 
@@ -455,13 +454,20 @@
                 return activeHighlights.map(item => {
                     const song = db.songs.find(s => s.id === item.songId);
                     if (!song) return '';
+                    
+                    // Format artist names as clickable links in pale blue (#addedc)
+                    const artistNames = song.artist.replace(/;/g, ',').split(/,|\&/).map(a => a.trim()).filter(Boolean);
+                    const formattedArtistsHTML = artistNames.map(aName => 
+                        `<a href="artists.html?search=${encodeURIComponent(aName)}" class="text-[#addedc] hover:underline font-medium">${aName}</a>`
+                    ).join(', ');
+
                     return `
                         <div class="flex items-center gap-4 group">
                             ${renderSongCover(song, "w-16 h-16 rounded-2xl object-cover bg-neutral-800 shrink-0 border border-neutral-800")}
                             <div class="min-w-0">
                                 <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block">${item.tag}</span>
                                 <h4 class="font-bold text-sm text-white truncate group-hover:text-[#addedc] transition-colors">${song.title}</h4>
-                                <p class="text-xs text-red-400 font-medium truncate mt-0.5">${song.artist}</p>
+                                <p class="text-xs truncate mt-0.5">${formattedArtistsHTML}</p>
                             </div>
                         </div>
                     `;
@@ -532,4 +538,5 @@
     </script>
 </body>
 </html>
+
 

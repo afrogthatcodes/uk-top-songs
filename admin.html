@@ -475,75 +475,124 @@
         }
 
         // --- HIGHLIGHTS TAB ---
-        function renderAdminHighlightsTab(dbInstance) {
-            const selectedCat = document.getElementById('admin-highlights-cat-select')?.value || 'top-songs';
-            
-            if (!dbInstance.highlights) dbInstance.highlights = {};
-            const highlights = dbInstance.highlights[selectedCat] || [
-                { tag: 'Bullet', songId: '' },
-                { tag: 'Bullet', songId: '' },
-                { tag: 'Bullet', songId: '' }
-            ];
-            const sortedSongs = [...(dbInstance.songs || [])].sort((a, b) => a.title.localeCompare(b.title));
+function renderAdminHighlightsTab(dbInstance) {
+    const selectedCat = document.getElementById('admin-highlights-cat-select')?.value || 'top-songs';
+    
+    // Get available dates for this chart category
+    const historyObj = (dbInstance.chartHistory && dbInstance.chartHistory[selectedCat]) || {};
+    const dates = Object.keys(historyObj).sort((a,b) => new Date(b.split('/').reverse().join('-')) - new Date(a.split('/').reverse().join('-')));
+    
+    const selectedDate = document.getElementById('admin-highlights-date-select')?.value || dates[0] || '';
 
-            return `
-                <div class="space-y-6 max-w-2xl">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-neutral-900 border border-neutral-800 p-6 rounded-2xl">
-                        <div>
-                            <h3 class="text-xl font-bold uppercase">Chart Highlights Manager</h3>
-                            <p class="text-xs text-neutral-400">Choose a chart category and assign up to 3 custom highlights for its sidebar.</p>
-                        </div>
-                        <select id="admin-highlights-cat-select" onchange="switchAdminTab('highlights')" class="bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
+    if (!dbInstance.highlights) dbInstance.highlights = {};
+    if (!dbInstance.highlights[selectedCat]) dbInstance.highlights[selectedCat] = {};
+    
+    const highlights = dbInstance.highlights[selectedCat][selectedDate] || [
+        { tag: 'Bullet', songId: '' },
+        { tag: 'Bullet', songId: '' },
+        { tag: 'Bullet', songId: '' }
+    ];
+    const sortedSongs = [...(dbInstance.songs || [])].sort((a, b) => a.title.localeCompare(b.title));
+
+    let isoDate = '';
+    if (selectedDate) {
+        const [d, m, y] = selectedDate.split('/');
+        isoDate = `${y}-${m}-${d}`;
+    }
+
+    return `
+        <div class="space-y-6 max-w-2xl">
+            <div class="flex flex-col gap-4 bg-neutral-900 border border-neutral-800 p-6 rounded-2xl">
+                <div>
+                    <h3 class="text-xl font-bold uppercase">Chart Highlights Manager</h3>
+                    <p class="text-xs text-neutral-400">Choose a chart category and specific week date to customize its sidebar highlights.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] uppercase text-neutral-400 mb-1">Chart Category</label>
+                        <select id="admin-highlights-cat-select" onchange="switchAdminTab('highlights')" class="w-full bg-black border border-neutral-700 px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
                             ${chartCategories.map(c => `<option value="${c.id}" ${c.id === selectedCat ? 'selected' : ''}>${c.title}</option>`).join('')}
                         </select>
                     </div>
+                    <div>
+                        <label class="block text-[10px] uppercase text-neutral-400 mb-1">Chart Week Date</label>
+                        <div onclick="const p = document.getElementById('admin-highlights-native-picker'); if(p.showPicker) p.showPicker(); else p.focus();" class="bg-black border border-neutral-700 hover:border-neutral-500 cursor-pointer rounded-xl px-4 py-2.5 flex items-center justify-between text-xs font-mono text-sky-400 relative">
+                            <span id="admin-highlights-date-display">${selectedDate || 'Select Date'}</span>
+                            <i class="fa-regular fa-calendar"></i>
+                            <input type="date" id="admin-highlights-native-picker" value="${isoDate}" onchange="handleHighlightsDatePick(this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
+                        </div>
+                        <input type="hidden" id="admin-highlights-date-select" value="${selectedDate}">
+                    </div>
+                </div>
+            </div>
 
-                    <form onsubmit="saveAdminHighlights(event)" class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-5">
-                        ${[0, 1, 2].map(idx => {
-                            const item = highlights[idx] || { tag: 'Bullet', songId: '' };
-                            const songOptions = `<option value="">-- None / Hide Slot --</option>` + sortedSongs.map(s => 
-                                `<option value="${s.id}" ${s.id === item.songId ? 'selected' : ''}>${s.title} - ${s.artist}</option>`
-                            ).join('');
+            ${selectedDate ? `
+                <form onsubmit="saveAdminHighlights(event)" class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-5">
+                    ${[0, 1, 2].map(idx => {
+                        const item = highlights[idx] || { tag: 'Bullet', songId: '' };
+                        const songOptions = `<option value="">-- None / Hide Slot --</option>` + sortedSongs.map(s => 
+                            `<option value="${s.id}" ${s.id === item.songId ? 'selected' : ''}>${s.title} - ${s.artist}</option>`
+                        ).join('');
 
-                            return `
-                                <div class="bg-black/50 border border-neutral-800 p-4 rounded-xl space-y-3">
-                                    <span class="text-xs font-black uppercase text-[#addedc]">Highlight Slot #${idx + 1}</span>
-                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                        <div>
-                                            <label class="block text-[10px] uppercase text-neutral-400 mb-1">Badge Label</label>
-                                            <input type="text" id="highlight-tag-${idx}" value="${item.tag}" placeholder="e.g. Bullet, Hot Shot" class="w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]">
-                                        </div>
-                                        <div class="sm:col-span-2">
-                                            <label class="block text-[10px] uppercase text-neutral-400 mb-1">Select Song</label>
-                                            <select id="highlight-song-${idx}" class="w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]">
-                                                ${songOptions}
-                                            </select>
-                                        </div>
+                        return `
+                            <div class="bg-black/50 border border-neutral-800 p-4 rounded-xl space-y-3">
+                                <span class="text-xs font-black uppercase text-[#addedc]">Highlight Slot #${idx + 1}</span>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <div>
+                                        <label class="block text-[10px] uppercase text-neutral-400 mb-1">Badge Label</label>
+                                        <input type="text" id="highlight-tag-${idx}" value="${item.tag}" placeholder="e.g. Bullet, Hot Shot" class="w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]">
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <label class="block text-[10px] uppercase text-neutral-400 mb-1">Select Song</label>
+                                        <select id="highlight-song-${idx}" class="w-full bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-lg text-xs text-white focus:outline-none focus:border-[#addedc]">
+                                            ${songOptions}
+                                        </select>
                                     </div>
                                 </div>
-                            `;
-                        }).join('')}
+                            </div>
+                        `;
+                    }).join('')}
 
-                        <button type="submit" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Save Highlights</button>
-                    </form>
-                </div>
-            `;
-        }
+                    <button type="submit" class="bg-[#addedc] text-black px-6 py-2.5 rounded-xl text-xs font-bold uppercase">Save Highlights for ${selectedDate}</button>
+                </form>
+            ` : `<div class="p-8 text-center text-neutral-500 bg-neutral-900 rounded-2xl border border-neutral-800">Please select a valid chart date.</div>`}
+        </div>
+    `;
+}
 
-        function saveAdminHighlights(e) {
-            e.preventDefault();
-            const db = getDB();
-            const selectedCat = document.getElementById('admin-highlights-cat-select')?.value || 'top-songs';
+function handleHighlightsDatePick(isoVal) {
+    if (!isoVal) return;
+    const [y, m, d] = isoVal.split('-');
+    const formatted = `${d}/${m}/${y}`;
+    const hiddenInput = document.getElementById('admin-highlights-date-select');
+    const displaySpan = document.getElementById('admin-highlights-date-display');
+    if (hiddenInput) hiddenInput.value = formatted;
+    if (displaySpan) displaySpan.textContent = formatted;
+    switchAdminTab('highlights');
+}
 
-            if (!db.highlights) db.highlights = {};
-            db.highlights[selectedCat] = [0, 1, 2].map(idx => ({
-                tag: document.getElementById(`highlight-tag-${idx}`).value.trim() || 'Bullet',
-                songId: document.getElementById(`highlight-song-${idx}`).value
-            }));
+function saveAdminHighlights(e) {
+    e.preventDefault();
+    const db = getDB();
+    const selectedCat = document.getElementById('admin-highlights-cat-select')?.value || 'top-songs';
+    const selectedDate = document.getElementById('admin-highlights-date-select')?.value;
 
-            saveDB(db);
-            showToast(`Highlights updated for ${selectedCat}!`);
-        }
+    if (!selectedDate) {
+        showToast('Please select a date.');
+        return;
+    }
+
+    if (!db.highlights) db.highlights = {};
+    if (!db.highlights[selectedCat]) db.highlights[selectedCat] = {};
+
+    db.highlights[selectedCat][selectedDate] = [0, 1, 2].map(idx => ({
+        tag: document.getElementById(`highlight-tag-${idx}`).value.trim() || 'Bullet',
+        songId: document.getElementById(`highlight-song-${idx}`).value
+    }));
+
+    saveDB(db);
+    showToast(`Highlights saved for ${selectedCat} (${selectedDate})!`);
+}
 
         // --- NEWS TAB ---
         function renderAdminNewsTab(dbInstance, query = '') {
@@ -922,3 +971,4 @@
     </script>
 </body>
 </html>
+

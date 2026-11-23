@@ -523,10 +523,16 @@ function renderAdminHighlightsTab(dbInstance) {
                             <i class="fa-regular fa-calendar"></i>
                             <input type="date" id="admin-highlights-native-picker" value="${isoDate}" onchange="handleHighlightsDatePick(this.value)" class="absolute inset-0 opacity-0 pointer-events-none">
                         </div>
-                        <input type="hidden" id="admin-highlights-date-select" value="${selectedDate}">
                     </div>
                 </div>
             </div>
+
+            function handleHighlightsDatePick(isoVal) {
+    if (!isoVal) return;
+    const [y, m, d] = isoVal.split('-');
+    currentHighlightsDate = `${d}/${m}/${y}`;
+    switchAdminTab('highlights');
+}
 
             ${selectedDate ? `
                 <form onsubmit="saveAdminHighlights(event)" class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-5">
@@ -1021,6 +1027,7 @@ function addHighlightRow() {
     </script>
 </body>
 </html>
+
 
 
 

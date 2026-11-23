@@ -240,7 +240,7 @@ function formatArtists(artistString) {
     const makeLink = (name) => `<a href="artist.html?name=${encodeURIComponent(name)}" class="hover:text-white transition-colors">${name}</a>`;
     const cleanedString = artistString.replace(/;/g, ',');
 
-    // If it's a unified band name like "Prince & The Revolution", treat it as a single clickable entity
+    // If it's a unified band name, treat it as a single clickable entity
     const unifiedBands = ["prince & the revolution", "earth, wind & fire", "florence + the machine"];
     if (unifiedBands.includes(cleanedString.toLowerCase().trim())) {
         return makeLink(cleanedString.trim());
@@ -417,3 +417,4 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('DOMContentLoaded', async () => {
     await fetchDBAsync();
 });
+

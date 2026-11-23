@@ -21,7 +21,7 @@
         
         .artist-chart-header {
             display: grid;
-            grid-template-columns: 80px 1fr 60px 60px 50px;
+            grid-template-columns: 60px 1fr 60px 60px 50px;
             font-weight: 700;
             font-size: 12px;
             color: var(--text-muted);
@@ -36,12 +36,13 @@
             border-radius: 12px;
             margin-bottom: 8px;
             display: grid;
-            grid-template-columns: 80px 1fr 60px 60px 50px;
+            grid-template-columns: 60px 1fr 60px 60px 50px;
             align-items: center;
-            padding: 10px 16px;
+            padding: 0 16px;
             border: 1px solid var(--border-color);
             transition: border-color 0.2s;
-            height: 80px;
+            height: 65px;
+            overflow: hidden;
         }
 
         .artist-chart-row:hover {
@@ -54,29 +55,29 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            line-height: 1.1;
+            line-height: 1;
             font-weight: 900;
             text-transform: uppercase;
         }
         .first-charted-day {
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 900;
             color: #ffffff;
         }
         .first-charted-month {
-            font-size: 9px;
+            font-size: 8px;
             letter-spacing: 0.5px;
             color: var(--text-muted);
         }
         .first-charted-year {
-            font-size: 9px;
+            font-size: 8px;
             color: var(--text-muted);
         }
 
         .song-info-col {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             padding-left: 8px;
         }
     </style>
@@ -113,7 +114,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         const artistName = decodeURIComponent(urlParams.get('name') || '');
         const container = document.getElementById('artist-main');
-        let currentSortMode = 'date'; // Default sort mode
 
         function parseChartDate(dateStr) {
             if (!dateStr) return new Date(0);
@@ -218,18 +218,12 @@
                     }
                 });
 
-                // Sort songs based on currentSortMode ('date' or 'peak')
+                // Default sort: Date first (earliest first), peak second
                 songsInThisChart.sort((a, b) => {
-                    if (currentSortMode === 'peak') {
-                        if (a.peakVal !== b.peakVal) return a.peakVal - b.peakVal;
-                        return a.firstDateObj - b.firstDateObj; // Secondary sort by date
-                    } else {
-                        // Date first (earliest first), peak second
-                        if (a.firstDateObj.getTime() !== b.firstDateObj.getTime()) {
-                            return a.firstDateObj - b.firstDateObj;
-                        }
-                        return a.peakVal - b.peakVal;
+                    if (a.firstDateObj.getTime() !== b.firstDateObj.getTime()) {
+                        return a.firstDateObj - b.firstDateObj;
                     }
+                    return a.peakVal - b.peakVal;
                 });
 
                 if (songsInThisChart.length > 0) {
@@ -284,19 +278,10 @@
                         </div>
                     ` : chartsWithSongs.map(chartGroup => `
                         <div class="space-y-4">
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                                <h3 class="text-xl font-bold uppercase">${chartGroup.chartTitle} (${chartGroup.songs.length})</h3>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-xs text-neutral-400 uppercase font-bold">Sort By:</span>
-                                    <select onchange="handleSortChange(this.value)" class="bg-neutral-900 border border-neutral-700 text-white text-xs font-semibold px-3 py-1.5 rounded-xl focus:outline-none">
-                                        <option value="date" ${currentSortMode === 'date' ? 'selected' : ''}>Date (Earliest First)</option>
-                                        <option value="peak" ${currentSortMode === 'peak' ? 'selected' : ''}>Peak (Best First)</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <h3 class="text-xl font-bold uppercase">${chartGroup.chartTitle} (${chartGroup.songs.length})</h3>
                             <div class="artist-chart-header">
-                                <div class="text-center">FIRST CHARTED</div>
-                                <div class="text-left pl-2">TRACK</div>
+                                <div></div>
+                                <div class="text-left pl-2">SONG</div>
                                 <div>PEAK</div>
                                 <div>WEEKS</div>
                                 <div>INFO</div>
@@ -322,7 +307,7 @@
                                                 <span class="first-charted-year">${yearHtml}</span>
                                             </div>
                                             <div class="song-info-col min-w-0">
-                                                ${renderSongCover(song)}
+                                                ${renderSongCover(song, "w-11 h-11 rounded-lg object-cover bg-neutral-800 shrink-0 border border-neutral-800")}
                                                 <div class="min-w-0">
                                                     <h2 class="font-bold text-sm truncate text-white">${song.title}</h2>
                                                     <p class="truncate text-xs text-neutral-400">${formatArtists(song.artist)}</p>
@@ -343,11 +328,6 @@
                     `).join('')}
                 </div>
             `;
-        }
-
-        function handleSortChange(mode) {
-            currentSortMode = mode;
-            renderArtistPageFull();
         }
 
         function openEditArtistModal(oldName) {

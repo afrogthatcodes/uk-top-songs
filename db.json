@@ -9121,6 +9121,28 @@
           "tag": "Biggest Climb",
           "songId": "1793497130816"
         }
+      ],
+      "06/02/2026": [
+        {
+          "tag": "Debut",
+          "songId": "1794337668685"
+        },
+        {
+          "tag": "New Peak",
+          "songId": "1792622556059"
+        },
+        {
+          "tag": "Re-Entry",
+          "songId": "1794337668719"
+        },
+        {
+          "tag": "New Peak",
+          "songId": "4"
+        },
+        {
+          "tag": "Biggest Climb",
+          "songId": "1793507030198"
+        }
       ]
     }
   }

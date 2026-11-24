@@ -4671,6 +4671,17 @@
         "Pop"
       ],
       "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1795562961826",
+      "code": "UKTS-423",
+      "title": "Ready",
+      "artist": "Steady",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
     }
   ],
   "chartHistory": {
@@ -8481,12 +8492,12 @@
         {
           "songId": "1792622556056",
           "rank": 2,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792975305887",
           "rank": 3,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1794337668748",
@@ -8499,19 +8510,19 @@
           "salesIncrease": true
         },
         {
-          "songId": "1795533700941",
+          "songId": "1795562961826",
           "rank": 6,
           "salesIncrease": false
         },
         {
           "songId": "1792887124092",
           "rank": 7,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887123932",
           "rank": 8,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1795533700944",
@@ -8526,7 +8537,7 @@
         {
           "songId": "1792622556063",
           "rank": 11,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1795533700948",
@@ -8536,7 +8547,7 @@
         {
           "songId": "1792887123930",
           "rank": 13,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1795533700950",
@@ -8566,7 +8577,7 @@
         {
           "songId": "1792887123991",
           "rank": 19,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1795533700956",
@@ -8576,7 +8587,7 @@
         {
           "songId": "1792887123985",
           "rank": 21,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887123911",
@@ -8586,12 +8597,12 @@
         {
           "songId": "1792887123950",
           "rank": 23,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792622556055",
           "rank": 24,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887123931",
@@ -8601,12 +8612,12 @@
         {
           "songId": "1795533700962",
           "rank": 26,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887123993",
           "rank": 27,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1793507030198",
@@ -8636,7 +8647,7 @@
         {
           "songId": "1795011338766",
           "rank": 33,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1794695345439",
@@ -8651,12 +8662,12 @@
         {
           "songId": "1792622556053",
           "rank": 36,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792622556066",
           "rank": 37,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887123951",
@@ -8666,12 +8677,12 @@
         {
           "songId": "1792622556059",
           "rank": 39,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792622556054",
           "rank": 40,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792622556085",
@@ -8681,7 +8692,7 @@
         {
           "songId": "1792622556064",
           "rank": 42,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1795010051211",
@@ -8711,12 +8722,12 @@
         {
           "songId": "1792622556065",
           "rank": 48,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792622556068",
           "rank": 49,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "4",
@@ -8726,7 +8737,7 @@
         {
           "songId": "1792887123917",
           "rank": 51,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1795010386143",
@@ -8736,22 +8747,22 @@
         {
           "songId": "1792887124105",
           "rank": 53,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887124095",
           "rank": 54,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1795010051222",
           "rank": 55,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1792887124106",
           "rank": 56,
-          "salesIncrease": true
+          "salesIncrease": false
         },
         {
           "songId": "1795533700993",
@@ -8791,12 +8802,12 @@
         {
           "songId": "1795011338794",
           "rank": 64,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1792887124104",
           "rank": 65,
-          "salesIncrease": false
+          "salesIncrease": true
         },
         {
           "songId": "1792887123996",

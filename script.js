@@ -334,14 +334,14 @@ function openHistoryModal(categoryId, categoryTitle, songId, songTitle) {
             datasets: [{
                 label: 'Chart Position',
                 data: dataPoints,
-                borderColor: '#38bdf8',
-                backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                borderColor: '#addedc',
+                backgroundColor: 'rgba(173, 237, 220, 0.1)',
                 borderWidth: 3,
                 fill: true,
                 tension: 0.3,
                 pointRadius: 6,
                 pointHoverRadius: 8,
-                pointBackgroundColor: '#38bdf8',
+                pointBackgroundColor: '#addedc',
                 spanGaps: false
             }]
         },

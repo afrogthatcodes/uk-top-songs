@@ -4682,6 +4682,39 @@
         "Pop"
       ],
       "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1795657568403",
+      "code": "UKTS-424",
+      "title": "Porch Light",
+      "artist": "Noah Kahan",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1795657568449",
+      "code": "UKTS-425",
+      "title": "All I Did Was Dream of You",
+      "artist": "beabadoobee; The Marías",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
+    },
+    {
+      "id": "1795657568452",
+      "code": "UKTS-426",
+      "title": "Nights",
+      "artist": "Frank Ocean",
+      "album": "",
+      "genres": [
+        "Pop"
+      ],
+      "cover": "https://placehold.co/100x100/1a1a1a/888888?text=UKTS"
     }
   ],
   "chartHistory": {
@@ -8859,6 +8892,383 @@
           "rank": 75,
           "salesIncrease": true
         }
+      ],
+      "20/03/2026": [
+        {
+          "songId": "1792622556056",
+          "rank": 1,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1794337668748",
+          "rank": 2,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792975305887",
+          "rank": 3,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795533700936",
+          "rank": 4,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123932",
+          "rank": 5,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124092",
+          "rank": 6,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556063",
+          "rank": 7,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123930",
+          "rank": 8,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1793507030122",
+          "rank": 9,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123991",
+          "rank": 10,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123911",
+          "rank": 11,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123985",
+          "rank": 12,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123973",
+          "rank": 13,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124153",
+          "rank": 14,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556055",
+          "rank": 15,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123950",
+          "rank": 16,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123931",
+          "rank": 17,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1793507030198",
+          "rank": 18,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123993",
+          "rank": 19,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887124097",
+          "rank": 20,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1795562961826",
+          "rank": 21,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795533700944",
+          "rank": 22,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794337668719",
+          "rank": 23,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123987",
+          "rank": 24,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794695345439",
+          "rank": 25,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887123988",
+          "rank": 26,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795657568403",
+          "rank": 27,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123979",
+          "rank": 28,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795533700948",
+          "rank": 29,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795533700950",
+          "rank": 30,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795011338766",
+          "rank": 31,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556053",
+          "rank": 32,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795533700945",
+          "rank": 33,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795533700951",
+          "rank": 34,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556066",
+          "rank": 35,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556059",
+          "rank": 36,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795533700956",
+          "rank": 37,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556054",
+          "rank": 38,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795533700952",
+          "rank": 39,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556085",
+          "rank": 40,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1794337668685",
+          "rank": 41,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1793498590949",
+          "rank": 42,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795533700954",
+          "rank": 43,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556064",
+          "rank": 44,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123951",
+          "rank": 45,
+          "salesIncrease": false
+        },
+        {
+          "songId": "4",
+          "rank": 46,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1795010386140",
+          "rank": 47,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124015",
+          "rank": 48,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124105",
+          "rank": 49,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1793498590953",
+          "rank": 50,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1795533700962",
+          "rank": 51,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795010051211",
+          "rank": 52,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556068",
+          "rank": 53,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124106",
+          "rank": 54,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887124095",
+          "rank": 55,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795533700993",
+          "rank": 56,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1795010386143",
+          "rank": 57,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1794695345400",
+          "rank": 58,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1795533701006",
+          "rank": 59,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1792887124113",
+          "rank": 60,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1794337668736",
+          "rank": 61,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792622556088",
+          "rank": 62,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123917",
+          "rank": 63,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795010386117",
+          "rank": 64,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887123996",
+          "rank": 65,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124152",
+          "rank": 66,
+          "salesIncrease": true
+        },
+        {
+          "songId": "1795010051222",
+          "rank": 67,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124166",
+          "rank": 68,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124104",
+          "rank": 69,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795011338794",
+          "rank": 70,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795657568449",
+          "rank": 71,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124151",
+          "rank": 72,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795011338793",
+          "rank": 73,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1795657568452",
+          "rank": 74,
+          "salesIncrease": false
+        },
+        {
+          "songId": "1792887124014",
+          "rank": 75,
+          "salesIncrease": false
+        }
       ]
     },
     "top-rap": {
@@ -9543,7 +9953,10 @@
     "Bebe Rexha": "UKTA-199",
     "Faithless": "UKTA-200",
     "ANOTR": "UKTA-201",
-    "54 Ultra": "UKTA-202"
+    "54 Ultra": "UKTA-202",
+    "beabadoobee": "UKTA-203",
+    "The Marías": "UKTA-204",
+    "Frank Ocean": "UKTA-205"
   },
   "artists": {},
   "highlights": {
